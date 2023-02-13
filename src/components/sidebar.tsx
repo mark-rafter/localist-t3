@@ -18,6 +18,8 @@ const BrandButton = (
   <Link href="/" className="mb-5 flex items-center pl-2.5">
     <Image
       src="https://flowbite.com/docs/images/logo.svg"
+      width={32}
+      height={32}
       className="mr-3 h-6 sm:h-7"
       alt="Localist Logo"
     />
