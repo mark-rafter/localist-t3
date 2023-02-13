@@ -1,0 +1,49 @@
+import Link from "next/link";
+import { ComponentProps, FC } from "react";
+
+export const SidebarLink = ({
+  icon: Icon,
+  label,
+  href,
+  badge,
+  disabled,
+}: {
+  icon: FC<ComponentProps<"svg">>;
+  label: string;
+  href?: string;
+  badge?: string;
+  disabled?: boolean;
+}) => {
+  const IconAndTextContent = (
+    <>
+      <Icon className="h-6" />
+      <span className="ml-3 flex-1 whitespace-nowrap">{label}</span>
+    </>
+  );
+
+  if (disabled) {
+    return (
+      <li>
+        <span className="flex items-center rounded-lg p-2 text-base font-normal text-gray-500">
+          {IconAndTextContent}
+        </span>
+      </li>
+    );
+  }
+
+  return (
+    <li>
+      <Link
+        href={href ?? label.replace(/\s/g, "").toLowerCase()}
+        className="flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+      >
+        {IconAndTextContent}
+        {badge && (
+          <span className="ml-3 inline-flex h-3 w-3 items-center justify-center rounded-full bg-blue-100 p-3 text-sm font-medium text-blue-800 dark:bg-blue-900 dark:text-blue-300">
+            {badge}
+          </span>
+        )}
+      </Link>
+    </li>
+  );
+};

@@ -1,3 +1,4 @@
+import { getServerAuthSession } from "@/server/auth";
 import type {
   GetServerSidePropsContext,
   InferGetServerSidePropsType,
@@ -5,7 +6,6 @@ import type {
 import { getServerSession } from "next-auth";
 import { getProviders, signIn } from "next-auth/react";
 import Head from "next/head";
-import { authOptions } from "../../server/auth";
 
 const providerIcons: Record<string, JSX.Element> = {
   github: (
@@ -61,7 +61,7 @@ export default function SignIn({
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const session = await getServerSession(context.req, context.res, authOptions);
+  const session = await getServerAuthSession(context);
 
   // If the user is already logged in, redirect.
   // Note: Make sure not to redirect to the same page
