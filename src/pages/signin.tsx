@@ -3,7 +3,6 @@ import type {
   GetServerSidePropsContext,
   InferGetServerSidePropsType,
 } from "next";
-import { getServerSession } from "next-auth";
 import { getProviders, signIn } from "next-auth/react";
 import Head from "next/head";
 
@@ -46,7 +45,7 @@ export default function SignIn({
             <div key={provider.name}>
               <button
                 type="button"
-                onClick={() => signIn(provider.id)}
+                onClick={() => void signIn(provider.id)}
                 className="mr-2 mb-2 inline-flex items-center rounded-lg bg-[#24292F] px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-[#24292F]/90 focus:outline-none focus:ring-4 focus:ring-[#24292F]/50 dark:hover:bg-[#050708]/30 dark:focus:ring-gray-500"
               >
                 {providerIcons[provider.id]}

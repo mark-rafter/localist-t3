@@ -1,6 +1,6 @@
 import Head from "next/head";
-import { Alert } from "flowbite-react";
-import React, { PropsWithChildren } from "react";
+import React from "react";
+import type { PropsWithChildren } from "react";
 import { Sidebar } from "@/components/sidebar";
 
 const FilterOption = ({
@@ -14,7 +14,6 @@ const FilterOption = ({
     {children}
   </div>
 );
-const FilterOverlay = <></>;
 
 const Content = (
   <main className="p-4 sm:ml-64">

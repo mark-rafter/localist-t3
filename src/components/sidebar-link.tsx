@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ComponentProps, FC } from "react";
+import type { ComponentProps, FC } from "react";
 
 export const SidebarLink = ({
   icon: Icon,

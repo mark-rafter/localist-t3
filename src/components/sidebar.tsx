@@ -1,4 +1,3 @@
-import { Alert } from "flowbite-react";
 import {
   ArrowLeftOnRectangleIcon,
   ArrowRightOnRectangleIcon,
@@ -13,10 +12,11 @@ import React from "react";
 import Link from "next/link";
 import { SidebarLink } from "@/components/sidebar-link";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 
 const BrandButton = (
   <Link href="/" className="mb-5 flex items-center pl-2.5">
-    <img
+    <Image
       src="https://flowbite.com/docs/images/logo.svg"
       className="mr-3 h-6 sm:h-7"
       alt="Localist Logo"
