@@ -1,6 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import { MapPinIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
 
 function getRandomInt(min: number, max: number) {
   min = Math.ceil(min);
@@ -12,7 +13,7 @@ const FeedItem = ({ postId }: { postId: number }) => {
   const tailwindSmPixels = 384;
   return (
     <article className="max-w-sm rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800">
-      <a href={`post/${postId}`}>
+      <Link href={`post/${postId}`} prefetch={false}>
         <Image
           className="rounded-t-lg"
           width={tailwindSmPixels}
@@ -20,14 +21,14 @@ const FeedItem = ({ postId }: { postId: number }) => {
           src="/tshirt-474px.jpg"
           alt=""
         />
-      </a>
+      </Link>
       <div className="p-4">
-        <a href="#">
+        <Link href={`post/${postId}`} prefetch={false}>
           <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
             Unisex plain purple tee
           </h2>
           <h3 className="text-gray-700 dark:text-gray-300">Small</h3>
-        </a>
+        </Link>
         <div className="flex items-center justify-between">
           <span className="text-2xl font-bold text-gray-900 dark:text-white">
             £{getRandomInt(1, 300)}
