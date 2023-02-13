@@ -1,4 +1,22 @@
-# Create T3 App
+# localist-t3
+
+## Setup
+
+1. Link to Vercel and pull environment variables:
+
+```sh
+vercel link
+vercel env pull
+```
+
+2. Open [.env](./.env), append: `NEXTAUTH_URL="http://localhost:3000"` and save the file.
+3. Initialise and run the app:
+
+```sh
+pnpm i
+pnpm prisma generate dev
+pnpm dev
+```
 
 This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
 
