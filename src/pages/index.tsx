@@ -9,6 +9,19 @@ import {
 } from "@heroicons/react/24/outline";
 import { Feed } from "@/components/feed";
 
+const GetStars = (outOfFive: number) => {
+  return (
+    <>
+      {[...Array<number>(outOfFive)].map((star) => (
+        <StarIcon key={star} className="h-5 text-yellow-400" />
+      ))}
+      {[...Array<number>(5 - outOfFive)].map((star) => (
+        <StarIcon key={star} className="h-5 text-gray-300 dark:text-gray-500" />
+      ))}
+    </>
+  );
+};
+
 const FilterOption = ({
   title,
   children,
@@ -156,10 +169,7 @@ const Content = (
                 className="h-4 w-4 border-gray-300 bg-gray-100 text-primary-600 focus:ring-2 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
               />
               <label htmlFor="five-stars" className="ml-2 flex items-center">
-                <StarIcon className="h-5 text-yellow-400" />
-                <StarIcon className="h-5 text-yellow-400" />
-                <StarIcon className="h-5 text-yellow-400" />
-                <StarIcon className="h-5 text-yellow-400" />
+                {GetStars(5)}
               </label>
             </div>
 
@@ -172,10 +182,7 @@ const Content = (
                 className="h-4 w-4 border-gray-300 bg-gray-100 text-primary-600 focus:ring-2 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
               />
               <label htmlFor="four-stars" className="ml-2 flex items-center">
-                <StarIcon className="h-5 text-yellow-400" />
-                <StarIcon className="h-5 text-yellow-400" />
-                <StarIcon className="h-5 text-yellow-400" />
-                <StarIcon className="h-5 text-gray-300 dark:text-gray-500" />
+                {GetStars(4)}
               </label>
             </div>
 
@@ -189,11 +196,7 @@ const Content = (
                 className="h-4 w-4 border-gray-300 bg-gray-100 text-primary-600 focus:ring-2 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
               />
               <label htmlFor="three-stars" className="ml-2 flex items-center">
-                <StarIcon className="h-5 text-yellow-400" />
-                <StarIcon className="h-5 text-yellow-400" />
-                <StarIcon className="h-5 text-yellow-400" />
-                <StarIcon className="h-5 text-gray-300 dark:text-gray-500" />
-                <StarIcon className="h-5 text-gray-300 dark:text-gray-500" />
+                {GetStars(3)}
               </label>
             </div>
 
@@ -206,11 +209,7 @@ const Content = (
                 className="h-4 w-4 border-gray-300 bg-gray-100 text-primary-600 focus:ring-2 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
               />
               <label htmlFor="two-stars" className="ml-2 flex items-center">
-                <StarIcon className="h-5 text-yellow-400" />
-                <StarIcon className="h-5 text-yellow-400" />
-                <StarIcon className="h-5 text-gray-300 dark:text-gray-500" />
-                <StarIcon className="h-5 text-gray-300 dark:text-gray-500" />
-                <StarIcon className="h-5 text-gray-300 dark:text-gray-500" />
+                {GetStars(2)}
               </label>
             </div>
 
@@ -223,11 +222,7 @@ const Content = (
                 className="h-4 w-4 border-gray-300 bg-gray-100 text-primary-600 focus:ring-2 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
               />
               <label htmlFor="one-star" className="ml-2 flex items-center">
-                <StarIcon className="h-5 text-yellow-400" />
-                <StarIcon className="h-5 text-gray-300 dark:text-gray-500" />
-                <StarIcon className="h-5 text-gray-300 dark:text-gray-500" />
-                <StarIcon className="h-5 text-gray-300 dark:text-gray-500" />
-                <StarIcon className="h-5 text-gray-300 dark:text-gray-500" />
+                {GetStars(1)}
               </label>
             </div>
           </FilterOption>
