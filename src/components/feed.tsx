@@ -3,13 +3,15 @@ import React from "react";
 import { MapPinIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 
-function getRandomInt(min: number, max: number) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
-}
-
-const FeedItem = ({ postId }: { postId: number }) => {
+const FeedItem = ({
+  postId,
+  distance,
+  price,
+}: {
+  postId: number;
+  distance: number;
+  price: number;
+}) => {
   const tailwindSmPixels = 384;
   return (
     <article className="max-w-sm rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800">
@@ -31,12 +33,10 @@ const FeedItem = ({ postId }: { postId: number }) => {
         </Link>
         <div className="flex items-center justify-between">
           <span className="text-2xl font-bold text-gray-900 dark:text-white">
-            £{getRandomInt(1, 300)}
+            £{price}
           </span>
           <span className="flex items-center rounded-lg p-2 text-sm font-normal text-gray-400">
-            <span className="flex-1 whitespace-nowrap">
-              {getRandomInt(1, 99)} miles
-            </span>
+            <span className="flex-1 whitespace-nowrap">{distance} miles</span>
             <MapPinIcon className="h-6" />
           </span>
         </div>
@@ -45,13 +45,19 @@ const FeedItem = ({ postId }: { postId: number }) => {
   );
 };
 
+function getRandomInt(min: number, max: number) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
+}
+
 export const Feed = () => (
   <div
     className="mb-4 grid grid-cols-1 justify-items-center gap-4 rounded-lg p-4 
     lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4"
   >
     {[...Array(8).keys()].map((k) => (
-      <FeedItem key={k + 1} postId={k + 1} />
+      <FeedItem key={k + 1} postId={k + 1} price={33} distance={22} />
     ))}
   </div>
 );
