@@ -1,10 +1,12 @@
 import type { GetServerSidePropsContext } from "next";
+import type { User } from "next-auth";
 import {
   getServerSession,
   type NextAuthOptions,
   type DefaultSession,
 } from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
+import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { env } from "../env.mjs";
 import { prisma } from "./db";
@@ -49,10 +51,31 @@ export const authOptions: NextAuthOptions = {
   },
   adapter: PrismaAdapter(prisma),
   providers: [
-    GitHubProvider({
-      clientId: env.GITHUB_ID,
-      clientSecret: env.GITHUB_SECRET,
-    }),
+    // we cannot use OAuth in preview environments because of the randomly generated subdomain suffix
+    env.VERCEL_ENV === "preview"
+      ? CredentialsProvider({
+          name: "Credentials",
+          credentials: {
+            username: {
+              label: "Username",
+              type: "text",
+              placeholder: "jsmith",
+            },
+            password: { label: "Password", type: "password" },
+          },
+          async authorize() {
+            return (await Promise.resolve({
+              id: "1",
+              name: "J Smith",
+              email: "jsmith@example.com",
+              image: "https://i.pravatar.cc/150?u=jsmith@example.com",
+            })) as User;
+          },
+        })
+      : GitHubProvider({
+          clientId: env.GITHUB_ID,
+          clientSecret: env.GITHUB_SECRET,
+        }),
     /**
      * ...add more providers here
      *
