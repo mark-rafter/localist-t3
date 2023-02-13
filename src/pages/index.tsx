@@ -2,6 +2,8 @@ import Head from "next/head";
 import React from "react";
 import type { PropsWithChildren } from "react";
 import { Sidebar } from "@/components/sidebar";
+import { AdjustmentsHorizontalIcon } from "@heroicons/react/24/outline";
+import { Feed } from "@/components/feed";
 
 const FilterOption = ({
   title,
@@ -18,15 +20,16 @@ const FilterOption = ({
 const Content = (
   <main className="p-4 sm:ml-64">
     {/* <!-- drawer init and toggle --> */}
-    <div className="m-5 flex justify-center">
+    <div data-dial-init className="group fixed top-6 right-6">
       <button
-        className="mr-2 mb-2 rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
         type="button"
         data-drawer-target="drawer-example"
         data-drawer-show="drawer-example"
         aria-controls="drawer-example"
+        className="flex h-14 w-14 items-center justify-center rounded-full bg-blue-700 text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
       >
-        Show drawer
+        <AdjustmentsHorizontalIcon className="h-6" />
+        <span className="sr-only">Open filters drawer</span>
       </button>
     </div>
 
@@ -481,53 +484,7 @@ const Content = (
         </div>
       </div>
     </form>
-    <div className="rounded-lg border-2 border-dashed border-gray-200 p-4 dark:border-gray-700">
-      <div className="mb-4 grid grid-cols-3 gap-4">
-        <div className="flex h-24 items-center justify-center rounded bg-gray-50 dark:bg-gray-800">
-          <p className="text-2xl text-gray-400 dark:text-gray-500">+</p>
-        </div>
-        <div className="flex h-24 items-center justify-center rounded bg-gray-50 dark:bg-gray-800">
-          <p className="text-2xl text-gray-400 dark:text-gray-500">+</p>
-        </div>
-        <div className="flex h-24 items-center justify-center rounded bg-gray-50 dark:bg-gray-800">
-          <p className="text-2xl text-gray-400 dark:text-gray-500">+</p>
-        </div>
-      </div>
-      <div className="mb-4 flex h-48 items-center justify-center rounded bg-gray-50 dark:bg-gray-800">
-        <p className="text-2xl text-gray-400 dark:text-gray-500">+</p>
-      </div>
-      <div className="mb-4 grid grid-cols-2 gap-4">
-        <div className="flex h-28 items-center justify-center rounded bg-gray-50 dark:bg-gray-800">
-          <p className="text-2xl text-gray-400 dark:text-gray-500">+</p>
-        </div>
-        <div className="flex h-28 items-center justify-center rounded bg-gray-50 dark:bg-gray-800">
-          <p className="text-2xl text-gray-400 dark:text-gray-500">+</p>
-        </div>
-        <div className="flex h-28 items-center justify-center rounded bg-gray-50 dark:bg-gray-800">
-          <p className="text-2xl text-gray-400 dark:text-gray-500">+</p>
-        </div>
-        <div className="flex h-28 items-center justify-center rounded bg-gray-50 dark:bg-gray-800">
-          <p className="text-2xl text-gray-400 dark:text-gray-500">+</p>
-        </div>
-      </div>
-      <div className="mb-4 flex h-48 items-center justify-center rounded bg-gray-50 dark:bg-gray-800">
-        <p className="text-2xl text-gray-400 dark:text-gray-500">+</p>
-      </div>
-      <div className="grid grid-cols-2 gap-4">
-        <div className="flex h-28 items-center justify-center rounded bg-gray-50 dark:bg-gray-800">
-          <p className="text-2xl text-gray-400 dark:text-gray-500">+</p>
-        </div>
-        <div className="flex h-28 items-center justify-center rounded bg-gray-50 dark:bg-gray-800">
-          <p className="text-2xl text-gray-400 dark:text-gray-500">+</p>
-        </div>
-        <div className="flex h-28 items-center justify-center rounded bg-gray-50 dark:bg-gray-800">
-          <p className="text-2xl text-gray-400 dark:text-gray-500">+</p>
-        </div>
-        <div className="flex h-28 items-center justify-center rounded bg-gray-50 dark:bg-gray-800">
-          <p className="text-2xl text-gray-400 dark:text-gray-500">+</p>
-        </div>
-      </div>
-    </div>
+    <Feed />
   </main>
 );
 
