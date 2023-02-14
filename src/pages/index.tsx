@@ -14,7 +14,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Sidebar />
-      <main className="p-4 sm:ml-64">
+      <main className="p-2 sm:ml-64">
         <FilterDrawer />
         <Feed />
       </main>
