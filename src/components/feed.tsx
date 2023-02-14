@@ -14,7 +14,7 @@ const FeedItem = ({
 }) => {
   const tailwindSmPixels = 384;
   return (
-    <article className="max-w-sm rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800">
+    <article className="max-w-sm rounded-lg border border-gray-200 bg-white antialiased shadow dark:border-gray-700 dark:bg-gray-800">
       <Link href={`post/${postId}`} prefetch={false}>
         <Image
           className="rounded-t-lg"

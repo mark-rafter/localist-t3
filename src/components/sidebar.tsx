@@ -49,7 +49,7 @@ export const Sidebar = () => {
         className="fixed top-0 left-0 z-40 h-screen w-64 -translate-x-full transition-transform sm:translate-x-0"
         aria-label="Sidebar"
       >
-        <div className="h-full overflow-y-auto bg-gray-50 px-3 py-4 dark:bg-gray-800">
+        <div className="h-full overflow-y-auto bg-gray-50 px-3 py-4 antialiased dark:bg-gray-800">
           {BrandButton}
           <ul className="space-y-2">
             <SidebarLink label="Feed" href="/" icon={HomeIcon} />
