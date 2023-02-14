@@ -16,7 +16,7 @@ const FeedItem = ({
 }) => {
   const tailwindSmPixels = 384;
   return (
-    <article className="max-w-sm overflow-hidden rounded-lg border border-gray-200 bg-white antialiased shadow dark:border-gray-700 dark:bg-gray-800">
+    <article className="max-w-sm overflow-hidden rounded-lg">
       <Link href={`post/${postId}`} prefetch={false}>
         <Image
           className="rounded-t-lg"
@@ -26,7 +26,7 @@ const FeedItem = ({
           alt=""
         />
       </Link>
-      <div className="p-3 sm:p-4">
+      <div className="bg-white p-3 antialiased dark:bg-gray-800 sm:p-4">
         <div className="flex items-baseline justify-between text-gray-700 dark:text-gray-300">
           <h3 className="text-sm uppercase tracking-wide">{size}</h3>
           <span className="inline-flex items-center rounded px-2 text-xs">
