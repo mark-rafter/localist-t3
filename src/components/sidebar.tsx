@@ -2,11 +2,11 @@ import {
   HiArrowLeftOnRectangle,
   HiArrowRightOnRectangle,
   HiBars3BottomLeft,
-  HiBookmark,
-  HiCog6Tooth,
-  HiHome,
-  HiInboxArrowDown,
-  HiPencilSquare,
+  HiOutlineHome,
+  HiOutlinePencilSquare,
+  HiOutlineInboxArrowDown,
+  HiOutlineBookmark,
+  HiOutlineCog6Tooth,
 } from "react-icons/hi2";
 import React from "react";
 import Link from "next/link";
@@ -52,24 +52,24 @@ export const Sidebar = () => {
         <div className="h-full overflow-y-auto bg-gray-50 px-3 py-4 antialiased dark:bg-gray-800">
           {BrandButton}
           <ul className="space-y-2">
-            <SidebarLink label="Feed" href="/" icon={HiHome} />
+            <SidebarLink label="Feed" href="/" icon={HiOutlineHome} />
             <SidebarLink
               label="New Post"
               disabled={isLoggedOut}
-              icon={HiPencilSquare}
+              icon={HiOutlinePencilSquare}
             />
             <SidebarLink
               label="Messages"
               disabled={isLoggedOut}
-              icon={HiInboxArrowDown}
+              icon={HiOutlineInboxArrowDown}
               badge="3"
             />
             <SidebarLink
               label="Bookmarks"
               disabled={isLoggedOut}
-              icon={HiBookmark}
+              icon={HiOutlineBookmark}
             />
-            <SidebarLink label="Settings" icon={HiCog6Tooth} />
+            <SidebarLink label="Settings" icon={HiOutlineCog6Tooth} />
           </ul>
           <ul className="mt-4 space-y-2 border-t border-gray-200 pt-4 dark:border-gray-700">
             {session ? (
