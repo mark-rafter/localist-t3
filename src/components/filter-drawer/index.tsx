@@ -1,9 +1,6 @@
 import React from "react";
 import type { PropsWithChildren } from "react";
-import {
-  AdjustmentsHorizontalIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
+import { HiAdjustmentsHorizontal, HiXMark } from "react-icons/hi2";
 import StarRatingInput from "./star-rating-input";
 
 const FilterOption = ({
@@ -28,7 +25,7 @@ const ToggleFilterDrawerButton = () => {
         aria-controls="drawer-example"
         className="flex h-14 w-14 items-center justify-center rounded-full bg-blue-700 text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
       >
-        <AdjustmentsHorizontalIcon className="h-6" />
+        <HiAdjustmentsHorizontal className="h-6 w-6" />
         <span className="sr-only">Open filters drawer</span>
       </button>
     </div>
@@ -58,7 +55,7 @@ const FilterDrawer = () => (
         aria-controls="drawer-example"
         className="absolute top-2.5 right-2.5 inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white"
       >
-        <XMarkIcon className="h-6 text-gray-500" />
+        <HiXMark className="h-6 text-gray-500" />
         <span className="sr-only">Close menu</span>
       </button>
 

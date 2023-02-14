@@ -16,7 +16,7 @@ export const SidebarLink = ({
 }) => {
   const IconAndTextContent = (
     <>
-      <Icon className="h-6" />
+      <Icon className="h-5 w-5" />
       <span className="ml-3 flex-1 whitespace-nowrap">{label}</span>
     </>
   );

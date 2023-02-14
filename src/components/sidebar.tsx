@@ -1,13 +1,13 @@
 import {
-  ArrowLeftOnRectangleIcon,
-  ArrowRightOnRectangleIcon,
-  Bars3BottomLeftIcon,
-  BookmarkIcon,
-  Cog6ToothIcon,
-  HomeIcon,
-  InboxArrowDownIcon,
-  PencilSquareIcon,
-} from "@heroicons/react/24/outline";
+  HiArrowLeftOnRectangle,
+  HiArrowRightOnRectangle,
+  HiBars3BottomLeft,
+  HiBookmark,
+  HiCog6Tooth,
+  HiHome,
+  HiInboxArrowDown,
+  HiPencilSquare,
+} from "react-icons/hi2";
 import React from "react";
 import Link from "next/link";
 import { SidebarLink } from "@/components/sidebar-link";
@@ -42,7 +42,7 @@ export const Sidebar = () => {
         className="mt-2 ml-3 inline-flex items-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 md:hidden"
       >
         <span className="sr-only">Open sidebar</span>
-        <Bars3BottomLeftIcon className="h-6 text-gray-500" />
+        <HiBars3BottomLeft className="h-6 w-6 text-gray-500" />
       </button>
       <aside
         id="sidebar"
@@ -52,34 +52,34 @@ export const Sidebar = () => {
         <div className="h-full overflow-y-auto bg-gray-50 px-3 py-4 antialiased dark:bg-gray-800">
           {BrandButton}
           <ul className="space-y-2">
-            <SidebarLink label="Feed" href="/" icon={HomeIcon} />
+            <SidebarLink label="Feed" href="/" icon={HiHome} />
             <SidebarLink
               label="New Post"
               disabled={isLoggedOut}
-              icon={PencilSquareIcon}
+              icon={HiPencilSquare}
             />
             <SidebarLink
               label="Messages"
               disabled={isLoggedOut}
-              icon={InboxArrowDownIcon}
+              icon={HiInboxArrowDown}
               badge="3"
             />
             <SidebarLink
               label="Bookmarks"
               disabled={isLoggedOut}
-              icon={BookmarkIcon}
+              icon={HiBookmark}
             />
-            <SidebarLink label="Settings" icon={Cog6ToothIcon} />
+            <SidebarLink label="Settings" icon={HiCog6Tooth} />
           </ul>
           <ul className="mt-4 space-y-2 border-t border-gray-200 pt-4 dark:border-gray-700">
             {session ? (
               <SidebarLink
                 label="Sign Out"
                 href="api/auth/signout"
-                icon={ArrowLeftOnRectangleIcon}
+                icon={HiArrowLeftOnRectangle}
               />
             ) : (
-              <SidebarLink label="Sign In" icon={ArrowRightOnRectangleIcon} />
+              <SidebarLink label="Sign In" icon={HiArrowRightOnRectangle} />
             )}
           </ul>
         </div>
