@@ -9,7 +9,7 @@ const Badge = ({ text }: { text: string }) => (
   </span>
 );
 
-const LinkOrSpan = ({
+const LinkOrDisabled = ({
   disabled,
   target,
   children,
@@ -18,18 +18,15 @@ const LinkOrSpan = ({
   target: string;
   children?: React.ReactNode;
 }) => {
+  const baseClasses = "flex items-center rounded-lg p-2 text-base font-normal";
   if (disabled) {
-    return (
-      <span className="flex items-center rounded-lg p-2 text-base font-normal text-gray-500">
-        {children}
-      </span>
-    );
+    return <span className={`${baseClasses} text-gray-500`}>{children}</span>;
   }
 
   return (
     <Link
       href={target}
-      className="flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+      className={`${baseClasses} text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700`}
     >
       {children}
     </Link>
@@ -63,7 +60,7 @@ export const SidebarLink = ({
 
   return (
     <li>
-      <LinkOrSpan disabled={disabled === true} target={target}>
+      <LinkOrDisabled disabled={disabled === true} target={target}>
         {isActiveLink && FilledIcon ? (
           <FilledIcon className="h-5 w-5" />
         ) : (
@@ -80,7 +77,7 @@ export const SidebarLink = ({
           )}
         </span>
         {badge && <Badge text={badge} />}
-      </LinkOrSpan>
+      </LinkOrDisabled>
     </li>
   );
 };

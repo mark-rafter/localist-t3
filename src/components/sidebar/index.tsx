@@ -16,7 +16,7 @@ import {
 } from "react-icons/hi2";
 import React from "react";
 import Link from "next/link";
-import { SidebarLink } from "@/components/sidebar-link";
+import { SidebarLink } from "@/components/sidebar/sidebar-link";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 
@@ -35,7 +35,7 @@ const BrandButton = (
   </Link>
 );
 
-export const Sidebar = ({ width }: { width: number }) => {
+export const Sidebar = () => {
   const { status: sessionStatus } = useSession();
   return (
     <>
@@ -51,7 +51,7 @@ export const Sidebar = ({ width }: { width: number }) => {
       </button>
       <aside
         id="sidebar"
-        className={`fixed top-0 left-0 z-40 h-screen w-${width} -translate-x-full transition-transform sm:translate-x-0`}
+        className={`fixed top-0 left-0 z-40 h-screen w-56 -translate-x-full transition-transform sm:translate-x-0`}
         aria-label="Sidebar"
       >
         <div className="h-full overflow-y-auto bg-gray-50 px-3 py-4 antialiased dark:bg-gray-800">
