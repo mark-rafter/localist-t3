@@ -30,7 +30,7 @@ const BrandButton = (
   </Link>
 );
 
-export const Sidebar = () => {
+export const Sidebar = ({ width }: { width: number }) => {
   const { status: sessionStatus } = useSession();
   return (
     <>
@@ -46,7 +46,7 @@ export const Sidebar = () => {
       </button>
       <aside
         id="sidebar"
-        className="fixed top-0 left-0 z-40 h-screen w-56 -translate-x-full transition-transform sm:translate-x-0"
+        className={`fixed top-0 left-0 z-40 h-screen w-${width} -translate-x-full transition-transform sm:translate-x-0`}
         aria-label="Sidebar"
       >
         <div className="h-full overflow-y-auto bg-gray-50 px-3 py-4 antialiased dark:bg-gray-800">
@@ -85,6 +85,7 @@ export const Sidebar = () => {
               <SidebarLink
                 label="Sign In"
                 disabled={sessionStatus === "loading"}
+                showSpinner={sessionStatus === "loading"}
                 icon={HiArrowLeftOnRectangle}
               />
             )}

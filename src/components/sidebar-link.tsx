@@ -1,3 +1,4 @@
+import { Spinner } from "flowbite-react";
 import Link from "next/link";
 import type { ComponentProps, FC } from "react";
 
@@ -7,12 +8,14 @@ export const SidebarLink = ({
   href,
   badge,
   disabled,
+  showSpinner,
 }: {
   icon: FC<ComponentProps<"svg">>;
   label: string;
   href?: string;
   badge?: string;
   disabled?: boolean;
+  showSpinner?: boolean;
 }) => {
   const IconAndTextContent = (
     <>
@@ -26,6 +29,9 @@ export const SidebarLink = ({
       <li>
         <span className="flex items-center rounded-lg p-2 text-base font-normal text-gray-500">
           {IconAndTextContent}
+          {showSpinner && (
+            <Spinner aria-label="Extra small spinner example" size="xs" />
+          )}
         </span>
       </li>
     );
@@ -38,6 +44,9 @@ export const SidebarLink = ({
         className="flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
       >
         {IconAndTextContent}
+        {showSpinner && (
+          <Spinner aria-label="Extra small spinner example" size="xs" />
+        )}
         {badge && (
           <span className="ml-3 inline-flex h-3 w-3 items-center justify-center rounded-full bg-blue-100 p-3 text-sm font-medium text-blue-800 dark:bg-blue-900 dark:text-blue-300">
             {badge}
