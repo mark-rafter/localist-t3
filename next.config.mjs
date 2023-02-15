@@ -20,5 +20,19 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
+  async redirects() {
+    return [
+      {
+        source: "/feed",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/home",
+        destination: "/",
+        permanent: true,
+      },
+    ];
+  },
 };
 export default config;
