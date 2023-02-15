@@ -70,6 +70,13 @@ export const Sidebar = ({ width }: { width: number }) => {
               icon={HiOutlineBookmark}
             />
             <SidebarLink label="Settings" icon={HiOutlineCog6Tooth} />
+            <SidebarLink
+              label="Test Link"
+              disabled={true}
+              showSpinner={true}
+              badge="69"
+              icon={HiArrowLeftOnRectangle}
+            />
           </ul>
           <ul className="mt-4 space-y-2 border-t border-gray-200 pt-4 dark:border-gray-700">
             {sessionStatus === "authenticated" ? (
