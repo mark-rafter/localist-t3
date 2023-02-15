@@ -1,5 +1,6 @@
 import { Spinner } from "flowbite-react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import type { ComponentProps, FC } from "react";
 
 const Badge = ({ text }: { text: string }) => (
@@ -10,13 +11,11 @@ const Badge = ({ text }: { text: string }) => (
 
 const LinkOrSpan = ({
   disabled,
-  href,
-  label,
+  target,
   children,
 }: {
   disabled: boolean;
-  href?: string;
-  label: string;
+  target: string;
   children?: React.ReactNode;
 }) => {
   if (disabled) {
@@ -29,7 +28,7 @@ const LinkOrSpan = ({
 
   return (
     <Link
-      href={href ?? label.replace(/\s/g, "").toLowerCase()}
+      href={target}
       className="flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
     >
       {children}
@@ -37,10 +36,13 @@ const LinkOrSpan = ({
   );
 };
 
+type StartsWithSlash = `/${string}`;
+
 type SidebarLinkProps = {
   icon: FC<ComponentProps<"svg">>;
   label: string;
-  href?: string;
+  filledIcon?: FC<ComponentProps<"svg">>;
+  href?: StartsWithSlash;
   badge?: string;
   disabled?: boolean;
   showSpinner?: boolean;
@@ -50,19 +52,28 @@ export const SidebarLink = ({
   icon: Icon,
   label,
   disabled,
+  filledIcon: FilledIcon,
   showSpinner,
   href,
   badge,
 }: SidebarLinkProps) => {
+  const { asPath } = useRouter();
+  const target = href ?? "/" + label.replace(/\s/g, "").toLowerCase();
+  const isActiveLink = asPath === target;
+
   return (
     <li>
-      <LinkOrSpan disabled={disabled === true} href={href} label={label}>
-        <Icon className="h-5 w-5" />
+      <LinkOrSpan disabled={disabled === true} target={target}>
+        {isActiveLink && FilledIcon ? (
+          <FilledIcon className="h-5 w-5" />
+        ) : (
+          <Icon className="h-5 w-5" />
+        )}
         <span className="ml-3 flex-1 whitespace-nowrap">
           {label}
           {showSpinner && (
             <Spinner
-              className="ml-2 mb-3"
+              className="ml-2 mb-1"
               aria-label={`Loading spinner for ${label}`}
               size="xs"
             />

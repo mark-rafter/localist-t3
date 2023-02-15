@@ -8,6 +8,11 @@ import {
   HiOutlineBookmark,
   HiOutlineCog6Tooth,
   HiOutlineUser,
+  HiHome,
+  HiPencilSquare,
+  HiInboxArrowDown,
+  HiBookmark,
+  HiUser,
 } from "react-icons/hi2";
 import React from "react";
 import Link from "next/link";
@@ -52,22 +57,30 @@ export const Sidebar = ({ width }: { width: number }) => {
         <div className="h-full overflow-y-auto bg-gray-50 px-3 py-4 antialiased dark:bg-gray-800">
           {BrandButton}
           <ul className="space-y-2">
-            <SidebarLink label="Feed" href="/" icon={HiOutlineHome} />
+            <SidebarLink
+              label="Feed"
+              href="/"
+              icon={HiOutlineHome}
+              filledIcon={HiHome}
+            />
             <SidebarLink
               label="New Post"
               disabled={sessionStatus !== "authenticated"}
               icon={HiOutlinePencilSquare}
+              filledIcon={HiPencilSquare}
             />
             <SidebarLink
               label="Messages"
               disabled={sessionStatus !== "authenticated"}
               icon={HiOutlineInboxArrowDown}
+              filledIcon={HiInboxArrowDown}
               badge="3"
             />
             <SidebarLink
               label="Bookmarks"
               disabled={sessionStatus !== "authenticated"}
               icon={HiOutlineBookmark}
+              filledIcon={HiBookmark}
             />
             <SidebarLink label="Settings" icon={HiOutlineCog6Tooth} />
             <SidebarLink
@@ -75,16 +88,20 @@ export const Sidebar = ({ width }: { width: number }) => {
               disabled={true}
               showSpinner={true}
               badge="69"
-              icon={HiArrowLeftOnRectangle}
+              icon={HiUser}
             />
           </ul>
           <ul className="mt-4 space-y-2 border-t border-gray-200 pt-4 dark:border-gray-700">
             {sessionStatus === "authenticated" ? (
               <>
-                <SidebarLink label="Profile" icon={HiOutlineUser} />
+                <SidebarLink
+                  label="Profile"
+                  icon={HiOutlineUser}
+                  filledIcon={HiUser}
+                />
                 <SidebarLink
                   label="Sign Out"
-                  href="api/auth/signout"
+                  href="/api/auth/signout"
                   icon={HiArrowRightOnRectangle}
                 />
               </>
