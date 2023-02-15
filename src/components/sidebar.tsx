@@ -7,6 +7,7 @@ import {
   HiOutlineInboxArrowDown,
   HiOutlineBookmark,
   HiOutlineCog6Tooth,
+  HiOutlineUser,
 } from "react-icons/hi2";
 import React from "react";
 import Link from "next/link";
@@ -30,8 +31,7 @@ const BrandButton = (
 );
 
 export const Sidebar = () => {
-  const { data: session } = useSession();
-  const isLoggedOut = !session;
+  const { status: sessionStatus } = useSession();
   return (
     <>
       <button
@@ -55,31 +55,38 @@ export const Sidebar = () => {
             <SidebarLink label="Feed" href="/" icon={HiOutlineHome} />
             <SidebarLink
               label="New Post"
-              disabled={isLoggedOut}
+              disabled={sessionStatus !== "authenticated"}
               icon={HiOutlinePencilSquare}
             />
             <SidebarLink
               label="Messages"
-              disabled={isLoggedOut}
+              disabled={sessionStatus !== "authenticated"}
               icon={HiOutlineInboxArrowDown}
               badge="3"
             />
             <SidebarLink
               label="Bookmarks"
-              disabled={isLoggedOut}
+              disabled={sessionStatus !== "authenticated"}
               icon={HiOutlineBookmark}
             />
             <SidebarLink label="Settings" icon={HiOutlineCog6Tooth} />
           </ul>
           <ul className="mt-4 space-y-2 border-t border-gray-200 pt-4 dark:border-gray-700">
-            {session ? (
+            {sessionStatus === "authenticated" ? (
+              <>
+                <SidebarLink label="Profile" icon={HiOutlineUser} />
+                <SidebarLink
+                  label="Sign Out"
+                  href="api/auth/signout"
+                  icon={HiArrowRightOnRectangle}
+                />
+              </>
+            ) : (
               <SidebarLink
-                label="Sign Out"
-                href="api/auth/signout"
+                label="Sign In"
+                disabled={sessionStatus === "loading"}
                 icon={HiArrowLeftOnRectangle}
               />
-            ) : (
-              <SidebarLink label="Sign In" icon={HiArrowRightOnRectangle} />
             )}
           </ul>
         </div>
