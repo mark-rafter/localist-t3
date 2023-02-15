@@ -9,8 +9,7 @@ vercel link
 vercel env pull
 ```
 
-2. Open [.env](./.env), append: `NEXTAUTH_URL="http://localhost:3000"` and save the file.
-3. Initialise and run the app:
+2. Initialise and run the app:
 
 ```sh
 pnpm i
