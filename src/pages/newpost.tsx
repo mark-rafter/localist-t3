@@ -38,6 +38,41 @@ const NewPost = () => {
     },
   });
 
+  const DropUpload = (
+    <>
+      <label
+        htmlFor="dropzone-file"
+        className="dark:hover:bg-bray-800 flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-t-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+      >
+        <div className="flex flex-col items-center justify-center pt-5 pb-6">
+          <svg
+            aria-hidden="true"
+            className="mb-3 h-10 w-10 text-gray-400"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+            ></path>
+          </svg>
+          <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+            <span className="font-semibold">Click to upload</span> or drag and
+            drop
+          </p>
+          <p className="text-xs text-gray-500 dark:text-gray-400">
+            PNG or JPG (MAX. 4000x4000px)
+          </p>
+        </div>
+        <input id="dropzone-file" type="file" className="hidden" />
+      </label>
+    </>
+  );
+
   return (
     <>
       <Head>
@@ -65,27 +100,20 @@ const NewPost = () => {
               >
                 Title
               </label>
-              {errors.title?.message && <p>{errors.title?.message}</p>}
+              {errors.title?.message && (
+                <p className="mt-2 text-sm text-red-600 dark:text-red-500">
+                  {errors.title?.message}
+                </p>
+              )}
             </div>
-            {/* <Label htmlFor="title" value="Title" />
-            <TextInput
-              id="title"
-              {...register("title")}
-              placeholder="Plain white tee"
-              required={true}
-              color={errors.title?.message && "failure"}
-              helperText={errors.title?.message && errors.title?.message}
-            /> */}
           </>
           <>
             <label htmlFor="size" className="sr-only">
-              Underline select
+              Size select
             </label>
-            <Select
+            <select
               id="size"
               {...register("size")}
-              color={errors.size?.message && "failure"}
-              helperText={errors.size?.message && errors.size?.message}
               className="peer block w-full appearance-none border-0 border-b-2 border-gray-200 bg-primary-999 py-2.5 px-0 text-sm text-gray-500 focus:border-gray-200 focus:outline-none focus:ring-0 dark:border-gray-700 dark:text-gray-400"
             >
               <option selected>Choose a size</option>
@@ -94,7 +122,16 @@ const NewPost = () => {
               <option value="medium">Medium</option>
               <option value="large">Large</option>
               <option value="xl">XL</option>
-            </Select>
+            </select>
+            <div className="mx-auto max-w-sm">
+              {DropUpload}
+              <DraftFeedItem
+                title={watch("title")}
+                size={watch("size")}
+                brand="nike"
+                price={watch("price")}
+              />
+            </div>
           </>
           <Button
             outline={true}
@@ -105,14 +142,6 @@ const NewPost = () => {
             Create Post
           </Button>
         </form>
-        <div className="mx-auto">
-          <DraftFeedItem
-            title={watch("title")}
-            size={watch("size")}
-            brand="nike"
-            price={watch("price")}
-          />
-        </div>
       </div>
     </>
   );

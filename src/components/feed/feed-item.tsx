@@ -27,6 +27,7 @@ type DraftFeedItem = {
   size: "xs" | "small" | "medium" | "large" | "xl";
   brand: string;
   price: number;
+  imageSource?: string;
 };
 
 type FeedItemProps = DraftFeedItem & {
@@ -41,19 +42,22 @@ export const FeedItem = ({
   title,
   price,
   size,
+  imageSource: imgSrc,
   isPreview,
 }: FeedItemProps) => {
   const tailwindSmPixels = 384;
   return (
     <article className="max-w-sm overflow-hidden rounded-lg">
       <LinkOrDisabled target={`post/${postId}`} disabled={isPreview == true}>
-        <Image
-          className="rounded-t-lg"
-          width={tailwindSmPixels}
-          height={tailwindSmPixels}
-          src="/tshirt-474px.jpg"
-          alt=""
-        />
+        {imgSrc && (
+          <Image
+            className="rounded-t-lg"
+            width={tailwindSmPixels}
+            height={tailwindSmPixels}
+            src={imgSrc}
+            alt=""
+          />
+        )}
       </LinkOrDisabled>
       <div className="bg-white p-3 antialiased dark:bg-gray-800 sm:p-4">
         <div className="flex items-baseline justify-between text-gray-700 dark:text-gray-300">
