@@ -1,25 +1,41 @@
-import { Controller, SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
-
-type Inputs = {
-  example: string;
-  exampleRequired: string;
-};
-
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { Button, Label, Select, TextInput } from "flowbite-react";
 import Head from "next/head";
 
+const schema = z
+  .object({
+    title: z.string().min(3).max(16),
+    size: z.enum(["xs", "small", "medium", "large", "xl"]),
+    brand: z.string().max(30),
+    price: z.number(),
+  })
+  .required();
+
+type NewPostSchema = z.infer<typeof schema>;
+
 const NewPost = () => {
-  const { control, handleSubmit } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<NewPostSchema>({
     defaultValues: {
       title: "",
-      size: "",
+      size: "medium",
       brand: "",
-      price: "",
+      price: 0,
+    },
+    resolver: async (data, context, options) => {
+      console.log("formData", data);
+      console.log(
+        "validation result",
+        await zodResolver(schema)(data, context, options)
+      );
+      return await zodResolver(schema)(data, context, options);
     },
   });
-
-  const onSubmit = (data: any) => console.log(data);
 
   return (
     <>
@@ -30,41 +46,33 @@ const NewPost = () => {
         <h1 className="mb-3 text-3xl">New Post</h1>
         <form
           className="flex flex-col gap-4"
-          onSubmit={void handleSubmit(onSubmit)}
+          onSubmit={handleSubmit((d) => console.log(d))}
         >
-          <Controller
-            name="title"
-            control={control}
-            rules={{ required: true }}
-            render={({ field }) => (
-              <>
-                <Label htmlFor="title" value="Title" />
-                <TextInput
-                  id="title"
-                  placeholder="Plain white tee"
-                  required={true}
-                  // color="failure"
-                  // helperText={<>Title too long!</>}
-                />
-              </>
-            )}
-          />
-          <Controller
-            name="size"
-            control={control}
-            render={({ field }) => (
-              <>
-                <Label htmlFor="size" value="Size" />
-                <Select id="size" required={true}>
-                  <option>XS</option>
-                  <option>Small</option>
-                  <option>Medium</option>
-                  <option>Large</option>
-                  <option>XL</option>
-                </Select>
-              </>
-            )}
-          />
+          <>
+            <Label htmlFor="title" value="Title" />
+            <TextInput
+              id="title"
+              placeholder="Plain white tee"
+              required={true}
+              {...register("title")}
+              // color="failure"
+              // helperText={<>Title too long!</>}
+            />
+            {errors.title?.message && <p>{errors.title?.message}</p>}
+          </>
+          <>
+            <Label htmlFor="size" value="Size" />
+            <Select id="size" required={true} {...register("size")}>
+              <option value="xs">XS</option>
+              <option value="small">Small</option>
+              <option value="medium" defaultValue="medium">
+                Medium
+              </option>
+              <option>Large</option>
+              <option>XL</option>
+            </Select>
+            {errors.size?.message && <p>{errors.size?.message}</p>}
+          </>
           <Button outline={true} gradientDuoTone="cyanToBlue" type="submit">
             Create Post
           </Button>
