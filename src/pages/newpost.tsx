@@ -78,8 +78,8 @@ const NewPost = () => {
       <Head>
         <title>New Post | Localist</title>
       </Head>
-      <div className="container mx-auto w-2/5">
-        <h1 className="mb-2 text-3xl">New Post</h1>
+      <div className="container mx-auto max-w-sm pl-2">
+        <h1 className="mb-2 text-center text-3xl">New Post</h1>
         <form
           className="flex flex-col gap-4"
           onSubmit={handleSubmit((d) => console.log(d))}
@@ -123,6 +123,13 @@ const NewPost = () => {
               <option value="large">Large</option>
               <option value="xl">XL</option>
             </select>
+            {errors.size?.message && (
+              <p className="mt-2 text-sm text-red-600 dark:text-red-500">
+                {errors.size?.message}
+              </p>
+            )}
+          </>
+          <>
             <div className="mx-auto max-w-sm">
               {DropUpload}
               <DraftFeedItem
@@ -135,7 +142,7 @@ const NewPost = () => {
           </>
           <Button
             outline={true}
-            className="mb-2"
+            className="mx-auto mb-2"
             gradientDuoTone="cyanToBlue"
             type="submit"
           >
