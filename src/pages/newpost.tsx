@@ -1,8 +1,9 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Button, Label, Select, TextInput } from "flowbite-react";
+import { Button, Select } from "flowbite-react";
 import Head from "next/head";
+import { DraftFeedItem } from "@/components/feed/feed-item";
 
 const schema = z
   .object({
@@ -20,6 +21,7 @@ const NewPost = () => {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm<NewPostSchema>({
     defaultValues: {
       title: "",
@@ -94,10 +96,23 @@ const NewPost = () => {
               <option value="xl">XL</option>
             </Select>
           </>
-          <Button outline={true} gradientDuoTone="cyanToBlue" type="submit">
+          <Button
+            outline={true}
+            className="mb-2"
+            gradientDuoTone="cyanToBlue"
+            type="submit"
+          >
             Create Post
           </Button>
         </form>
+        <div className="mx-auto">
+          <DraftFeedItem
+            title={watch("title")}
+            size={watch("size")}
+            brand="nike"
+            price={watch("price")}
+          />
+        </div>
       </div>
     </>
   );

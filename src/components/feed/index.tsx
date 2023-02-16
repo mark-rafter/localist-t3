@@ -17,6 +17,8 @@ export const Feed = () => {
         <FeedItem
           key={k + 1}
           postId={k + 1}
+          title="Unisex plain purple nylon tee, 3 years old"
+          brand="nike"
           price={33}
           distance={22}
           size={"small"}

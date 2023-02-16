@@ -22,17 +22,23 @@ const LinkOrDisabled = ({
   );
 };
 
-type FeedItemProps = {
+type DraftFeedItem = {
+  title: string;
+  size: "xs" | "small" | "medium" | "large" | "xl";
+  brand: string;
+  price: number;
+};
+
+type FeedItemProps = DraftFeedItem & {
   postId: number;
   distance: number;
-  price: number;
-  size: "XS" | "small" | "medium" | "large" | "XL" | "XXL";
   isPreview?: boolean;
 };
 
 export const FeedItem = ({
   postId,
   distance,
+  title,
   price,
   size,
   isPreview,
@@ -58,7 +64,7 @@ export const FeedItem = ({
         </div>
         <LinkOrDisabled target={`post/${postId}`} disabled={isPreview == true}>
           <h2 className="w-64 truncate pt-1 text-xl font-bold tracking-tight text-gray-900 dark:text-white">
-            Unisex plain purple nylon tee, 3 years old
+            {title}
           </h2>
         </LinkOrDisabled>
         <div className="flex items-center justify-between">
@@ -75,6 +81,6 @@ export const FeedItem = ({
   );
 };
 
-export const PreviewFeedItem = (props: Omit<FeedItemProps, "isPreview">) => {
-  return <FeedItem {...props} />;
+export const DraftFeedItem = (props: DraftFeedItem) => {
+  return <FeedItem postId={0} distance={0} {...props} />;
 };
