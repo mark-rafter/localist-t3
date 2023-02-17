@@ -1,27 +1,8 @@
 import Image from "next/image";
 import React from "react";
-import Link from "next/link";
 import { HiOutlineClock, HiOutlineMapPin } from "react-icons/hi2";
 import { Carousel } from "flowbite-react";
-
-const LinkOrDisabled = ({
-  disabled,
-  target,
-  children,
-}: {
-  disabled: boolean;
-  target: string;
-  children?: React.ReactNode;
-}) => {
-  if (disabled) {
-    return <>{children}</>;
-  }
-  return (
-    <Link href={target} prefetch={false}>
-      {children}
-    </Link>
-  );
-};
+import { LinkOrDisabled } from "@/components/link-or-disabled";
 
 type DraftFeedItem = {
   title: string;
@@ -50,7 +31,7 @@ export const FeedItem = ({
   return (
     <article className="max-w-sm overflow-hidden rounded-lg">
       {images && (
-        <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
+        <div className="h-56 bg-gray-500 sm:h-64 xl:h-80 2xl:h-96">
           <Carousel slideInterval={3000}>
             {[...Array(4).keys()].map((k) => (
               <LinkOrDisabled
