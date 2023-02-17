@@ -7,7 +7,7 @@ import { DraftFeedItem } from "@/components/feed/feed-item";
 import { FormInput, FormNumberInput } from "@/components/form/form-input";
 import { FormSelect } from "@/components/form/form-select";
 import { FormDropUpload } from "@/components/form/form-drop-upload";
-import { HiOutlineCloudArrowUp } from "react-icons/hi2";
+import { useState } from "react";
 
 const sizes = z.enum(["xs", "small", "medium", "large", "xl"]);
 
@@ -16,7 +16,7 @@ const schema = z
     title: z.string().min(3).max(16),
     size: sizes,
     brand: z.string().max(25),
-    price: z.coerce.number(),
+    price: z.coerce.number().min(0).max(9999),
   })
   .required();
 
@@ -32,24 +32,7 @@ const NewPost = () => {
     resolver: zodResolver(schema),
   });
 
-  const DropUpload = (
-    <>
-      <label
-        htmlFor="dropzone-file"
-        className="hover:bg-bray-800 flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-t-lg border-2 border-dashed border-gray-600 bg-gray-700 hover:border-gray-500 hover:bg-gray-600"
-      >
-        <div className="flex flex-col items-center justify-center pt-5 pb-6">
-          <HiOutlineCloudArrowUp className="mb-3 h-10 w-10 text-gray-400" />
-          <p className="mb-2 text-sm text-gray-400">
-            <span className="font-semibold">Click to upload</span> or drag and
-            drop
-          </p>
-          <p className="text-xs text-gray-400">PNG or JPG (max. 4000x4000px)</p>
-        </div>
-        <input id="dropzone-file" type="file" className="hidden" />
-      </label>
-    </>
-  );
+  const [uploadedImageCount, setUploadedImageCount] = useState(4);
 
   return (
     <>
@@ -82,7 +65,8 @@ const NewPost = () => {
           {/* File Upload */}
           <>
             <div className="mx-auto max-w-sm">
-              {DropUpload}
+              {/* {DropUpload} */}
+              <FormDropUpload height={64} className="w-full rounded-t-lg" />
               <DraftFeedItem
                 title={watch("title")}
                 size={watch("size")}
@@ -90,11 +74,14 @@ const NewPost = () => {
                 price={watch("price")}
               />
               <div className="flex justify-between pt-2">
-                <FormDropUpload height={24} className="rounded-lg" />
-                <FormDropUpload height={24} className="rounded-lg" />
-                <FormDropUpload height={24} className="rounded-lg" />
-                <FormDropUpload height={24} className="rounded-lg" />
-                <FormDropUpload height={24} className="rounded-lg" />
+                {uploadedImageCount > 0 &&
+                  [...Array(uploadedImageCount).keys()].map((k) => (
+                    <FormDropUpload
+                      key={k}
+                      height={32}
+                      className="rounded-lg"
+                    />
+                  ))}
               </div>
             </div>
           </>

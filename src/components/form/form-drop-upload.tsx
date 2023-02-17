@@ -9,7 +9,7 @@ export const FormDropUpload = ({
 }) => (
   <label
     htmlFor="dropzone-file"
-    className={`hover:bg-bray-800 flex h-${height} min-w-${height} cursor-pointer flex-col items-center justify-center border-2 border-dashed border-gray-600 bg-gray-700 hover:border-gray-500 hover:bg-gray-600 ${
+    className={`hover:bg-bray-800 flex h-${height} w-${height} cursor-pointer flex-col items-center justify-center border-2 border-dashed border-gray-600 bg-gray-700 hover:border-gray-500 hover:bg-gray-600 ${
       className ?? ""
     }`}
   >
@@ -19,7 +19,7 @@ export const FormDropUpload = ({
       }`}
     >
       <HiOutlineCloudArrowUp className={`h-10 w-10 text-gray-400`} />
-      {height >= 32 && (
+      {height > 32 && (
         <>
           <p className="my-2 text-sm text-gray-400">
             <span className="font-semibold">Click to upload</span> or drag and
