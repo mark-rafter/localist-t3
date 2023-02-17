@@ -31,7 +31,7 @@ export const FormSelect = <T extends FieldValues>({
       {children}
     </select>
     <p id={`${label}_error_message`} className="text-xs text-red-400">
-      {error?.message}
+      {error && `Please select a ${label}`}
     </p>
   </>
 );
