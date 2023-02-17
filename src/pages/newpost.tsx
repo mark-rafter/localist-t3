@@ -15,8 +15,8 @@ const schema = z
   .object({
     title: z.string().min(3).max(16),
     size: sizes,
-    brand: z.string().max(25),
-    price: z.coerce.number().min(0).max(9999),
+    brand: z.string().max(25).optional(),
+    price: z.number().max(9999),
   })
   .required();
 
@@ -48,9 +48,14 @@ const NewPost = () => {
           onSubmit={handleSubmit((d) => console.log(d))}
         >
           <FormInput label="title" register={register} error={errors.title} />
-          <FormInput label="brand" register={register} error={errors.brand} />
+          <FormInput
+            label="brand"
+            register={register}
+            error={errors.brand}
+            optional={true}
+          />
           <FormSelect label="size" register={register} error={errors.size}>
-            <option selected>Choose a size</option>
+            <option>Choose a size</option>
             {sizes.options.map((size) => (
               <option key={size} value={size}>
                 {size}

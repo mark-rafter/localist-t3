@@ -11,6 +11,7 @@ type FormInputProps<T extends FieldValues> = {
   register: UseFormRegister<T>;
   error?: FieldError;
   type?: HTMLInputTypeAttribute;
+  optional?: boolean;
 };
 
 export const FormInput = <T extends FieldValues>({
@@ -18,6 +19,7 @@ export const FormInput = <T extends FieldValues>({
   register,
   error,
   type,
+  optional = false,
 }: FormInputProps<T>) => {
   const textColor = error
     ? "text-red-500"
@@ -26,12 +28,15 @@ export const FormInput = <T extends FieldValues>({
     <div className="group relative z-0 w-full">
       <input
         type={type}
-        {...register(label)}
+        {...register(label, {
+          required: !optional,
+          valueAsNumber: type === "number",
+        })}
         name={label}
         id={label}
         aria-describedby={`${label}_error_message`}
         className="peer block w-full appearance-none border-0 border-b-2 border-gray-600 bg-transparent py-2.5 px-0 text-sm focus:border-blue-500 focus:outline-none focus:ring-0"
-        placeholder=" "
+        placeholder=""
       />
       <label
         htmlFor={label}
