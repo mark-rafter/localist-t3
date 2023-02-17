@@ -29,9 +29,9 @@ export const FeedItem = ({
 }: FeedItemProps) => {
   const tailwindSmPixels = 384;
   return (
-    <article className="max-w-sm overflow-hidden rounded-lg">
+    <article className="max-w-sm overflow-hidden rounded-lg bg-gray-800">
       {images && (
-        <div className="h-56 bg-gray-500 sm:h-64 xl:h-80 2xl:h-96">
+        <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
           <Carousel slideInterval={3000}>
             {[...Array(4).keys()].map((k) => (
               <LinkOrDisabled
@@ -53,7 +53,7 @@ export const FeedItem = ({
         </div>
       )}
 
-      <div className="bg-gray-800 p-3 antialiased sm:p-4">
+      <div className="p-3 antialiased sm:p-4">
         <div className="flex items-baseline justify-between text-gray-300">
           <h3 className="text-sm uppercase tracking-wide">{size}</h3>
           <span className="inline-flex items-center rounded px-2 text-xs">
