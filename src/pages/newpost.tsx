@@ -6,6 +6,7 @@ import Head from "next/head";
 import { DraftFeedItem } from "@/components/feed/feed-item";
 import { FormInput, FormNumberInput } from "@/components/form/form-input";
 import { FormSelect } from "@/components/form/form-select";
+import { FormDropUpload } from "@/components/form/form-drop-upload";
 import { HiOutlineCloudArrowUp } from "react-icons/hi2";
 
 const sizes = z.enum(["xs", "small", "medium", "large", "xl"]);
@@ -78,6 +79,7 @@ const NewPost = () => {
             register={register}
             error={errors.price}
           />
+          {/* File Upload */}
           <>
             <div className="mx-auto max-w-sm">
               {DropUpload}
@@ -87,8 +89,16 @@ const NewPost = () => {
                 brand="nike"
                 price={watch("price")}
               />
+              <div className="flex justify-between pt-2">
+                <FormDropUpload height={24} className="rounded-lg" />
+                <FormDropUpload height={24} className="rounded-lg" />
+                <FormDropUpload height={24} className="rounded-lg" />
+                <FormDropUpload height={24} className="rounded-lg" />
+                <FormDropUpload height={24} className="rounded-lg" />
+              </div>
             </div>
           </>
+
           <Button
             outline={true}
             className="mx-auto mb-2"
