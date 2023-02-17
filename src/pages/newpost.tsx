@@ -6,6 +6,7 @@ import Head from "next/head";
 import { DraftFeedItem } from "@/components/feed/feed-item";
 import { FormInput } from "@/components/form/form-input";
 import { FormSelect } from "@/components/form/form-select";
+import { HiOutlineCloudArrowUp } from "react-icons/hi2";
 
 const sizes = z.enum(["xs", "small", "medium", "large", "xl"]);
 
@@ -34,31 +35,15 @@ const NewPost = () => {
     <>
       <label
         htmlFor="dropzone-file"
-        className="hover:bg-bray-800 flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-t-lg border-2 border-dashed border-gray-300 border-gray-600 bg-gray-50 bg-gray-700 hover:border-gray-500 hover:bg-gray-100 hover:bg-gray-600"
+        className="hover:bg-bray-800 flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-t-lg border-2 border-dashed border-gray-600 bg-gray-700 hover:border-gray-500 hover:bg-gray-600"
       >
         <div className="flex flex-col items-center justify-center pt-5 pb-6">
-          <svg
-            aria-hidden="true"
-            className="mb-3 h-10 w-10 text-gray-400"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-            ></path>
-          </svg>
-          <p className="mb-2 text-sm text-gray-500 text-gray-400">
+          <HiOutlineCloudArrowUp className="mb-3 h-10 w-10 text-gray-400" />
+          <p className="mb-2 text-sm text-gray-400">
             <span className="font-semibold">Click to upload</span> or drag and
             drop
           </p>
-          <p className="text-xs text-gray-500 text-gray-400">
-            PNG or JPG (MAX. 4000x4000px)
-          </p>
+          <p className="text-xs text-gray-400">PNG or JPG (max. 4000x4000px)</p>
         </div>
         <input id="dropzone-file" type="file" className="hidden" />
       </label>
@@ -69,6 +54,7 @@ const NewPost = () => {
     <>
       <Head>
         <title>New Post | Localist</title>
+        <meta name="description" content="Localist - create a new post" />
       </Head>
       <div className="container mx-auto max-w-sm pl-2">
         <h1 className="mb-2 text-center text-3xl">New Post</h1>
