@@ -5,7 +5,7 @@ import "@/styles/globals.css";
 import "flowbite";
 import { Layout } from "@/components/layout";
 import { Flowbite } from "flowbite-react";
-import useCustomTheme from "@/styles/use-custom-theme";
+import { useCustomTheme } from "@/hooks/use-custom-theme";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
