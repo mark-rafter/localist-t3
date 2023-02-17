@@ -5,11 +5,14 @@ import { Button } from "flowbite-react";
 import Head from "next/head";
 import { DraftFeedItem } from "@/components/feed/feed-item";
 import { FormInput } from "@/components/form/form-input";
+import { FormSelect } from "@/components/form/form-select";
+
+const sizes = z.enum(["xs", "small", "medium", "large", "xl"]);
 
 const schema = z
   .object({
     title: z.string().min(3).max(16),
-    size: z.enum(["xs", "small", "medium", "large", "xl"]),
+    size: sizes,
     brand: z.string().max(25),
     price: z.number(),
   })
@@ -76,26 +79,14 @@ const NewPost = () => {
         >
           <FormInput label="title" register={register} error={errors.title} />
           <FormInput label="brand" register={register} error={errors.brand} />
-          <>
-            <label htmlFor="size" className="sr-only">
-              Size select
-            </label>
-            <select
-              id="size"
-              {...register("size")}
-              className="peer block w-full appearance-none border-0 border-b-2 border-gray-200 bg-primary-999 py-2.5 px-0 text-sm text-gray-500 focus:border-gray-200 focus:outline-none focus:ring-0 dark:border-gray-700 dark:text-gray-400"
-            >
-              <option selected>Choose a size</option>
-              <option value="xs">XS</option>
-              <option value="small">Small</option>
-              <option value="medium">Medium</option>
-              <option value="large">Large</option>
-              <option value="xl">XL</option>
-            </select>
-            <p className="mt-2 text-sm text-red-600 dark:text-red-500">
-              {errors.size?.message}
-            </p>
-          </>
+          <FormSelect label="size" register={register} error={errors.size}>
+            <option selected>Choose a size</option>
+            {sizes.options.map((size) => (
+              <option key={size} value={size}>
+                {size}
+              </option>
+            ))}
+          </FormSelect>
           <>
             <div className="mx-auto max-w-sm">
               {DropUpload}

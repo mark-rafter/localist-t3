@@ -21,6 +21,7 @@ export const FormInput = <T extends FieldValues>({
       {...register(label)}
       name={label}
       id={label}
+      aria-describedby={`${label}_error_message`}
       className="peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent py-2.5 px-0 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 dark:border-gray-600 dark:text-white dark:focus:border-blue-500"
       placeholder=" "
     />
@@ -30,7 +31,10 @@ export const FormInput = <T extends FieldValues>({
     >
       {label}
     </label>
-    <p className="mt-2 text-sm text-red-600 dark:text-red-500">
+    <p
+      id={`${label}_error_message`}
+      className="mt-2 text-xs text-red-600 dark:text-red-400"
+    >
       {error?.message}
     </p>
   </div>
