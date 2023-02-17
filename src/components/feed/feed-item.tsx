@@ -4,9 +4,11 @@ import { HiOutlineClock, HiOutlineMapPin } from "react-icons/hi2";
 import { Carousel } from "flowbite-react";
 import { LinkOrDisabled } from "@/components/link-or-disabled";
 
+type Size = "xs" | "small" | "medium" | "large" | "xl";
+
 type DraftFeedItem = {
   title: string;
-  size: "xs" | "small" | "medium" | "large" | "xl";
+  size: Size;
   brand: string;
   price: number;
   images?: string[];
@@ -54,17 +56,20 @@ export const FeedItem = ({
       )}
 
       <div className="p-3 antialiased sm:p-4">
+        {/* Top Row: size + post age */}
         <div className="flex items-baseline justify-between text-gray-300">
           <h3 className="text-sm uppercase tracking-wide">{size}</h3>
           <span className="inline-flex items-center rounded px-2 text-xs">
             <HiOutlineClock className="mr-1 h-3 w-3" />2 min.
           </span>
         </div>
+        {/* Middle Row: title */}
         <LinkOrDisabled target={`post/${postId}`} disabled={isPreview == true}>
           <h2 className="w-64 truncate pt-1 text-xl font-bold tracking-tight">
             {title}
           </h2>
         </LinkOrDisabled>
+        {/* Bottom Row: price + distance */}
         <div className="flex items-center justify-between">
           <span className="text-xl font-bold">£{price}</span>
           <span className="flex items-center rounded-lg text-sm font-normal text-gray-400">
