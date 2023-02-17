@@ -15,7 +15,7 @@ const FilterOption = ({
 
 const ToggleFilterDrawerButton = () => {
   return (
-    <div data-dial-init className="group fixed top-6 right-6">
+    <div data-dial-init className="group fixed top-6 right-6 z-20">
       <button
         type="button"
         data-drawer-target="drawer-example"
