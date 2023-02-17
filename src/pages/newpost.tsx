@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Button, Select } from "flowbite-react";
+import { Button } from "flowbite-react";
 import Head from "next/head";
 import { DraftFeedItem } from "@/components/feed/feed-item";
 
@@ -23,19 +23,7 @@ const NewPost = () => {
     formState: { errors },
     watch,
   } = useForm<NewPostSchema>({
-    defaultValues: {
-      title: "",
-      brand: "",
-      price: 0,
-    },
-    resolver: async (data, context, options) => {
-      console.log("formData", data);
-      console.log(
-        "validation result",
-        await zodResolver(schema)(data, context, options)
-      );
-      return await zodResolver(schema)(data, context, options);
-    },
+    resolver: zodResolver(schema),
   });
 
   const DropUpload = (
@@ -82,6 +70,7 @@ const NewPost = () => {
         <h1 className="mb-2 text-center text-3xl">New Post</h1>
         <form
           className="flex flex-col gap-4"
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           onSubmit={handleSubmit((d) => console.log(d))}
         >
           <>
