@@ -38,7 +38,7 @@ export default function SignIn({
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#490141] to-[#20111e]">
         <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-          <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-[5rem]">
+          <h1 className="text-4xl font-extrabold tracking-tight sm:text-[5rem]">
             Localist
           </h1>
           {Object.values(providers).map((provider) => (
@@ -46,7 +46,7 @@ export default function SignIn({
               <button
                 type="button"
                 onClick={() => void signIn(provider.id)}
-                className="mr-2 mb-2 inline-flex items-center rounded-lg bg-[#24292F] px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-[#24292F]/90 focus:outline-none focus:ring-4 focus:ring-[#24292F]/50 dark:hover:bg-[#050708]/30 dark:focus:ring-gray-500"
+                className="mr-2 mb-2 inline-flex items-center rounded-lg bg-[#24292F] px-5 py-2.5 text-center text-sm font-medium hover:bg-[#050708]/30 focus:outline-none focus:ring-4 focus:ring-[#24292F]/50 focus:ring-gray-500"
               >
                 {providerIcons[provider.id]}
                 Sign in with {provider.name}

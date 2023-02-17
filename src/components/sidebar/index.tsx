@@ -29,7 +29,7 @@ const BrandButton = (
       className="mr-3 h-6 sm:h-7"
       alt="Localist Logo"
     />
-    <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
+    <span className="self-center whitespace-nowrap text-xl font-semibold">
       Localist
     </span>
   </Link>
@@ -44,7 +44,7 @@ export const Sidebar = () => {
         data-drawer-toggle="sidebar"
         aria-controls="sidebar"
         type="button"
-        className="mt-2 ml-3 inline-flex items-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 md:hidden"
+        className="mt-2 ml-3 inline-flex items-center rounded-lg p-2 text-sm text-gray-400 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600 md:hidden"
       >
         <span className="sr-only">Open sidebar</span>
         <HiBars3BottomLeft className="h-6 w-6 text-gray-500" />
@@ -54,7 +54,7 @@ export const Sidebar = () => {
         className={`fixed top-0 left-0 z-40 h-screen w-56 -translate-x-full transition-transform sm:translate-x-0`}
         aria-label="Sidebar"
       >
-        <div className="h-full overflow-y-auto bg-gray-50 px-3 py-4 antialiased dark:bg-gray-800">
+        <div className="h-full overflow-y-auto bg-gray-800 px-3 py-4 antialiased">
           {BrandButton}
           <ul className="space-y-2">
             <SidebarLink
@@ -91,7 +91,7 @@ export const Sidebar = () => {
               icon={HiUser}
             />
           </ul>
-          <ul className="mt-4 space-y-2 border-t border-gray-200 pt-4 dark:border-gray-700">
+          <ul className="mt-4 space-y-2 border-t border-gray-700 pt-4">
             {sessionStatus === "authenticated" ? (
               <>
                 <SidebarLink

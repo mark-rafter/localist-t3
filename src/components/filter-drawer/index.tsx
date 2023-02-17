@@ -8,9 +8,7 @@ const FilterOption = ({
   children,
 }: PropsWithChildren<{ title: string }>) => (
   <div className="space-y-2">
-    <h6 className="text-base font-medium text-black dark:text-white">
-      {title}
-    </h6>
+    <h6 className="text-base font-medium">{title}</h6>
     {children}
   </div>
 );
@@ -23,7 +21,7 @@ const ToggleFilterDrawerButton = () => {
         data-drawer-target="drawer-example"
         data-drawer-show="drawer-example"
         aria-controls="drawer-example"
-        className="flex h-14 w-14 items-center justify-center rounded-full bg-blue-700 text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        className="flex h-14 w-14 items-center justify-center rounded-full bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-800"
       >
         <HiAdjustmentsHorizontal className="h-6 w-6" />
         <span className="sr-only">Open filters drawer</span>
@@ -39,13 +37,13 @@ const FilterDrawer = () => (
       action="#"
       method="get"
       id="drawer-example"
-      className="fixed top-0 left-0 z-50 h-screen w-full max-w-xs -translate-x-full overflow-y-auto bg-white p-4 transition-transform dark:bg-gray-800"
+      className="fixed top-0 left-0 z-50 h-screen w-full max-w-xs -translate-x-full overflow-y-auto bg-gray-800 p-4 transition-transform"
       tabIndex={-1}
       aria-labelledby="drawer-label"
     >
       <h5
         id="drawer-label"
-        className="mb-4 inline-flex items-center text-base font-semibold uppercase text-gray-500 dark:text-gray-400"
+        className="mb-4 inline-flex items-center text-base font-semibold uppercase text-gray-400"
       >
         Apply filters
       </h5>
@@ -53,9 +51,9 @@ const FilterDrawer = () => (
         type="button"
         data-drawer-dismiss="drawer-example"
         aria-controls="drawer-example"
-        className="absolute top-2.5 right-2.5 inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white"
+        className="absolute top-2.5 right-2.5 inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-600 hover:text-white"
       >
-        <HiXMark className="h-6 text-gray-500" />
+        <HiXMark className="h-6 text-gray-400" />
         <span className="sr-only">Close menu</span>
       </button>
 
@@ -67,12 +65,12 @@ const FilterDrawer = () => (
                 id="gaming"
                 type="checkbox"
                 defaultValue=""
-                className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-primary-600 focus:ring-2 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
+                className="h-4 w-4 rounded border-gray-600 bg-gray-700 text-primary-600 ring-offset-gray-800 focus:ring-2 focus:ring-primary-600"
               />
 
               <label
                 htmlFor="gaming"
-                className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                className="ml-2 text-sm font-medium text-gray-300"
               >
                 Goods
               </label>
@@ -83,19 +81,19 @@ const FilterDrawer = () => (
                 id="laptops"
                 type="checkbox"
                 defaultValue=""
-                className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-primary-600 focus:ring-2 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
+                className="h-4 w-4 rounded border-gray-600 bg-gray-700 text-primary-600 ring-offset-gray-800 focus:ring-2 focus:ring-primary-600"
               />
 
               <label
                 htmlFor="laptops"
-                className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                className="ml-2 text-sm font-medium text-gray-300"
               >
                 Services
               </label>
             </div>
             <a
               href="#"
-              className="flex items-center text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
+              className="flex items-center text-sm font-medium text-primary-500 hover:underline"
             >
               View all
             </a>
@@ -105,7 +103,7 @@ const FilterDrawer = () => (
               <div className="w-full">
                 <label
                   htmlFor="min-experience-input"
-                  className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                  className="mb-2 block text-sm font-medium"
                 >
                   From
                 </label>
@@ -116,7 +114,7 @@ const FilterDrawer = () => (
                   defaultValue="300"
                   min="1"
                   max="10000"
-                  className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
+                  className="block w-full rounded-lg border border-gray-600 bg-gray-700 p-2.5 text-sm placeholder-gray-400 focus:border-primary-500 focus:ring-primary-500"
                   placeholder=""
                   required
                 />
@@ -125,7 +123,7 @@ const FilterDrawer = () => (
               <div className="w-full">
                 <label
                   htmlFor="price-to"
-                  className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                  className="mb-2 block text-sm font-medium"
                 >
                   To
                 </label>
@@ -136,7 +134,7 @@ const FilterDrawer = () => (
                   defaultValue="3500"
                   min="1"
                   max="10000"
-                  className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
+                  className="block w-full rounded-lg border border-gray-600 bg-gray-700 p-2.5 text-sm placeholder-gray-400 focus:border-primary-500 focus:ring-primary-500"
                   placeholder=""
                   required
                 />
@@ -151,13 +149,13 @@ const FilterDrawer = () => (
         <div className="bottom-0 left-0 mt-6 flex w-full justify-center space-x-4 pb-4 md:absolute md:px-4">
           <button
             type="submit"
-            className="w-full rounded-lg bg-primary-700 px-5 py-2 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-700 dark:hover:bg-primary-800 dark:focus:ring-primary-800"
+            className="w-full rounded-lg bg-primary-700 px-5 py-2 text-center text-sm font-medium hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-800"
           >
             Apply filters
           </button>
           <button
             type="reset"
-            className="w-full rounded-lg border border-gray-200 bg-white px-5 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
+            className="w-full rounded-lg border border-gray-600 bg-gray-800 px-5 py-2 text-sm font-medium text-gray-400 hover:bg-gray-700 hover:text-white focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-700"
           >
             Clear all
           </button>

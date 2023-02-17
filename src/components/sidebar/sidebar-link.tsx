@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import type { ComponentProps, FC } from "react";
 
 const Badge = ({ text }: { text: string }) => (
-  <span className="ml-3 inline-flex h-3 w-3 items-center justify-center rounded-full bg-blue-100 p-3 text-sm font-medium text-blue-800 dark:bg-blue-900 dark:text-blue-300">
+  <span className="ml-3 inline-flex h-3 w-3 items-center justify-center rounded-full bg-blue-900 p-3 text-sm font-medium text-blue-300">
     {text}
   </span>
 );
@@ -24,10 +24,7 @@ const LinkOrDisabled = ({
   }
 
   return (
-    <Link
-      href={target}
-      className={`${baseClasses} text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700`}
-    >
+    <Link href={target} className={`${baseClasses} hover:bg-gray-700`}>
       {children}
     </Link>
   );

@@ -21,7 +21,7 @@ const StarRatingInput = ({
           </button>
         );
       })}
-      <p className="ml-2 text-sm font-medium text-gray-500 dark:text-gray-400">
+      <p className="ml-2 text-sm font-medium text-gray-400">
         {rating} out of 5
       </p>
     </Rating>
