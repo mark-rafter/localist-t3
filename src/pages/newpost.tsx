@@ -4,12 +4,13 @@ import { z } from "zod";
 import { Button } from "flowbite-react";
 import Head from "next/head";
 import { DraftFeedItem } from "@/components/feed/feed-item";
+import { TextInput } from "@/components/text-input";
 
 const schema = z
   .object({
     title: z.string().min(3).max(16),
     size: z.enum(["xs", "small", "medium", "large", "xl"]),
-    brand: z.string().max(30),
+    brand: z.string().max(25),
     price: z.number(),
   })
   .required();
@@ -73,6 +74,7 @@ const NewPost = () => {
           // eslint-disable-next-line @typescript-eslint/no-misused-promises
           onSubmit={handleSubmit((d) => console.log(d))}
         >
+          <TextInput label="brand" register={register} error={errors.brand} />
           <>
             <div className="group relative z-0 mt-6 w-full">
               <input
@@ -89,11 +91,9 @@ const NewPost = () => {
               >
                 Title
               </label>
-              {errors.title?.message && (
-                <p className="mt-2 text-sm text-red-600 dark:text-red-500">
-                  {errors.title?.message}
-                </p>
-              )}
+              <p className="mt-2 text-sm text-red-600 dark:text-red-500">
+                {errors.title?.message}
+              </p>
             </div>
           </>
           <>
@@ -112,11 +112,9 @@ const NewPost = () => {
               <option value="large">Large</option>
               <option value="xl">XL</option>
             </select>
-            {errors.size?.message && (
-              <p className="mt-2 text-sm text-red-600 dark:text-red-500">
-                {errors.size?.message}
-              </p>
-            )}
+            <p className="mt-2 text-sm text-red-600 dark:text-red-500">
+              {errors.size?.message}
+            </p>
           </>
           <>
             <div className="mx-auto max-w-sm">
