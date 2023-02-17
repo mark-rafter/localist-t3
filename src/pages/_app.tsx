@@ -4,16 +4,22 @@ import { SessionProvider } from "next-auth/react";
 import "@/styles/globals.css";
 import "flowbite";
 import { Layout } from "@/components/layout";
+import { Flowbite } from "flowbite-react";
+import useCustomTheme from "@/styles/use-custom-theme";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
+  const customTheme = useCustomTheme();
+
   return (
     <SessionProvider session={session}>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <Flowbite theme={customTheme}>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </Flowbite>
     </SessionProvider>
   );
 };
