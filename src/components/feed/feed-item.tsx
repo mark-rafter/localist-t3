@@ -2,6 +2,7 @@ import Image from "next/image";
 import React from "react";
 import Link from "next/link";
 import { HiOutlineClock, HiOutlineMapPin } from "react-icons/hi2";
+import { Carousel } from "flowbite-react";
 
 const LinkOrDisabled = ({
   disabled,
@@ -27,7 +28,7 @@ type DraftFeedItem = {
   size: "xs" | "small" | "medium" | "large" | "xl";
   brand: string;
   price: number;
-  imageSource?: string;
+  images?: string[];
 };
 
 type FeedItemProps = DraftFeedItem & {
@@ -42,23 +43,35 @@ export const FeedItem = ({
   title,
   price,
   size,
-  imageSource: imgSrc,
+  images,
   isPreview,
 }: FeedItemProps) => {
   const tailwindSmPixels = 384;
   return (
     <article className="max-w-sm overflow-hidden rounded-lg">
-      <LinkOrDisabled target={`post/${postId}`} disabled={isPreview == true}>
-        {imgSrc && (
-          <Image
-            className="rounded-t-lg"
-            width={tailwindSmPixels}
-            height={tailwindSmPixels}
-            src={imgSrc}
-            alt=""
-          />
-        )}
-      </LinkOrDisabled>
+      {images && (
+        <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
+          <Carousel slideInterval={3000}>
+            {[...Array(4).keys()].map((k) => (
+              <LinkOrDisabled
+                key={k}
+                target={`post/${postId}`}
+                disabled={isPreview == true}
+              >
+                <Image
+                  src={`https://flowbite.com/docs/images/carousel/carousel-${
+                    k + 1
+                  }.svg`}
+                  alt="..."
+                  width={tailwindSmPixels}
+                  height={tailwindSmPixels}
+                />
+              </LinkOrDisabled>
+            ))}
+          </Carousel>
+        </div>
+      )}
+
       <div className="bg-gray-800 p-3 antialiased sm:p-4">
         <div className="flex items-baseline justify-between text-gray-300">
           <h3 className="text-sm uppercase tracking-wide">{size}</h3>

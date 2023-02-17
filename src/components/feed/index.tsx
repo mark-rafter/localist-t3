@@ -19,7 +19,7 @@ export const Feed = () => {
           postId={k + 1}
           title="Unisex plain purple nylon tee, 3 years old"
           brand="nike"
-          imageSource="/tshirt-474px.jpg"
+          images={["/tshirt-474px.jpg"]}
           price={33}
           distance={22}
           size={"small"}
