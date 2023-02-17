@@ -1,3 +1,4 @@
+import type { HTMLInputTypeAttribute } from "react";
 import type {
   Path,
   UseFormRegister,
@@ -9,12 +10,14 @@ type FormInputProps<T extends FieldValues> = {
   label: Path<T>;
   register: UseFormRegister<T>;
   error?: FieldError;
+  type?: HTMLInputTypeAttribute;
 };
 
 export const FormInput = <T extends FieldValues>({
   label,
   register,
   error,
+  type,
 }: FormInputProps<T>) => {
   const textColor = error
     ? "text-red-500"
@@ -22,6 +25,7 @@ export const FormInput = <T extends FieldValues>({
   return (
     <div className="group relative z-0 w-full">
       <input
+        type={type}
         {...register(label)}
         name={label}
         id={label}
@@ -40,4 +44,10 @@ export const FormInput = <T extends FieldValues>({
       </p>
     </div>
   );
+};
+
+export const FormNumberInput = <T extends FieldValues>(
+  props: FormInputProps<T>
+) => {
+  return <FormInput type="number" {...props} />;
 };

@@ -4,7 +4,7 @@ import { z } from "zod";
 import { Button } from "flowbite-react";
 import Head from "next/head";
 import { DraftFeedItem } from "@/components/feed/feed-item";
-import { FormInput } from "@/components/form/form-input";
+import { FormInput, FormNumberInput } from "@/components/form/form-input";
 import { FormSelect } from "@/components/form/form-select";
 import { HiOutlineCloudArrowUp } from "react-icons/hi2";
 
@@ -15,7 +15,7 @@ const schema = z
     title: z.string().min(3).max(16),
     size: sizes,
     brand: z.string().max(25),
-    price: z.number(),
+    price: z.coerce.number(),
   })
   .required();
 
@@ -73,6 +73,11 @@ const NewPost = () => {
               </option>
             ))}
           </FormSelect>
+          <FormNumberInput
+            label="price"
+            register={register}
+            error={errors.price}
+          />
           <>
             <div className="mx-auto max-w-sm">
               {DropUpload}
