@@ -11,7 +11,7 @@ import { useState } from "react";
 
 const sizes = z.enum(["xs", "small", "medium", "large", "xl"]);
 
-const schema = z
+export const postSchema = z
   .object({
     title: z.string().min(3).max(16),
     size: sizes,
@@ -20,7 +20,7 @@ const schema = z
   })
   .required();
 
-type NewPostSchema = z.infer<typeof schema>;
+export type PostSchema = z.infer<typeof postSchema>;
 
 const NewPost = () => {
   const {
@@ -28,8 +28,8 @@ const NewPost = () => {
     handleSubmit,
     formState: { errors },
     watch,
-  } = useForm<NewPostSchema>({
-    resolver: zodResolver(schema),
+  } = useForm<PostSchema>({
+    resolver: zodResolver(postSchema),
   });
 
   const [uploadedImageCount, setUploadedImageCount] = useState(4);
