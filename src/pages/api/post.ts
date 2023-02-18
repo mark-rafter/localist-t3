@@ -1,5 +1,6 @@
 import { getServerAuthSession } from "@/server/auth";
 import { prisma } from "@/server/db";
+import type { Post } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import type { PostSchema } from "../newpost";
 import { postSchema } from "../newpost";
@@ -9,7 +10,7 @@ export interface PostApiRequest extends NextApiRequest {
 }
 
 type PostResponse = {
-  post: PostSchema;
+  post: Post;
 };
 
 type ErrorResponse = {
