@@ -9,7 +9,7 @@ export interface PostApiRequest extends NextApiRequest {
 }
 
 type PostResponse = {
-  posts: PostSchema[];
+  post: PostSchema;
 };
 
 type ErrorResponse = {
@@ -41,16 +41,21 @@ const handler = async (
     });
   }
 
-  res.status(200).json({ message: `Title ${req.body.title}` });
-  // const id = 0; //todo get from prisma
-  // const result = prisma.post.create({
-  //   data: {
-  //     ...parsedBody,
-  //     authorId: "12",
-  //   },
-  // });
+  const result = await prisma.post.create({
+    data: {
+      ...req.body,
+      author: {
+        connect: {
+          id: session.user.id,
+        },
+      },
+    },
+  });
+
+  res.status(200).json({ post: result });
+
   // todo: return redirect to post/[id]
-  // res.redirect(307, `/post/${id}`);
+  // res.redirect(307, `/post/${result.id}`);
 };
 
 export default handler;
