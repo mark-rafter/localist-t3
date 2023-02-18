@@ -16,7 +16,7 @@ const schema = z
     title: z.string().min(3).max(16),
     size: sizes,
     brand: z.string().max(25).optional(),
-    price: z.number().max(9999),
+    price: z.number({ invalid_type_error: "Please enter a price" }).max(9999),
   })
   .required();
 
