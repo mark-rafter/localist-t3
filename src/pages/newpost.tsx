@@ -8,7 +8,7 @@ import { FormInput, FormNumberInput } from "@/components/form/form-input";
 import { FormSelect } from "@/components/form/form-select";
 import { FormDropUpload } from "@/components/form/form-drop-upload";
 import { useState } from "react";
-import type { PostResponse } from "@/pages/api/post";
+import type { NewPostSuccessResponse } from "@/pages/api/newpost";
 import useSWRMutation from "swr/mutation";
 
 const sizes = z.enum(["xs", "small", "medium", "large", "xl"]);
@@ -24,11 +24,11 @@ export const postSchema = z
 
 export type PostSchema = z.infer<typeof postSchema>;
 
-async function sendRequest(url: string, { arg }: { arg: PostSchema }) {
+async function newPostRequest(url: string, { arg }: { arg: PostSchema }) {
   return fetch(url, {
     method: "POST",
     body: JSON.stringify(arg),
-  }).then((res) => res.json() as Promise<PostResponse>);
+  }).then((res) => res.json() as Promise<NewPostSuccessResponse>);
 }
 
 const NewPost = () => {
@@ -41,14 +41,17 @@ const NewPost = () => {
     resolver: zodResolver(postSchema),
   });
 
-  const { trigger, isMutating } = useSWRMutation("/api/post", sendRequest);
+  const { trigger, isMutating } = useSWRMutation(
+    "/api/newpost",
+    newPostRequest
+  );
 
-  const onSubmit = handleSubmit(async (data) => {
+  const onSubmit = handleSubmit(async (formData) => {
     try {
-      const result = await trigger(data);
+      const result = await trigger(formData);
       console.log(result);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   });
 
@@ -88,29 +91,21 @@ const NewPost = () => {
             error={errors.price}
           />
           {/* File Upload */}
-          <>
-            <div className="mx-auto max-w-sm">
-              {/* {DropUpload} */}
-              <FormDropUpload height={64} className="w-full rounded-t-lg" />
-              <DraftFeedItem
-                title={watch("title")}
-                size={watch("size")}
-                brand="nike"
-                price={watch("price")}
-              />
-              <div className="flex justify-between pt-2">
-                {uploadedImageCount > 0 &&
-                  [...Array(uploadedImageCount).keys()].map((k) => (
-                    <FormDropUpload
-                      key={k}
-                      height={32}
-                      className="rounded-lg"
-                    />
-                  ))}
-              </div>
+          <div className="mx-auto max-w-sm">
+            <FormDropUpload height={64} className="w-full rounded-t-lg" />
+            <DraftFeedItem
+              title={watch("title")}
+              size={watch("size")}
+              brand={watch("brand")}
+              price={watch("price")}
+            />
+            <div className="flex justify-between pt-2">
+              {uploadedImageCount > 0 &&
+                [...Array(uploadedImageCount).keys()].map((k) => (
+                  <FormDropUpload key={k} height={32} className="rounded-lg" />
+                ))}
             </div>
-          </>
-
+          </div>
           <Button
             outline={true}
             disabled={isMutating}
