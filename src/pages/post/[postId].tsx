@@ -37,9 +37,20 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps(context: GetStaticPropsContext) {
-  const postId = context.params?.postId ?? 0;
-  const res = await Promise.resolve({ postId, title: "hi" } as PostProps);
+  const postId = Number(context.params?.postId);
+
+  if (isNaN(postId)) {
+    return {
+      props: { postId }, // will be passed to the page component as props
+    };
+  }
+
+  const post = await prisma.post.findUnique({
+    where: {
+      id: postId,
+    },
+  });
   return {
-    props: res, // will be passed to the page component as props
+    props: { postId, title: post?.title }, // will be passed to the page component as props
   };
 }
