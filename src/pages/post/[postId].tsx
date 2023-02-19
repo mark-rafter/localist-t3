@@ -1,4 +1,6 @@
+import { prisma } from "@/server/db";
 import type { GetStaticPropsContext } from "next";
+import { useRouter } from "next/router";
 
 type PostProps = {
   postId: number;
@@ -6,6 +8,12 @@ type PostProps = {
 };
 
 export default function Post({ postId, title }: PostProps) {
+  const router = useRouter();
+
+  if (router.isFallback) {
+    <p>TODO: render skeleton</p>;
+  }
+
   return (
     <>
       <div>{postId}</div>
@@ -15,17 +23,16 @@ export default function Post({ postId, title }: PostProps) {
 }
 
 const getAllPostIds = async () => {
-  return await Promise.resolve([
-    { params: { postId: "1" } },
-    { params: { postId: "2" } },
-    { params: { postId: "3" } },
-  ]);
+  const postIds = await prisma.post.findMany({ select: { id: true } });
+  return postIds.map((p) => p.id);
 };
 
 export async function getStaticPaths() {
+  const postIds = await getAllPostIds();
+  const paths = postIds.map((id) => ({ params: { postId: id.toString() } }));
   return {
-    paths: await getAllPostIds(),
-    fallback: false,
+    paths: paths,
+    fallback: true,
   };
 }
 
