@@ -2,49 +2,42 @@ import { getServerAuthSession } from "@/server/auth";
 import { prisma } from "@/server/db";
 import type { Post } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
-import type { PostSchema } from "../newpost";
 import { postSchema } from "../newpost";
 
-export interface PostApiRequest extends NextApiRequest {
-  body: PostSchema;
-}
-
-type PostResponse = {
+export type PostResponse = {
   post: Post;
 };
 
-type ErrorResponse = {
+export type ErrorResponse = {
   message: string;
 };
 
 const handler = async (
-  req: PostApiRequest,
+  req: NextApiRequest,
   res: NextApiResponse<PostResponse | ErrorResponse>
 ) => {
   if (req.method !== "POST") {
     res.setHeader("Allow", ["POST"]);
-    res.status(405).json({ message: `Method not supported.` });
-    return;
+    return res.status(405).json({ message: `Method not supported.` });
   }
 
   const session = await getServerAuthSession({ req, res });
 
   if (!session) {
-    res.send({ message: "You are not authorised to post" });
-    return;
+    return res.send({ message: "You are not authorised to post" });
   }
 
-  const parsedBody = postSchema.safeParse(req.body);
+  const parsedBody = postSchema.safeParse(JSON.parse(req.body as string));
 
   if (!parsedBody.success) {
-    res.status(400).send({
+    return res.status(400).send({
       message: parsedBody.error.message,
     });
   }
 
   const result = await prisma.post.create({
     data: {
-      ...req.body,
+      ...parsedBody.data,
       author: {
         connect: {
           id: session.user.id,
@@ -53,10 +46,7 @@ const handler = async (
     },
   });
 
-  res.status(200).json({ post: result });
-
-  // todo: return redirect to post/[id]
-  // res.redirect(307, `/post/${result.id}`);
+  return res.status(200).json({ post: result });
 };
 
 export default handler;

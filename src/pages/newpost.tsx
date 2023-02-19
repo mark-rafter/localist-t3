@@ -8,6 +8,8 @@ import { FormInput, FormNumberInput } from "@/components/form/form-input";
 import { FormSelect } from "@/components/form/form-select";
 import { FormDropUpload } from "@/components/form/form-drop-upload";
 import { useState } from "react";
+import type { PostResponse } from "@/pages/api/post";
+import useSWRMutation from "swr/mutation";
 
 const sizes = z.enum(["xs", "small", "medium", "large", "xl"]);
 
@@ -22,6 +24,13 @@ export const postSchema = z
 
 export type PostSchema = z.infer<typeof postSchema>;
 
+async function sendRequest(url: string, { arg }: { arg: PostSchema }) {
+  return fetch(url, {
+    method: "POST",
+    body: JSON.stringify(arg),
+  }).then((res) => res.json() as Promise<PostResponse>);
+}
+
 const NewPost = () => {
   const {
     register,
@@ -30,6 +39,17 @@ const NewPost = () => {
     watch,
   } = useForm<PostSchema>({
     resolver: zodResolver(postSchema),
+  });
+
+  const { trigger, isMutating } = useSWRMutation("/api/post", sendRequest);
+
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      const result = await trigger(data);
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+    }
   });
 
   const [uploadedImageCount, setUploadedImageCount] = useState(4);
@@ -45,7 +65,7 @@ const NewPost = () => {
         <form
           className="flex flex-col gap-4"
           // eslint-disable-next-line @typescript-eslint/no-misused-promises
-          onSubmit={handleSubmit((d) => console.log(d))}
+          onSubmit={onSubmit}
         >
           <FormInput label="title" register={register} error={errors.title} />
           <FormInput
@@ -93,6 +113,7 @@ const NewPost = () => {
 
           <Button
             outline={true}
+            disabled={isMutating}
             className="mx-auto mb-2"
             gradientDuoTone="cyanToBlue"
             type="submit"
