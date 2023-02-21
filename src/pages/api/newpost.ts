@@ -6,15 +6,15 @@ import type { Post } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { postSchema } from "../newpost";
 
-export type NewPostSuccessResponse = {
+export type NewPostSuccessResult = {
   post: Post;
 };
 
-export type NewPostResponse = NewPostSuccessResponse | ErrorResult;
+export type NewPostResult = NewPostSuccessResult | ErrorResult;
 
 const handler = async (
   req: NextApiRequest,
-  res: NextApiResponse<NewPostResponse>
+  res: NextApiResponse<NewPostResult>
 ) => {
   // todo: move to middleware
   if (req.method !== "POST") {

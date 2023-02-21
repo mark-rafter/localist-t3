@@ -8,8 +8,8 @@ import { FormInput, FormNumberInput } from "@/components/form/form-input";
 import { FormSelect } from "@/components/form/form-select";
 import { FormDropUpload } from "@/components/form/form-drop-upload";
 import { useState } from "react";
-import type { NewPostSuccessResponse } from "@/pages/api/newpost";
 import useSWRMutation from "swr/mutation";
+import { postFetcher } from "@/helpers/fetcher";
 
 const sizes = z.enum(["xs", "small", "medium", "large", "xl"]);
 
@@ -24,13 +24,6 @@ export const postSchema = z
 
 export type PostSchema = z.infer<typeof postSchema>;
 
-async function newPostRequest(url: string, { arg }: { arg: PostSchema }) {
-  return fetch(url, {
-    method: "POST",
-    body: JSON.stringify(arg),
-  }).then((res) => res.json() as Promise<NewPostSuccessResponse>);
-}
-
 const NewPost = () => {
   const {
     register,
@@ -41,10 +34,7 @@ const NewPost = () => {
     resolver: zodResolver(postSchema),
   });
 
-  const { trigger, isMutating } = useSWRMutation(
-    "/api/newpost",
-    newPostRequest
-  );
+  const { trigger, isMutating } = useSWRMutation("/api/newpost", postFetcher);
 
   const onSubmit = handleSubmit(async (formData) => {
     try {
