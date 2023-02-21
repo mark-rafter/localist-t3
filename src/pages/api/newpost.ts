@@ -1,3 +1,5 @@
+import type { ErrorResult } from "@/helpers/response";
+import { created, notAllowed, badRequest, forbidden } from "@/helpers/response";
 import { getServerAuthSession } from "@/server/auth";
 import { prisma } from "@/server/db";
 import type { Post } from "@prisma/client";
@@ -8,33 +10,30 @@ export type NewPostSuccessResponse = {
   post: Post;
 };
 
-export type NewPostErrorResponse = {
-  message: string;
-};
+export type NewPostResponse = NewPostSuccessResponse | ErrorResult;
 
 const handler = async (
   req: NextApiRequest,
-  res: NextApiResponse<NewPostSuccessResponse | NewPostErrorResponse>
+  res: NextApiResponse<NewPostResponse>
 ) => {
+  // todo: move to middleware
   if (req.method !== "POST") {
-    return res.status(405).setHeader("Allow", ["POST"]);
+    return notAllowed(res, "POST");
   }
 
   const session = await getServerAuthSession({ req, res });
 
   if (!session) {
-    return res.status(401);
+    return forbidden(res);
   }
 
   const parsedBody = postSchema.safeParse(JSON.parse(req.body as string));
 
   if (!parsedBody.success) {
-    return res.status(400).json({
-      message: parsedBody.error.message,
-    });
+    return badRequest(res, parsedBody.error.message);
   }
 
-  const result = await prisma.post.create({
+  const createdPost = await prisma.post.create({
     data: {
       ...parsedBody.data,
       author: {
@@ -45,7 +44,7 @@ const handler = async (
     },
   });
 
-  return res.status(200).json({ post: result });
+  return created(res, { post: createdPost });
 };
 
 export default handler;
