@@ -1,6 +1,11 @@
+import { ssrNotFound } from "@/helpers/response";
 import { prisma } from "@/server/db";
 import type { GetStaticPropsContext } from "next";
 import { useRouter } from "next/router";
+
+type PostParams = {
+  postId: string;
+};
 
 type PostProps = {
   postId: number;
@@ -27,22 +32,22 @@ const getAllPostIds = async () => {
   return postIds.map((p) => p.id);
 };
 
-export function getStaticPaths() {
-  //const postIds = await getAllPostIds();
-  //const paths = postIds.map((id) => ({ params: { postId: id.toString() } }));
+export async function getStaticPaths() {
+  const postIds = await getAllPostIds();
+  const paths = postIds.map((id) => ({ params: { postId: id.toString() } }));
   return {
-    paths: [],
+    paths: paths,
     fallback: true,
   };
 }
 
-export async function getStaticProps(context: GetStaticPropsContext) {
+export async function getStaticProps(
+  context: GetStaticPropsContext<PostParams>
+) {
   const postId = Number(context.params?.postId);
 
   if (isNaN(postId)) {
-    return {
-      props: { postId }, // will be passed to the page component as props
-    };
+    return ssrNotFound;
   }
 
   const post = await prisma.post.findUnique({
@@ -50,6 +55,11 @@ export async function getStaticProps(context: GetStaticPropsContext) {
       id: postId,
     },
   });
+
+  if (!post) {
+    return ssrNotFound;
+  }
+
   return {
     props: { postId, title: post?.title }, // will be passed to the page component as props
   };
