@@ -27,11 +27,11 @@ const getAllPostIds = async () => {
   return postIds.map((p) => p.id);
 };
 
-export async function getStaticPaths() {
-  const postIds = await getAllPostIds();
-  const paths = postIds.map((id) => ({ params: { postId: id.toString() } }));
+export function getStaticPaths() {
+  //const postIds = await getAllPostIds();
+  //const paths = postIds.map((id) => ({ params: { postId: id.toString() } }));
   return {
-    paths: paths,
+    paths: [],
     fallback: true,
   };
 }
