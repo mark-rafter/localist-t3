@@ -10,6 +10,8 @@ import { FormDropUpload } from "@/components/form/form-drop-upload";
 import { useState } from "react";
 import useSWRMutation from "swr/mutation";
 import { postFetcher } from "@/helpers/fetcher";
+import { useRouter } from "next/router";
+import type { NewPostSuccessResult } from "./api/newpost";
 
 const sizes = z.enum(["xs", "small", "medium", "large", "xl"]);
 
@@ -34,12 +36,20 @@ const NewPost = () => {
     resolver: zodResolver(postSchema),
   });
 
-  const { trigger, isMutating } = useSWRMutation("/api/newpost", postFetcher);
+  const router = useRouter();
+  const { trigger, isMutating } = useSWRMutation<NewPostSuccessResult>(
+    "/api/newpost",
+    postFetcher
+  );
 
   const onSubmit = handleSubmit(async (formData) => {
     try {
       const result = await trigger(formData);
-      console.log(result);
+      if (result) {
+        await router.push(`/post/${result.post.id}`);
+      } else {
+        console.error("result was empty");
+      }
     } catch (error) {
       console.error(error);
     }

@@ -1,9 +1,10 @@
-export async function postFetcher<TArg, TResult>(
+export async function postFetcher<TResult>(
   url: string,
-  { arg }: { arg: TArg }
+  { arg }: { arg: unknown }
 ) {
-  return fetch(url, {
+  const result = await fetch(url, {
     method: "POST",
     body: JSON.stringify(arg),
-  }).then((res) => res.json() as Promise<TResult>);
+  });
+  return await (result.json() as Promise<TResult>);
 }
