@@ -39,7 +39,7 @@ const FilterDrawer = () => (
   <>
     <ToggleFilterDrawerButton />
     <form
-      action="#"
+      action="/feed"
       method="get"
       id="drawer-example"
       className="fixed top-0 left-0 z-50 h-screen w-full max-w-xs -translate-x-full overflow-y-auto bg-gray-800 p-4 transition-transform"
@@ -67,6 +67,7 @@ const FilterDrawer = () => (
           <FilterOption title="Search term">
             <TextInput
               id="searchTerm"
+              name="searchTerm"
               maxLength={24}
               icon={HiMagnifyingGlass}
               placeholder="Search..."
@@ -75,14 +76,15 @@ const FilterDrawer = () => (
           <FilterOption title="Categories">
             <div className="flex items-center">
               <input
-                id="gaming"
+                id="goods"
+                name="categories[]"
                 type="checkbox"
-                defaultValue=""
+                defaultValue="goods"
                 className="h-4 w-4 rounded border-gray-600 bg-gray-700 text-primary-600 ring-offset-gray-800 focus:ring-2 focus:ring-primary-600"
               />
 
               <label
-                htmlFor="gaming"
+                htmlFor="goods"
                 className="ml-2 text-sm font-medium text-gray-300"
               >
                 Goods
@@ -91,14 +93,15 @@ const FilterDrawer = () => (
 
             <div className="flex items-center">
               <input
-                id="laptops"
+                id="services"
+                name="categories[]"
                 type="checkbox"
-                defaultValue=""
+                defaultValue="services"
                 className="h-4 w-4 rounded border-gray-600 bg-gray-700 text-primary-600 ring-offset-gray-800 focus:ring-2 focus:ring-primary-600"
               />
 
               <label
-                htmlFor="laptops"
+                htmlFor="services"
                 className="ml-2 text-sm font-medium text-gray-300"
               >
                 Services
@@ -123,7 +126,8 @@ const FilterDrawer = () => (
 
                 <input
                   type="number"
-                  id="price-from"
+                  id="fromPrice"
+                  name="fromPrice"
                   defaultValue="0"
                   min="0"
                   max="9999"
@@ -143,7 +147,8 @@ const FilterDrawer = () => (
 
                 <input
                   type="number"
-                  id="max-experience-input"
+                  id="toPrice"
+                  name="toPrice"
                   defaultValue="9999"
                   min="1"
                   max="9999"
