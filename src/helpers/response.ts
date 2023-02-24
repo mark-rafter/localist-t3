@@ -19,12 +19,12 @@ export const forbidden = (res: NextApiResponse<ErrorResult>) =>
 
 export const notAllowed = (
   res: NextApiResponse<ErrorResult>,
-  allowedHeader: "GET" | "PUT" | "POST"
+  allowedMethod: "GET" | "PUT" | "POST"
 ) =>
   res
     .status(405)
-    .setHeader("Allow", [allowedHeader])
-    .send({ message: `Method Not Allowed, must be: ${allowedHeader}` });
+    .setHeader("Allow", [allowedMethod])
+    .send({ message: `Method Not Allowed, must be: ${allowedMethod}` });
 
 export const notFound = (res: NextApiResponse<ErrorResult>, message?: string) =>
   res.status(404).send({ message: message || "Not Found" });
