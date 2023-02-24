@@ -35,16 +35,14 @@ export const FeedItem = ({
       {images && (
         <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
           <Carousel slideInterval={3000}>
-            {[...Array(4).keys()].map((k) => (
+            {images.map((image, index) => (
               <LinkOrDisabled
-                key={k}
+                key={index}
                 target={`post/${postId}`}
                 disabled={isPreview == true}
               >
                 <Image
-                  src={`https://flowbite.com/docs/images/carousel/carousel-${
-                    k + 1
-                  }.svg`}
+                  src={image}
                   alt="..."
                   width={tailwindSmPixels}
                   height={tailwindSmPixels}
