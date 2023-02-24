@@ -5,9 +5,9 @@ import { Size } from "@prisma/client";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
-const USERS_TO_CREATE = 20;
+const USERS_TO_CREATE = 15;
 const POSTS_MIN = 1;
-const POSTS_MAX = 20;
+const POSTS_MAX = 6;
 
 async function run() {
   const users = await createUsers();
@@ -32,7 +32,10 @@ async function createPosts(users: User[]) {
         brand: faker.helpers.arrayElement(["nike", "adidas", "reebok"]),
         size: sample(Object.values(Size)) as Size,
         price: Math.floor(Math.random() * 9999),
-        images: [faker.image.cats(500, 500), faker.image.cats(500, 500)],
+        images: [
+          faker.image.cats(500, 500, true),
+          faker.image.cats(500, 500, true),
+        ],
         author: {
           connect: {
             id: user.id,
