@@ -29,7 +29,7 @@ export default function SignIn({
             <div key={provider.name}>
               <button
                 type="button"
-                onClick={() => void signIn(provider.id)}
+                onClick={() => signIn(provider.id)}
                 className="mr-2 mb-2 inline-flex items-center rounded-lg bg-[#24292F] px-5 py-2.5 text-center text-sm font-medium hover:bg-[#050708]/30 focus:outline-none focus:ring-4 focus:ring-[#24292F]/50 focus:ring-gray-500"
               >
                 {providerIcons[provider.id]}
