@@ -1,7 +1,12 @@
 import React from "react";
 import type { PropsWithChildren } from "react";
-import { HiAdjustmentsHorizontal, HiXMark } from "react-icons/hi2";
+import {
+  HiAdjustmentsHorizontal,
+  HiMagnifyingGlass,
+  HiXMark,
+} from "react-icons/hi2";
 import StarRatingInput from "./star-rating-input";
+import { TextInput } from "flowbite-react";
 
 const FilterOption = ({
   title,
@@ -59,6 +64,14 @@ const FilterDrawer = () => (
 
       <div className="flex flex-1 flex-col justify-between">
         <div className="space-y-6">
+          <FilterOption title="Search term">
+            <TextInput
+              id="searchTerm"
+              maxLength={24}
+              icon={HiMagnifyingGlass}
+              placeholder="Search..."
+            />
+          </FilterOption>
           <FilterOption title="Categories">
             <div className="flex items-center">
               <input
@@ -111,9 +124,9 @@ const FilterDrawer = () => (
                 <input
                   type="number"
                   id="price-from"
-                  defaultValue="300"
-                  min="1"
-                  max="10000"
+                  defaultValue="0"
+                  min="0"
+                  max="9999"
                   className="block w-full rounded-lg border border-gray-600 bg-gray-700 p-2.5 text-sm placeholder-gray-400 focus:border-primary-500 focus:ring-primary-500"
                   placeholder=""
                   required
@@ -131,9 +144,9 @@ const FilterDrawer = () => (
                 <input
                   type="number"
                   id="max-experience-input"
-                  defaultValue="3500"
+                  defaultValue="9999"
                   min="1"
-                  max="10000"
+                  max="9999"
                   className="block w-full rounded-lg border border-gray-600 bg-gray-700 p-2.5 text-sm placeholder-gray-400 focus:border-primary-500 focus:ring-primary-500"
                   placeholder=""
                   required
