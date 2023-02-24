@@ -16,6 +16,8 @@ async function run() {
   await prisma.$disconnect();
 }
 
+// disabling as this is just a dev script
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
 run();
 
 async function createPosts(users: User[]) {

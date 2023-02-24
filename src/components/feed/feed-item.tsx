@@ -14,7 +14,7 @@ type DraftFeedItem = {
   images?: string[];
 };
 
-type FeedItemProps = DraftFeedItem & {
+export type FeedItemProps = DraftFeedItem & {
   postId: number;
   distance: number;
   isPreview?: boolean;
@@ -27,7 +27,7 @@ export const FeedItem = ({
   price,
   size,
   images,
-  isPreview,
+  isPreview = false,
 }: FeedItemProps) => {
   const tailwindSmPixels = 384;
   return (
