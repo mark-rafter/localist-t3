@@ -9,7 +9,16 @@
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: true,
-
+  experimental: {
+    swcPlugins: [
+      [
+        "next-superjson-plugin",
+        {
+          excluded: [],
+        },
+      ],
+    ],
+  },
   /**
    * If you have the "experimental: { appDir: true }" setting enabled, then you
    * must comment the below `i18n` config out.

@@ -33,12 +33,11 @@ export async function getServerSideProps(context: GetStaticPropsContext) {
   });
 
   const feedPosts = posts.map((post) => {
-    const { id, createdAt, updatedAt, ...feedPost } = post;
+    const { id, updatedAt, ...feedPost } = post;
 
     return {
       ...feedPost,
       postId: id,
-      // createdAt: p.createdAt.toString(),
       // updatedAt: p.updatedAt.toString(),
     } as FeedPost;
   });

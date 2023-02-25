@@ -3,6 +3,7 @@ import React from "react";
 import { HiOutlineClock, HiOutlineMapPin } from "react-icons/hi2";
 import { Carousel } from "flowbite-react";
 import { LinkOrDisabled } from "@/components/link-or-disabled";
+import { relativeTimeFromDates } from "@/helpers/relative-time";
 
 type Size = "xs" | "small" | "medium" | "large" | "xl";
 
@@ -17,6 +18,7 @@ type DraftFeedItem = {
 export type FeedItemProps = DraftFeedItem & {
   postId: number;
   distance: number;
+  createdAt?: Date;
   isPreview?: boolean;
 };
 
@@ -27,9 +29,11 @@ export const FeedItem = ({
   price,
   size,
   images,
+  createdAt,
   isPreview = false,
 }: FeedItemProps) => {
   const tailwindSmPixels = 384;
+  const createdAtTimeAgo = relativeTimeFromDates(createdAt);
   return (
     <article className="max-w-sm overflow-hidden rounded-lg bg-gray-800">
       {images && (
@@ -58,7 +62,10 @@ export const FeedItem = ({
         <div className="flex items-baseline justify-between text-gray-300">
           <h3 className="text-sm uppercase tracking-wide">{size}</h3>
           <span className="inline-flex items-center rounded px-2 text-xs">
-            <HiOutlineClock className="mr-1 h-3 w-3" />2 min.
+            <>
+              <HiOutlineClock className="mr-1 h-3 w-3" />
+              {createdAtTimeAgo}
+            </>
           </span>
         </div>
         {/* Middle Row: title */}
