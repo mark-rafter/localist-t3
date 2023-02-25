@@ -36,6 +36,7 @@ async function createPosts(users: User[]) {
           faker.image.cats(500, 500, true),
           faker.image.cats(500, 500, true),
         ],
+        createdAt: faker.date.recent(),
         author: {
           connect: {
             id: user.id,
