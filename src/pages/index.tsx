@@ -2,7 +2,34 @@ import { Button } from "flowbite-react";
 import Head from "next/head";
 import Link from "next/link";
 import React from "react";
-import { HiOutlineHome, HiOutlinePencilSquare } from "react-icons/hi2";
+import {
+  HiOutlineHome,
+  HiOutlineMapPin,
+  HiOutlinePencilSquare,
+} from "react-icons/hi2";
+import type { IconType } from "react-icons";
+
+const HomePageLink = ({
+  href,
+  gradientDuoTone,
+  icon: Icon,
+  children,
+}: {
+  href: string;
+  gradientDuoTone: string;
+  icon: IconType;
+} & React.PropsWithChildren) => {
+  return (
+    <Link href={href} className="mr-3 mb-3 inline-flex">
+      <Button size="lg" outline={true} gradientDuoTone={gradientDuoTone}>
+        <div className="flex">
+          <Icon className="mr-2 h-6 w-6" />
+          {children}
+        </div>
+      </Button>
+    </Link>
+  );
+};
 
 export default function HomePage() {
   return (
@@ -17,26 +44,31 @@ export default function HomePage() {
               <h1 className="mb-4 text-3xl font-extrabold leading-none tracking-tight md:text-6xl">
                 Welcome to Localist!
               </h1>
-              <p className="mb-2 font-light text-gray-400 md:text-lg">
+              <p className="mb-2 font-light text-gray-300 md:text-lg">
                 Localist is a free listing board, get started by browsing the
                 feed or posting your listing.
               </p>
-              <Link href="/feed" className="my-3 mr-3 inline-flex">
-                <Button size="lg" outline={true} gradientDuoTone="purpleToBlue">
-                  <div className="flex">
-                    <HiOutlineHome className="mr-2 h-6 w-6" />
-                    Browse the feed
-                  </div>
-                </Button>
-              </Link>
-              <Link href="/newpost" className="mr-3 inline-flex">
-                <Button size="lg" outline={true} gradientDuoTone="greenToBlue">
-                  <div className="flex">
-                    <HiOutlinePencilSquare className="mr-2 h-6 w-6" />
-                    Post an item
-                  </div>
-                </Button>
-              </Link>
+              <HomePageLink
+                href="/feed"
+                gradientDuoTone="purpleToBlue"
+                icon={HiOutlineHome}
+              >
+                Browse the feed
+              </HomePageLink>
+              <HomePageLink
+                href="/newpost"
+                gradientDuoTone="greenToBlue"
+                icon={HiOutlinePencilSquare}
+              >
+                Post an item
+              </HomePageLink>
+              <HomePageLink
+                href="/settings"
+                gradientDuoTone="pinkToOrange"
+                icon={HiOutlineMapPin}
+              >
+                Set your location
+              </HomePageLink>
             </div>
           </div>
         </section>
