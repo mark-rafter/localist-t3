@@ -110,7 +110,7 @@ export default function NewPostPage() {
             outline={true}
             disabled={isMutating}
             className="mx-auto mb-2"
-            gradientDuoTone="cyanToBlue"
+            gradientDuoTone="greenToBlue"
             type="submit"
           >
             Create Post
