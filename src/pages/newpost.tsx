@@ -26,7 +26,7 @@ export const postSchema = z
 
 export type PostSchema = z.infer<typeof postSchema>;
 
-const NewPost = () => {
+export default function NewPostPage() {
   const {
     register,
     handleSubmit,
@@ -119,6 +119,4 @@ const NewPost = () => {
       </div>
     </>
   );
-};
-
-export default NewPost;
+}

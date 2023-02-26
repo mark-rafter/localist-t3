@@ -3,16 +3,16 @@ import { prisma } from "@/server/db";
 import type { GetStaticPropsContext } from "next";
 import { useRouter } from "next/router";
 
-type PostParams = {
+type PostPageParams = {
   postId: string;
 };
 
-type PostProps = {
+type PostPageProps = {
   postId: number;
   title: string;
 };
 
-export default function Post({ postId, title }: PostProps) {
+export default function PostPage({ postId, title }: PostPageProps) {
   const router = useRouter();
 
   if (router.isFallback) {
@@ -42,7 +42,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps(
-  context: GetStaticPropsContext<PostParams>
+  context: GetStaticPropsContext<PostPageParams>
 ) {
   const postId = Number(context.params?.postId);
 

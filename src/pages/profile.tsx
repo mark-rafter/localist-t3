@@ -1,14 +1,9 @@
-import type { NextPage } from "next";
 import { useSession } from "next-auth/react";
 import React from "react";
 import Head from "next/head";
 import Image from "next/image";
 
-interface Profile {
-  name: string;
-}
-
-const Profile: NextPage = () => {
+export default function ProfilePage() {
   const { data } = useSession();
 
   return (
@@ -30,6 +25,4 @@ const Profile: NextPage = () => {
       )}
     </>
   );
-};
-
-export default Profile;
+}

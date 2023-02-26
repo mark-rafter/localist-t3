@@ -59,7 +59,6 @@ export const Sidebar = () => {
           <ul className="space-y-2">
             <SidebarLink
               label="Feed"
-              href="/"
               icon={HiOutlineHome}
               filledIcon={HiHome}
             />

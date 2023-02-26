@@ -44,13 +44,8 @@ const config = {
   async redirects() {
     return [
       {
-        source: "/feed",
-        destination: "/",
-        permanent: true,
-      },
-      {
         source: "/home",
-        destination: "/",
+        destination: "/feed",
         permanent: true,
       },
     ];
