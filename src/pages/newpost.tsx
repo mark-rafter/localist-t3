@@ -8,10 +8,8 @@ import { FormInput, FormNumberInput } from "@/components/form/form-input";
 import { FormSelect } from "@/components/form/form-select";
 import { FormDropUpload } from "@/components/form/form-drop-upload";
 import { useState } from "react";
-import useSWRMutation from "swr/mutation";
-import { postFetcher } from "@/helpers/fetcher";
 import { useRouter } from "next/router";
-import type { NewPostSuccessResult } from "./api/newpost";
+import { api } from "@/utils/api";
 
 const sizes = z.enum(["xs", "small", "medium", "large", "xl"]);
 
@@ -37,25 +35,17 @@ export default function NewPostPage() {
   });
 
   const router = useRouter();
-  const { trigger, isMutating } = useSWRMutation<NewPostSuccessResult>(
-    "/api/newpost",
-    postFetcher
-  );
+  const { mutateAsync, isLoading, isSuccess } = api.post.create.useMutation();
+  const [uploadedImageCount, setUploadedImageCount] = useState(4);
 
   const onSubmit = handleSubmit(async (formData) => {
-    try {
-      const result = await trigger(formData);
-      if (result) {
-        await router.push(`/post/${result.post.id}`);
-      } else {
-        console.error("result was empty");
-      }
-    } catch (error) {
-      console.error(error);
+    const result = await mutateAsync(formData);
+    if (result) {
+      await router.push(`/post/${result.id}`);
+    } else {
+      console.error("result was empty");
     }
   });
-
-  const [uploadedImageCount, setUploadedImageCount] = useState(4);
 
   return (
     <>
@@ -65,11 +55,7 @@ export default function NewPostPage() {
       </Head>
       <div className="container mx-auto max-w-sm pl-2">
         <h1 className="mb-2 text-center text-3xl">New Post</h1>
-        <form
-          className="flex flex-col gap-4"
-          // eslint-disable-next-line @typescript-eslint/no-misused-promises
-          onSubmit={onSubmit}
-        >
+        <form className="flex flex-col gap-4" onSubmit={onSubmit}>
           <FormInput label="title" register={register} error={errors.title} />
           <FormInput
             label="brand"
@@ -108,7 +94,7 @@ export default function NewPostPage() {
           </div>
           <Button
             outline={true}
-            disabled={isMutating}
+            disabled={isLoading || isSuccess}
             className="mx-auto mb-2"
             gradientDuoTone="greenToBlue"
             type="submit"

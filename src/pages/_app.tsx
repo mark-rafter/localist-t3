@@ -6,6 +6,7 @@ import "flowbite";
 import { Layout } from "@/components/layout";
 import { Flowbite } from "flowbite-react";
 import { useCustomTheme } from "@/hooks/use-custom-theme";
+import { api } from "@/utils/api";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -24,4 +25,4 @@ const MyApp: AppType<{ session: Session | null }> = ({
   );
 };
 
-export default MyApp;
+export default api.withTRPC(MyApp);
