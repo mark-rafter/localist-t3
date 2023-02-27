@@ -46,6 +46,8 @@ model Session {
 model UserLocation {
   id     Int                                   @id @default(autoincrement())
   coords Unsupported("geometry(Point, 4326)")?
+  lat    Decimal
+  long   Decimal
   user   User                                  @relation(fields: [userId], references: [id])
   userId String                                @unique @map("user_id")
 
