@@ -2,7 +2,7 @@ import type { Post } from "@prisma/client";
 import React from "react";
 import { FeedItem } from "./feed-item";
 
-export type FeedPost = Post & { postId: number };
+export type FeedPost = Post & { postId: number; coords: number[] };
 
 export const Feed = ({ feedPosts }: { feedPosts: FeedPost[] }) => {
   return (

@@ -28,6 +28,7 @@ export async function getServerSideProps(context: GetStaticPropsContext) {
   const postsPerPage = 8;
 
   const posts = await prisma.post.findMany({
+    orderBy: [{ createdAt: "desc" }],
     skip: currentPage * postsPerPage,
     take: postsPerPage,
   });
