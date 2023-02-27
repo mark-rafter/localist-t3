@@ -1,7 +1,6 @@
-import { sample } from "@/helpers/sample";
 import { faker } from "@faker-js/faker";
 import type { Prisma, User } from "@prisma/client";
-import { Size } from "@prisma/client";
+import { ItemSize } from "@prisma/client";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
@@ -11,7 +10,9 @@ const POSTS_MAX = 6;
 
 async function run() {
   const users = await createUsers();
-  await createPosts(users);
+  const userIds = users.map((u) => u.id);
+  await createUserLocations(userIds);
+  await createPosts(userIds);
 
   await prisma.$disconnect();
 }
@@ -20,26 +21,34 @@ async function run() {
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 run();
 
-async function createPosts(users: User[]) {
+async function createPosts(userIds: string[]) {
   const posts: Prisma.PostCreateInput[] = [];
 
-  users.forEach((user) => {
-    const amount = faker.datatype.number({ min: POSTS_MIN, max: POSTS_MAX });
+  userIds.forEach((userId) => {
+    const amount = faker.number.int({ min: POSTS_MIN, max: POSTS_MAX });
 
     [...Array(amount).keys()].forEach(() => {
       posts.push({
-        title: faker.lorem.sentence(),
+        title: faker.commerce.productName(),
         brand: faker.helpers.arrayElement(["nike", "adidas", "reebok"]),
-        size: sample(Object.values(Size)) as Size,
-        price: Math.floor(Math.random() * 9999),
+        size: faker.helpers.arrayElement(Object.values(ItemSize)),
+        price: faker.number.int({ min: 1, max: 9999 }),
         images: [
-          faker.image.cats(500, 500, true),
-          faker.image.cats(500, 500, true),
+          faker.image.urlLoremFlickr({
+            category: "cats",
+            width: 500,
+            height: 500,
+          }),
+          faker.image.urlLoremFlickr({
+            category: "cats",
+            width: 500,
+            height: 500,
+          }),
         ],
         createdAt: faker.date.recent(),
         author: {
           connect: {
-            id: user.id,
+            id: userId,
           },
         },
       });
@@ -49,6 +58,25 @@ async function createPosts(users: User[]) {
   const createPosts = posts.map((post) => prisma.post.create({ data: post }));
 
   await prisma.$transaction(createPosts);
+}
+
+async function createUserLocations(userIds: string[]) {
+  const createLocations = userIds.map((userId) =>
+    prisma.userLocation.create({ data: { userId: userId } })
+  );
+
+  await prisma.$transaction(createLocations);
+
+  const updateCoords = userIds.map((userId) => {
+    const [latitude, longitude] = faker.location.nearbyGPSCoordinate([51.5, 0]);
+
+    return prisma.$executeRaw`
+        UPDATE "user_location"
+        SET "coords" = st_point(${latitude}, ${longitude})
+        WHERE "user_id" = ${userId}`;
+  });
+
+  await prisma.$transaction(updateCoords);
 }
 
 async function createUsers() {

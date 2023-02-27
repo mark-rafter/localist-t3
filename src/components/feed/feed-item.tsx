@@ -5,11 +5,11 @@ import { Carousel } from "flowbite-react";
 import { LinkOrDisabled } from "@/components/link-or-disabled";
 import { relativeTimeFromDates } from "@/helpers/relative-time";
 
-type Size = "xs" | "small" | "medium" | "large" | "xl";
+type ItemSize = "xs" | "small" | "medium" | "large" | "xl";
 
 type DraftFeedItem = {
   title: string;
-  size: Size;
+  size: ItemSize;
   brand: string;
   price: number;
   images?: string[];
