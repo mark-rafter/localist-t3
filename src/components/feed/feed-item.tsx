@@ -16,14 +16,14 @@ type DraftFeedItem = {
 };
 
 export type FeedItemProps = DraftFeedItem & {
-  postId: number;
+  id: number;
   distance: number; // todo: non-primitive
   createdAt?: Date;
   isPreview?: boolean;
 };
 
 export const FeedItem = ({
-  postId,
+  id,
   title,
   price,
   size,
@@ -42,7 +42,7 @@ export const FeedItem = ({
             {images.map((image, index) => (
               <LinkOrDisabled
                 key={index}
-                target={`post/${postId}`}
+                target={`post/${id}`}
                 disabled={isPreview == true}
               >
                 <Image
@@ -69,7 +69,7 @@ export const FeedItem = ({
           </span>
         </div>
         {/* Middle Row: title */}
-        <LinkOrDisabled target={`post/${postId}`} disabled={isPreview == true}>
+        <LinkOrDisabled target={`post/${id}`} disabled={isPreview == true}>
           <h2 className="w-64 truncate pt-1 text-xl font-bold tracking-tight">
             {title}
           </h2>
@@ -90,5 +90,5 @@ export const FeedItem = ({
 };
 
 export const DraftFeedItem = (props: DraftFeedItem) => {
-  return <FeedItem postId={0} distance={0} {...props} />;
+  return <FeedItem id={0} distance={0} {...props} />;
 };

@@ -10,6 +10,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { env } from "../env.mjs";
 import { prisma } from "./db";
+import { Coordinates } from "@/types/coordinates.js";
 
 /**
  * Module augmentation for `next-auth` types.
@@ -22,14 +23,13 @@ declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
       id: string;
-      userLocationId: number;
-      // ...other properties
-      // role: UserRole;
-    } & DefaultSession["user"];
+    } & User &
+      DefaultSession["user"];
   }
 
   interface User {
-    userLocationId: number;
+    coords: Coordinates;
+    locationId: number;
     // ...other properties
     // role: UserRole;
   }
@@ -46,21 +46,25 @@ export const authOptions: NextAuthOptions = {
     session({ session, user }) {
       if (session.user) {
         session.user.id = user.id;
-        session.user.userLocationId = user.userLocationId;
+        session.user.locationId = user.locationId;
+        session.user.coords = user.coords;
         // session.user.role = user.role; <-- put other properties on the session here
       }
       return session;
     },
     async signIn({ user }) {
-      if (!user.userLocationId) {
+      if (!user.coords) {
         // todo: get latlong from IP?
+        const lat = 51.5;
+        const long = 0.0;
         const location = await prisma.location.create({
           data: {
-            lat: 51.5,
-            long: 0.0,
+            lat: lat,
+            long: long,
           },
         });
-        user.userLocationId = location.id;
+        user.locationId = location.id;
+        user.coords = { lat, long };
       }
       return true;
     },

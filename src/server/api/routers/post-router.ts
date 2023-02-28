@@ -6,20 +6,9 @@ import {
   protectedProcedure,
 } from "@/server/api/trpc";
 import { postSchema } from "@/pages/newpost";
+import type { PostWithCoords } from "@/components/feed";
 
 export const postRouter = createTRPCRouter({
-  hello: publicProcedure
-    .input(z.object({ text: z.string() }))
-    .query(({ input }) => {
-      return {
-        greeting: `Hello ${input.text}`,
-      };
-    }),
-
-  getAll: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.post.findMany();
-  }),
-
   create: protectedProcedure
     .input(postSchema)
     .mutation(async ({ ctx, input }) => {
@@ -35,5 +24,46 @@ export const postRouter = createTRPCRouter({
       });
 
       return createdPost;
+    }),
+
+  getMany: publicProcedure
+    .input(
+      z.object({
+        cursor: z.string().nullish(),
+        limit: z.number().min(1).max(8),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const { cursor, limit } = input;
+      const posts = await ctx.prisma.post.findMany({
+        include: {
+          author: {
+            include: {
+              location: true,
+            },
+          },
+        },
+        orderBy: [{ createdAt: "desc" }],
+        skip: 0 * 8,
+        take: 8,
+      });
+
+      const feedPosts = posts.map((post) => {
+        const { updatedAt, author, ...feedPost } = post;
+        const { lat, long } = author.location;
+
+        return {
+          ...feedPost,
+          coords: {
+            lat: lat.toNumber(),
+            long: long.toNumber(),
+          },
+        } as PostWithCoords;
+      });
+
+      return {
+        feedPosts,
+        cursor: cursor,
+      };
     }),
 });

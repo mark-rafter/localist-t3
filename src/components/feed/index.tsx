@@ -1,17 +1,19 @@
 import { calculate } from "@/helpers/distance";
 import type { Coordinates } from "@/types/coordinates";
 import type { Post } from "@prisma/client";
+import { useSession } from "next-auth/react";
 import React from "react";
 import { FeedItem } from "./feed-item";
 
-export type FeedPost = Post & { postId: number; coords: Coordinates };
+export type PostWithCoords = Post & { coords: Coordinates };
 
 export type FeedProps = {
-  userCoords: Coordinates;
-  feedPosts: FeedPost[];
+  feedPosts: PostWithCoords[];
 };
 
-export const Feed = ({ feedPosts, userCoords }: FeedProps) => {
+export const Feed = ({ feedPosts }: FeedProps) => {
+  const { data } = useSession();
+  const userCoords = data?.user.coords ?? { lat: 51.5, long: 0.0 };
   return (
     <div
       className="mb-4 grid grid-cols-1 
@@ -21,7 +23,7 @@ export const Feed = ({ feedPosts, userCoords }: FeedProps) => {
     >
       {feedPosts.map((item) => {
         const distance = calculate(userCoords, item.coords);
-        return <FeedItem key={item.postId} {...item} distance={distance} />;
+        return <FeedItem key={item.id} {...item} distance={distance} />;
       })}
     </div>
   );
