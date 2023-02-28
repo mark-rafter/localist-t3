@@ -46,6 +46,7 @@ export const authOptions: NextAuthOptions = {
     session({ session, user }) {
       if (session.user) {
         session.user.id = user.id;
+        session.user.userLocationId = user.userLocationId;
         // session.user.role = user.role; <-- put other properties on the session here
       }
       return session;

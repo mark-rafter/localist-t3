@@ -17,7 +17,7 @@ type DraftFeedItem = {
 
 export type FeedItemProps = DraftFeedItem & {
   postId: number;
-  coords: number[];
+  distance: number; // todo: non-primitive
   createdAt?: Date;
   isPreview?: boolean;
 };
@@ -28,7 +28,7 @@ export const FeedItem = ({
   price,
   size,
   images,
-  coords,
+  distance,
   createdAt,
   isPreview = false,
 }: FeedItemProps) => {
@@ -78,8 +78,8 @@ export const FeedItem = ({
         <div className="flex items-center justify-between">
           <span className="text-xl font-bold">£{price}</span>
           <span className="flex items-center rounded-lg text-sm font-normal text-gray-400">
-            <span className="flex-1 whitespace-nowrap">
-              {coords[0]?.toFixed(1)} {coords[1]?.toFixed(1)}
+            <span className="mr-1 flex-1 whitespace-nowrap">
+              {distance} {distance > 1 ? "miles" : "mile"}
             </span>
             <HiOutlineMapPin className="h-4 w-4" />
           </span>
@@ -90,5 +90,5 @@ export const FeedItem = ({
 };
 
 export const DraftFeedItem = (props: DraftFeedItem) => {
-  return <FeedItem postId={0} coords={[0, 0]} {...props} />;
+  return <FeedItem postId={0} distance={0} {...props} />;
 };
