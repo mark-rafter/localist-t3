@@ -1,21 +1,3 @@
--- CreateExtension
-CREATE EXTENSION IF NOT EXISTS "pg_stat_statements";
-
--- CreateExtension
-CREATE EXTENSION IF NOT EXISTS "pgcrypto";
-
--- CreateExtension
-CREATE EXTENSION IF NOT EXISTS "pgjwt";
-
--- CreateExtension
-CREATE EXTENSION IF NOT EXISTS "pgsodium";
-
--- CreateExtension
-CREATE EXTENSION IF NOT EXISTS "postgis";
-
--- CreateExtension
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-
 -- CreateEnum
 CREATE TYPE "item_size" AS ENUM ('xs', 'small', 'medium', 'large', 'xl');
 
@@ -49,12 +31,12 @@ CREATE TABLE "session" (
 );
 
 -- CreateTable
-CREATE TABLE "user_location" (
+CREATE TABLE "location" (
     "id" SERIAL NOT NULL,
-    "coords" geometry(Point, 4326),
-    "user_id" TEXT NOT NULL,
+    "lat" DECIMAL(65,30) NOT NULL,
+    "long" DECIMAL(65,30) NOT NULL,
 
-    CONSTRAINT "user_location_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "location_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -64,6 +46,7 @@ CREATE TABLE "user" (
     "email" TEXT,
     "email_verified" TIMESTAMP(3),
     "image" TEXT,
+    "userLocationId" INTEGER NOT NULL,
 
     CONSTRAINT "user_pkey" PRIMARY KEY ("id")
 );
@@ -98,12 +81,6 @@ CREATE UNIQUE INDEX "account_provider_provider_account_id_key" ON "account"("pro
 CREATE UNIQUE INDEX "session_session_token_key" ON "session"("session_token");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "user_location_user_id_key" ON "user_location"("user_id");
-
--- CreateIndex
-CREATE INDEX "coords_index" ON "user_location" USING GIST ("coords");
-
--- CreateIndex
 CREATE UNIQUE INDEX "user_email_key" ON "user"("email");
 
 -- CreateIndex
@@ -119,7 +96,7 @@ ALTER TABLE "account" ADD CONSTRAINT "account_user_id_fkey" FOREIGN KEY ("user_i
 ALTER TABLE "session" ADD CONSTRAINT "session_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "user_location" ADD CONSTRAINT "user_location_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "user" ADD CONSTRAINT "user_userLocationId_fkey" FOREIGN KEY ("userLocationId") REFERENCES "location"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "post" ADD CONSTRAINT "post_author_id_fkey" FOREIGN KEY ("author_id") REFERENCES "user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

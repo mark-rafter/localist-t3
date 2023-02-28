@@ -22,15 +22,17 @@ declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
       id: string;
+      userLocationId: number;
       // ...other properties
       // role: UserRole;
     } & DefaultSession["user"];
   }
 
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
+  interface User {
+    userLocationId: number;
+    // ...other properties
+    // role: UserRole;
+  }
 }
 
 /**
@@ -47,6 +49,19 @@ export const authOptions: NextAuthOptions = {
         // session.user.role = user.role; <-- put other properties on the session here
       }
       return session;
+    },
+    async signIn({ user }) {
+      if (!user.userLocationId) {
+        // todo: get latlong from IP?
+        const location = await prisma.location.create({
+          data: {
+            lat: 51.5,
+            long: 0.0,
+          },
+        });
+        user.userLocationId = location.id;
+      }
+      return true;
     },
   },
   adapter: PrismaAdapter(prisma),

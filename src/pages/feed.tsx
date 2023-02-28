@@ -3,7 +3,6 @@ import React from "react";
 import type { FeedPost } from "@/components/feed";
 import { Feed } from "@/components/feed";
 import FilterDrawer from "@/components/filter-drawer";
-
 import { prisma } from "@/server/db";
 import type { GetStaticPropsContext } from "next";
 
@@ -28,17 +27,25 @@ export async function getServerSideProps(context: GetStaticPropsContext) {
   const postsPerPage = 8;
 
   const posts = await prisma.post.findMany({
+    include: {
+      author: {
+        include: {
+          location: true,
+        },
+      },
+    },
     orderBy: [{ createdAt: "desc" }],
     skip: currentPage * postsPerPage,
     take: postsPerPage,
   });
 
   const feedPosts = posts.map((post) => {
-    const { id, updatedAt, ...feedPost } = post;
+    const { id, updatedAt, author, ...feedPost } = post;
 
     return {
       ...feedPost,
       postId: id,
+      coords: [author.location.lat.toNumber(), author.location.long.toNumber()],
       // updatedAt: p.updatedAt.toString(),
     } as FeedPost;
   });

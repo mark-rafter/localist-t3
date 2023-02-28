@@ -13,7 +13,7 @@ export const Feed = ({ feedPosts }: { feedPosts: FeedPost[] }) => {
       lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4"
     >
       {feedPosts.map((item) => (
-        <FeedItem key={item.postId} {...item} distance={22} />
+        <FeedItem key={item.postId} {...item} />
       ))}
     </div>
   );

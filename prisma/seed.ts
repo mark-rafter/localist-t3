@@ -11,7 +11,6 @@ const POSTS_MAX = 6;
 async function run() {
   const users = await createUsers();
   const userIds = users.map((u) => u.id);
-  await createUserLocations(userIds);
   await createPosts(userIds);
 
   await prisma.$disconnect();
@@ -60,24 +59,26 @@ async function createPosts(userIds: string[]) {
   await prisma.$transaction(createPosts);
 }
 
-async function createUserLocations(userIds: string[]) {
-  const coordDictionary = new Map<string, number[]>();
-  const createLocations = userIds.map((userId) => {
-    const [latitude, longitude] = faker.location.nearbyGPSCoordinate([51.5, 0]);
+async function createLocations() {
+  const createLocations = Array(USERS_TO_CREATE)
+    .fill(null)
+    .map(() => {
+      const [latitude, longitude] = faker.location.nearbyGPSCoordinate([
+        51.5, 0,
+      ]);
 
-    coordDictionary.set(userId, [latitude, longitude]);
-
-    return prisma.userLocation.create({
-      data: {
-        userId: userId,
-        lat: latitude,
-        long: longitude,
-      },
+      return prisma.location.create({
+        data: {
+          lat: latitude,
+          long: longitude,
+        },
+      });
     });
-  });
 
-  await prisma.$transaction(createLocations);
+  return await prisma.$transaction(createLocations);
 
+  // todo: sort this out later, not currently using this functionality
+  /*
   const updateCoords = userIds.map((userId) => {
     const [latitude, longitude] = coordDictionary.get(userId) ?? [];
 
@@ -88,16 +89,20 @@ async function createUserLocations(userIds: string[]) {
   });
 
   await prisma.$transaction(updateCoords);
+  */
 }
 
 async function createUsers() {
+  const locations = await createLocations();
+
   const userData = Array(USERS_TO_CREATE)
     .fill(null)
-    .map(() => {
+    .map((_, index) => {
       return {
         name: faker.internet.userName().toLowerCase(),
         email: faker.internet.email().toLocaleLowerCase(),
         image: faker.image.avatar(),
+        userLocationId: locations[index]?.id,
       } as User;
     });
 
