@@ -3,7 +3,6 @@ import React from "react";
 import { HiOutlineClock, HiOutlineMapPin } from "react-icons/hi2";
 import { Carousel } from "flowbite-react";
 import { LinkOrDisabled } from "@/components/link-or-disabled";
-import { relativeTimeFromDates } from "@/helpers/relative-time";
 
 type ItemSize = "xs" | "small" | "medium" | "large" | "xl";
 
@@ -17,8 +16,8 @@ type DraftFeedItem = {
 
 export type FeedItemProps = DraftFeedItem & {
   id: number;
-  distance: number; // todo: non-primitive
-  createdAt?: Date;
+  distance: string;
+  postAge: string;
   isPreview?: boolean;
 };
 
@@ -29,15 +28,14 @@ export const FeedItem = ({
   size,
   images,
   distance,
-  createdAt,
+  postAge,
   isPreview = false,
 }: FeedItemProps) => {
-  const tailwindSmPixels = 384;
-  const createdAtTimeAgo = relativeTimeFromDates(createdAt);
+  const smPixels = 384;
   return (
     <article className="max-w-sm overflow-hidden rounded-lg bg-gray-800">
       {images && (
-        <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
+        <div>
           <Carousel slideInterval={3000}>
             {images.map((image, index) => (
               <LinkOrDisabled
@@ -48,8 +46,8 @@ export const FeedItem = ({
                 <Image
                   src={image}
                   alt="..."
-                  width={tailwindSmPixels}
-                  height={tailwindSmPixels}
+                  width={smPixels}
+                  height={smPixels}
                 />
               </LinkOrDisabled>
             ))}
@@ -61,11 +59,9 @@ export const FeedItem = ({
         {/* Top Row: size + post age */}
         <div className="flex items-baseline justify-between text-gray-300">
           <h3 className="text-sm uppercase tracking-wide">{size}</h3>
-          <span className="inline-flex items-center rounded px-2 text-xs">
-            <>
-              <HiOutlineClock className="mr-1 h-3 w-3" />
-              {createdAtTimeAgo}
-            </>
+          <span className="inline-flex items-center px-1 text-xs">
+            <span className="mr-1 flex-1 whitespace-nowrap">{postAge}</span>
+            <HiOutlineClock className="h-3 w-3" />
           </span>
         </div>
         {/* Middle Row: title */}
@@ -77,10 +73,8 @@ export const FeedItem = ({
         {/* Bottom Row: price + distance */}
         <div className="flex items-center justify-between">
           <span className="text-xl font-bold">£{price}</span>
-          <span className="flex items-center rounded-lg text-sm font-normal text-gray-400">
-            <span className="mr-1 flex-1 whitespace-nowrap">
-              {distance} {distance === 1 ? "mile" : "miles"}
-            </span>
+          <span className="flex items-center text-sm font-normal text-gray-400">
+            <span className="mr-1 flex-1 whitespace-nowrap">{distance}</span>
             <HiOutlineMapPin className="h-4 w-4" />
           </span>
         </div>
@@ -90,5 +84,5 @@ export const FeedItem = ({
 };
 
 export const DraftFeedItem = (props: DraftFeedItem) => {
-  return <FeedItem id={0} distance={0} {...props} />;
+  return <FeedItem id={0} distance="X miles" postAge="X days ago" {...props} />;
 };

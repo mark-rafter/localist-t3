@@ -1,4 +1,5 @@
-import { calculate } from "@/helpers/distance";
+import { humanize } from "@/helpers/distance";
+import { relativeTimeFromDates } from "@/helpers/relative-time";
 import type { RouterOutputs } from "@/utils/api";
 import { useSession } from "next-auth/react";
 import React from "react";
@@ -11,14 +12,15 @@ export type FeedProps = {
 
 export const Feed = ({ posts }: FeedProps) => {
   const { data } = useSession();
-  const userCoords = data?.user
-    ? { lat: data.user.lat, long: data.user.long }
-    : { lat: 51.5, long: 0.0 };
+  // todo: set geo cookie in middleware and extract defaults
+  const userCoords = {
+    lat: data?.user.lat ?? 51.5,
+    long: data?.user.long ?? 0.0,
+  };
+
   return (
     <div
-      className="mb-4 grid grid-cols-1 
-      justify-items-center gap-4 
-      rounded-lg p-4 
+      className="mb-4 grid grid-cols-1 justify-items-center gap-4 rounded-lg p-4 
       lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4"
     >
       {posts.map((post) => {
@@ -26,8 +28,16 @@ export const Feed = ({ posts }: FeedProps) => {
           lat: post.author.lat,
           long: post.author.long,
         };
-        const distance = calculate(userCoords, postCoords);
-        return <FeedItem key={post.id} {...post} distance={distance} />;
+        const distance = humanize(userCoords, postCoords);
+        const postAge = relativeTimeFromDates(post.createdAt);
+        return (
+          <FeedItem
+            key={post.id}
+            {...post}
+            postAge={postAge}
+            distance={distance}
+          />
+        );
       })}
     </div>
   );

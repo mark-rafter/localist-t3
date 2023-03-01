@@ -1,3 +1,19 @@
+type Unit = "mile" | "km";
+
+export const humanize = (
+  from: Coordinates,
+  to: Coordinates,
+  unit: Unit = "mile"
+) => {
+  const distance = calculate(from, to, unit);
+  if (distance == 0) {
+    return `less than 1 ${unit}`;
+  } else if (distance == 1) {
+    return `1 ${unit}`;
+  }
+  return `${distance} ${unit}s`;
+};
+
 /*
 MIT License
 
@@ -21,82 +37,40 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-
 interface Coordinates {
   lat: number;
   long: number;
 }
 
-/**
- * List of all supported units.
- *
- * m - metre
- * M - mile
- * km - kilometre
- * ft - foot
- */
-const SUPPORTED_UNIT = {
-  m: "m",
-  M: "M",
-  km: "km",
-  ft: "ft",
-};
+const EARTH_RADIUS = 6371e3;
 
-/**
- * Earth radius = 6 371 km.
- */
-const R = 6371e3;
-
-/**
- * Degrees to radians.
- */
 const degToRad = (deg: number): number => deg * (Math.PI / 180);
 
-/**
- * Calculate the distance between two coordinates to metres.
- */
-const calculateDistance = (
-  coordinates1: Coordinates,
-  coordinates2: Coordinates
-): number => {
-  if (
-    coordinates1.lat === coordinates2.lat &&
-    coordinates1.long === coordinates2.long
-  ) {
+const calculateDistance = (from: Coordinates, to: Coordinates): number => {
+  if (from.lat === to.lat && from.long === to.long) {
     return 0;
   }
 
   const a =
-    Math.pow(Math.sin(degToRad(coordinates2.lat - coordinates1.lat) / 2), 2) +
-    Math.cos(degToRad(coordinates1.lat)) *
-      Math.cos(degToRad(coordinates2.lat)) *
-      Math.pow(
-        Math.sin(degToRad(coordinates2.long - coordinates1.long) / 2),
-        2
-      );
+    Math.pow(Math.sin(degToRad(to.lat - from.lat) / 2), 2) +
+    Math.cos(degToRad(from.lat)) *
+      Math.cos(degToRad(to.lat)) *
+      Math.pow(Math.sin(degToRad(to.long - from.long) / 2), 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-  return R * c;
+  return EARTH_RADIUS * c;
 };
 
-/**
- * Calculate the distance between two coordinates to the given unit.
- * Default unit is mile.
- */
 export const calculate = (
-  coordinates1: Coordinates,
-  coordinates2: Coordinates,
-  unit: string = SUPPORTED_UNIT.M
+  from: Coordinates,
+  to: Coordinates,
+  unit: Unit = "mile"
 ): number => {
-  const m = calculateDistance(coordinates1, coordinates2);
+  const distance = calculateDistance(from, to);
   switch (unit) {
-    case SUPPORTED_UNIT.km:
-      return Math.round(m * 0.001);
-    case SUPPORTED_UNIT.M:
-      return Math.round(m * 0.000621371192);
-    case SUPPORTED_UNIT.ft:
-      return Math.round(m * 3.2808399);
-    default:
-      return Math.round(m);
+    case "mile":
+      return Math.round(distance * 0.000621371192);
+    case "km":
+      return Math.round(distance * 0.001);
   }
 };
