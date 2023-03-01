@@ -9,6 +9,7 @@ export type PostWithCoords = Post & { coords: Coordinates };
 
 export type FeedProps = {
   feedPosts: PostWithCoords[];
+  cursor?: string;
 };
 
 export const Feed = ({ feedPosts }: FeedProps) => {
