@@ -120,14 +120,19 @@ export const getServerAuthSession = (ctx: {
   return getServerSession(ctx.req, ctx.res, getAuthOptions(ctx.req));
 };
 
-const getGeoHeaders = (req: GetServerSidePropsContext["req"]): Coordinates => {
-  console.log("lat", parseFloat(req.headers["x-vercel-ip-latitude"] as string));
-  console.log(
-    "long",
-    parseFloat(req.headers["x-vercel-ip-longitude"] as string)
-  );
+const getGeoHeaders = (req: GetServerSidePropsContext["req"]) => {
+  const lat =
+    typeof req.headers["x-vercel-ip-latitude"] === "string"
+      ? parseFloat(req.headers["x-vercel-ip-latitude"])
+      : 51.5;
+
+  const long =
+    typeof req.headers["x-vercel-ip-longitude"] === "string"
+      ? parseFloat(req.headers["x-vercel-ip-longitude"])
+      : 0.05;
+
   return {
-    lat: parseFloat((req.headers["x-vercel-ip-latitude"] as string) ?? "51.5"),
-    long: parseFloat((req.headers["x-vercel-ip-longitude"] as string) ?? "0.0"),
-  };
+    lat,
+    long,
+  } as Coordinates;
 };
