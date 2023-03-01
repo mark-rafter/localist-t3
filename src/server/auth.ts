@@ -10,6 +10,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { env } from "../env.mjs";
 import { prisma } from "./db";
+import { safeParseFloat } from "@/helpers/parse";
 
 /**
  * Module augmentation for `next-auth` types.
@@ -56,9 +57,8 @@ export const getAuthOptions = (
       },
       signIn({ user }) {
         if (!user.lat) {
-          const { lat, long } = getGeoHeaders(req);
-          user.lat = lat;
-          user.long = long;
+          user.lat = safeParseFloat(req.headers["x-vercel-ip-latitude"], 51.5);
+          user.long = safeParseFloat(req.headers["x-vercel-ip-longitude"], 0.0);
         }
         return true;
       },
@@ -117,18 +117,4 @@ export const getServerAuthSession = (ctx: {
   res: GetServerSidePropsContext["res"];
 }) => {
   return getServerSession(ctx.req, ctx.res, getAuthOptions(ctx.req));
-};
-
-const getGeoHeaders = (req: GetServerSidePropsContext["req"]) => {
-  const lat =
-    typeof req.headers["x-vercel-ip-latitude"] === "string"
-      ? parseFloat(req.headers["x-vercel-ip-latitude"])
-      : 51.5;
-
-  const long =
-    typeof req.headers["x-vercel-ip-longitude"] === "string"
-      ? parseFloat(req.headers["x-vercel-ip-longitude"])
-      : 0.05;
-
-  return { lat, long };
 };
