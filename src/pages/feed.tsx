@@ -1,15 +1,20 @@
 import Head from "next/head";
 import React from "react";
-import type { FeedProps } from "@/components/feed";
 import { Feed } from "@/components/feed";
 import FilterDrawer from "@/components/filter-drawer";
 import { prisma } from "@/server/db";
-import type { GetServerSidePropsContext } from "next";
+import type {
+  GetServerSidePropsContext,
+  InferGetServerSidePropsType,
+} from "next";
 import { api } from "@/utils/api";
 import { appRouter } from "@/server/api/root";
 import { getServerAuthSession } from "@/server/auth";
 
-export default function FeedPage(feed: FeedProps) {
+export default function FeedPage({
+  feedPosts,
+  cursor,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   // todo: infinite scroll
   // const { data } = api.post.getMany.useQuery({ limit: 8, cursor: feed.cursor });
 
@@ -18,7 +23,7 @@ export default function FeedPage(feed: FeedProps) {
       <Head>
         <title>Feed | Localist</title>
       </Head>
-      <Feed feedPosts={feed.feedPosts} />
+      <Feed feedPosts={feedPosts} />
       <FilterDrawer />
     </>
   );

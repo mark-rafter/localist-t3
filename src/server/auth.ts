@@ -10,7 +10,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { env } from "../env.mjs";
 import { prisma } from "./db";
-import { Coordinates } from "@/types/coordinates.js";
+import type { Coordinates } from "@/types/coordinates.js";
 
 /**
  * Module augmentation for `next-auth` types.
