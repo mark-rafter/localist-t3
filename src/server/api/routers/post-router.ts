@@ -1,12 +1,10 @@
 import { z } from "zod";
-
 import {
   createTRPCRouter,
   publicProcedure,
   protectedProcedure,
 } from "@/server/api/trpc";
 import { postSchema } from "@/pages/newpost";
-import type { PostWithCoords } from "@/components/feed";
 
 export const postRouter = createTRPCRouter({
   create: protectedProcedure
@@ -48,21 +46,8 @@ export const postRouter = createTRPCRouter({
         take: limit,
       });
 
-      const feedPosts = posts.map((post) => {
-        const { updatedAt, author, ...feedPost } = post;
-        const { lat, long } = author;
-
-        return {
-          ...feedPost,
-          coords: {
-            lat: lat,
-            long: long,
-          },
-        } as PostWithCoords;
-      });
-
       return {
-        feedPosts,
+        posts,
         cursor: cursor,
       };
     }),

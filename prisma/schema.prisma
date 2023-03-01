@@ -48,8 +48,8 @@ model User {
   email         String?   @unique
   emailVerified DateTime? @map("email_verified")
   image         String?
-  lat           Float?
-  long          Float?
+  lat           Float     @default(51.5)
+  long          Float     @default(0.0)
   accounts      Account[]
   sessions      Session[]
   posts         Post[]

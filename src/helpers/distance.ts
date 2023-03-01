@@ -22,7 +22,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import type { Coordinates } from "@/types/coordinates";
+interface Coordinates {
+  lat: number;
+  long: number;
+}
 
 /**
  * List of all supported units.

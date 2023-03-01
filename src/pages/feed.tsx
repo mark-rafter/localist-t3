@@ -12,7 +12,7 @@ import { appRouter } from "@/server/api/root";
 import { getServerAuthSession } from "@/server/auth";
 
 export default function FeedPage({
-  feedPosts,
+  posts,
   cursor,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   // todo: infinite scroll
@@ -23,7 +23,7 @@ export default function FeedPage({
       <Head>
         <title>Feed | Localist</title>
       </Head>
-      <Feed feedPosts={feedPosts} />
+      <Feed posts={posts} />
       <FilterDrawer />
     </>
   );
@@ -36,14 +36,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     session: await getServerAuthSession(context),
     prisma: prisma,
   });
-  const { feedPosts, cursor } = await caller.post.getMany({
-    limit: postsPerPage,
-  });
+  const props = await caller.post.getMany({ limit: postsPerPage });
 
   return {
-    props: {
-      feedPosts,
-      cursor,
-    },
+    props: props,
   };
 }
