@@ -12,8 +12,6 @@ export function middleware(request: NextRequest) {
   reqHeaders.set("x-geo-latitude", geo.latitude);
   reqHeaders.set("x-geo-longitude", geo.longitude);
 
-  console.log(reqHeaders);
-
   return NextResponse.next({
     request: {
       headers: reqHeaders,

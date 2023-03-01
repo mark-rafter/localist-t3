@@ -44,16 +44,15 @@ declare module "next-auth" {
 export const getAuthOptions = (
   req: GetServerSidePropsContext["req"]
 ): NextAuthOptions => {
-  console.log(req.headers);
-
-  const { lat, long } = {
-    lat: req.headers["x-geo-latitude"],
-    long: req.headers["x-geo-longitude"],
-  };
-
   return {
     callbacks: {
       session({ session, user }) {
+        console.log("req.headers.location", req.headers?.location);
+        console.log(
+          "x-vercel-ip-longitude",
+          req.headers["x-vercel-ip-longitude"]
+        );
+
         if (session.user) {
           session.user.id = user.id;
           session.user.locationId = user.locationId;
