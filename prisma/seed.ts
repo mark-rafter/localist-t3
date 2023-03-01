@@ -59,50 +59,19 @@ async function createPosts(userIds: string[]) {
   await prisma.$transaction(createPosts);
 }
 
-async function createLocations() {
-  const createLocations = Array(USERS_TO_CREATE)
+async function createUsers() {
+  const userData = Array(USERS_TO_CREATE)
     .fill(null)
     .map(() => {
       const [latitude, longitude] = faker.location.nearbyGPSCoordinate([
         51.5, 0,
       ]);
-
-      return prisma.location.create({
-        data: {
-          lat: latitude,
-          long: longitude,
-        },
-      });
-    });
-
-  return await prisma.$transaction(createLocations);
-
-  // todo: sort this out later, not currently using this functionality
-  /*
-  const updateCoords = userIds.map((userId) => {
-    const [latitude, longitude] = coordDictionary.get(userId) ?? [];
-
-    return prisma.$executeRaw`
-        UPDATE "user_location"
-        SET "coords" = st_point(${latitude}, ${longitude})
-        WHERE "user_id" = ${userId}`;
-  });
-
-  await prisma.$transaction(updateCoords);
-  */
-}
-
-async function createUsers() {
-  const locations = await createLocations();
-
-  const userData = Array(USERS_TO_CREATE)
-    .fill(null)
-    .map((_, index) => {
       return {
         name: faker.internet.userName().toLowerCase(),
         email: faker.internet.email().toLocaleLowerCase(),
         image: faker.image.avatar(),
-        userLocationId: locations[index]?.id,
+        lat: latitude,
+        long: longitude,
       } as User;
     });
 

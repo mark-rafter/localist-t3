@@ -14,7 +14,9 @@ export type FeedProps = {
 
 export const Feed = ({ feedPosts }: FeedProps) => {
   const { data } = useSession();
-  const userCoords = data?.user.coords ?? { lat: 51.5, long: 0.0 };
+  const userCoords = data?.user
+    ? { lat: data.user.lat, long: data.user.long }
+    : { lat: 51.5, long: 0.0 };
   return (
     <div
       className="mb-4 grid grid-cols-1 

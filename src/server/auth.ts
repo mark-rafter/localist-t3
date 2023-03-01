@@ -28,8 +28,8 @@ declare module "next-auth" {
   }
 
   interface User {
-    coords: Coordinates;
-    locationId: number;
+    lat: number;
+    long: number;
     // ...other properties
     // role: UserRole;
   }
@@ -47,33 +47,19 @@ export const getAuthOptions = (
   return {
     callbacks: {
       session({ session, user }) {
-        console.log("req.headers.location", req.headers?.location);
-        console.log(
-          "x-vercel-ip-longitude",
-          req.headers["x-vercel-ip-longitude"]
-        );
-
         if (session.user) {
           session.user.id = user.id;
-          session.user.locationId = user.locationId;
-          session.user.coords = user.coords;
+          session.user.lat = user.lat;
+          session.user.long = user.long;
           // session.user.role = user.role; <-- put other properties on the session here
         }
         return session;
       },
-      async signIn({ user }) {
-        if (!user.coords) {
-          // todo: get latlong from IP?
-          const lat = 51.5;
-          const long = 0.0;
-          const location = await prisma.location.create({
-            data: {
-              lat: lat,
-              long: long,
-            },
-          });
-          user.locationId = location.id;
-          user.coords = { lat, long };
+      signIn({ user }) {
+        if (!user.lat) {
+          const { lat, long } = getGeoHeaders(req);
+          user.lat = lat;
+          user.long = long;
         }
         return true;
       },
@@ -132,4 +118,11 @@ export const getServerAuthSession = (ctx: {
   res: GetServerSidePropsContext["res"];
 }) => {
   return getServerSession(ctx.req, ctx.res, getAuthOptions(ctx.req));
+};
+
+const getGeoHeaders = (req: GetServerSidePropsContext["req"]): Coordinates => {
+  return {
+    lat: parseFloat(req.headers["x-vercel-ip-latitude"]?.at(0) ?? "51.5"),
+    long: parseFloat(req.headers["x-vercel-ip-longitude"]?.at(0) ?? "0.0"),
+  };
 };

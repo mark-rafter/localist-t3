@@ -31,22 +31,14 @@ CREATE TABLE "session" (
 );
 
 -- CreateTable
-CREATE TABLE "location" (
-    "id" SERIAL NOT NULL,
-    "lat" DECIMAL(65,30) NOT NULL,
-    "long" DECIMAL(65,30) NOT NULL,
-
-    CONSTRAINT "location_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
 CREATE TABLE "user" (
     "id" TEXT NOT NULL,
     "name" TEXT,
     "email" TEXT,
     "email_verified" TIMESTAMP(3),
     "image" TEXT,
-    "userLocationId" INTEGER NOT NULL,
+    "lat" DOUBLE PRECISION,
+    "long" DOUBLE PRECISION,
 
     CONSTRAINT "user_pkey" PRIMARY KEY ("id")
 );
@@ -94,9 +86,6 @@ ALTER TABLE "account" ADD CONSTRAINT "account_user_id_fkey" FOREIGN KEY ("user_i
 
 -- AddForeignKey
 ALTER TABLE "session" ADD CONSTRAINT "session_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "user" ADD CONSTRAINT "user_userLocationId_fkey" FOREIGN KEY ("userLocationId") REFERENCES "location"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "post" ADD CONSTRAINT "post_author_id_fkey" FOREIGN KEY ("author_id") REFERENCES "user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

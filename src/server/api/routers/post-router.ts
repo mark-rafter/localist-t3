@@ -38,8 +38,9 @@ export const postRouter = createTRPCRouter({
       const posts = await ctx.prisma.post.findMany({
         include: {
           author: {
-            include: {
-              location: true,
+            select: {
+              lat: true,
+              long: true,
             },
           },
         },
@@ -49,13 +50,13 @@ export const postRouter = createTRPCRouter({
 
       const feedPosts = posts.map((post) => {
         const { updatedAt, author, ...feedPost } = post;
-        const { lat, long } = author.location;
+        const { lat, long } = author;
 
         return {
           ...feedPost,
           coords: {
-            lat: lat.toNumber(),
-            long: long.toNumber(),
+            lat: lat,
+            long: long,
           },
         } as PostWithCoords;
       });

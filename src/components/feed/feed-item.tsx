@@ -79,7 +79,7 @@ export const FeedItem = ({
           <span className="text-xl font-bold">£{price}</span>
           <span className="flex items-center rounded-lg text-sm font-normal text-gray-400">
             <span className="mr-1 flex-1 whitespace-nowrap">
-              {distance} {distance > 1 ? "miles" : "mile"}
+              {distance} {distance === 1 ? "mile" : "miles"}
             </span>
             <HiOutlineMapPin className="h-4 w-4" />
           </span>
