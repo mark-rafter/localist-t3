@@ -24,9 +24,9 @@ export const FormDropUpload = <T extends FieldValues>({
   return (
     <label
       htmlFor={label}
-      className={`hover:bg-bray-800 flex h-${height} w-${height} cursor-pointer flex-col items-center justify-center border-2 border-dashed border-gray-600 bg-gray-700 hover:border-gray-500 hover:bg-gray-600 ${
-        className ?? ""
-      }`}
+      className={`hover:bg-bray-800 flex h-${height} w-${height} cursor-pointer flex-col items-center justify-center border-2 border-dashed ${
+        error ? "border-red-700" : "border-gray-600"
+      } bg-gray-700 hover:border-gray-500 hover:bg-gray-600 ${className ?? ""}`}
     >
       <div
         className={`flex flex-col items-center justify-center ${

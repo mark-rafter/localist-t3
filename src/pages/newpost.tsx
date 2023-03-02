@@ -13,16 +13,19 @@ import { api } from "@/utils/api";
 
 const sizes = z.enum(["xs", "small", "medium", "large", "xl"]);
 
+const clientFile = () =>
+  typeof window === "undefined" ? z.undefined() : z.instanceof(File);
+
 export const postSchema = z
   .object({
     title: z.string().min(3).max(16),
     size: sizes,
     brand: z.string().max(25).optional(),
-    image1: z.string(),
-    image2: z.string().optional(),
-    image3: z.string().optional(),
-    image4: z.string().optional(),
-    image5: z.string().optional(),
+    image1: clientFile(),
+    image2: clientFile().optional(),
+    image3: clientFile().optional(),
+    image4: clientFile().optional(),
+    image5: clientFile().optional(),
     price: z.number({ invalid_type_error: "Please enter a price" }).max(9999),
   })
   .required();
