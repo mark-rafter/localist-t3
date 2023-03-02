@@ -35,6 +35,7 @@ export const FormInput = <T extends FieldValues>({
         name={label}
         id={label}
         aria-describedby={`${label}_error_message`}
+        aria-invalid={error ? "true" : "false"}
         className="peer block w-full appearance-none border-0 border-b-2 border-gray-600 bg-transparent py-2.5 px-0 text-sm focus:border-blue-500 focus:outline-none focus:ring-0"
         placeholder=""
       />

@@ -99,17 +99,34 @@ export default function NewPostPage() {
             <div className="flex justify-between pt-2">
               {uploadedImageCount > 0 &&
                 uploadedImageCount < 5 &&
-                (["image2", "image3", "image4", "image5"] as const).map((k) => (
-                  <FormDropUpload
-                    key={k}
-                    label={k}
-                    register={register}
-                    error={errors[k]}
-                    height={32}
-                    className="rounded-lg"
-                  />
-                ))}
+                (["image2", "image3", "image4", "image5"] as const).map(
+                  (label) => (
+                    <FormDropUpload
+                      key={label}
+                      label={label}
+                      register={register}
+                      error={errors[label]}
+                      height={32}
+                      className="rounded-lg"
+                    />
+                  )
+                )}
             </div>
+            {(["image2", "image3", "image4", "image5"] as const).map(
+              (label) => {
+                return (
+                  errors[label]?.message && (
+                    <p
+                      key={label}
+                      id={`image2to5_error_message`}
+                      className="mt-2 text-xs text-red-400"
+                    >
+                      {label}: {errors[label]?.message}
+                    </p>
+                  )
+                );
+              }
+            )}
           </div>
           <Button
             outline={true}

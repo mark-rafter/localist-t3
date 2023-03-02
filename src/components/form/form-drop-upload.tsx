@@ -52,7 +52,13 @@ export const FormDropUpload = <T extends FieldValues>({
           </>
         )}
       </div>
-      <input id={label} {...register(label)} type="file" className="hidden" />
+      <input
+        id={label}
+        {...register(label)}
+        type="file"
+        className="hidden"
+        aria-invalid={error ? "true" : "false"}
+      />
     </label>
   );
 };
