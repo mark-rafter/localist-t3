@@ -18,6 +18,11 @@ export const postSchema = z
     title: z.string().min(3).max(16),
     size: sizes,
     brand: z.string().max(25).optional(),
+    image1: z.string(),
+    image2: z.string().optional(),
+    image3: z.string().optional(),
+    image4: z.string().optional(),
+    image5: z.string().optional(),
     price: z.number({ invalid_type_error: "Please enter a price" }).max(9999),
   })
   .required();
@@ -78,7 +83,13 @@ export default function NewPostPage() {
           />
           {/* File Upload */}
           <div className="mx-auto max-w-sm">
-            <FormDropUpload height={64} className="w-full rounded-t-lg" />
+            <FormDropUpload
+              label="image1"
+              register={register}
+              error={errors.image1}
+              height={64}
+              className="w-full rounded-t-lg"
+            />
             <DraftFeedItem
               title={watch("title")}
               size={watch("size")}
@@ -87,8 +98,16 @@ export default function NewPostPage() {
             />
             <div className="flex justify-between pt-2">
               {uploadedImageCount > 0 &&
-                [...Array(uploadedImageCount).keys()].map((k) => (
-                  <FormDropUpload key={k} height={32} className="rounded-lg" />
+                uploadedImageCount < 5 &&
+                (["image2", "image3", "image4", "image5"] as const).map((k) => (
+                  <FormDropUpload
+                    key={k}
+                    label={k}
+                    register={register}
+                    error={errors[k]}
+                    height={32}
+                    className="rounded-lg"
+                  />
                 ))}
             </div>
           </div>
