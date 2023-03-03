@@ -9,7 +9,6 @@ type ItemSize = "xs" | "small" | "medium" | "large" | "xl";
 type DraftFeedItem = {
   title: string;
   size: ItemSize;
-  brand: string;
   price: number;
   images?: string[];
 };

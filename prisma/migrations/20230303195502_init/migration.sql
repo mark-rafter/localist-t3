@@ -37,8 +37,8 @@ CREATE TABLE "user" (
     "email" TEXT,
     "email_verified" TIMESTAMP(3),
     "image" TEXT,
-    "lat" DOUBLE PRECISION,
-    "long" DOUBLE PRECISION,
+    "lat" DOUBLE PRECISION NOT NULL DEFAULT 51.5,
+    "long" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
 
     CONSTRAINT "user_pkey" PRIMARY KEY ("id")
 );
@@ -54,9 +54,9 @@ CREATE TABLE "verification_token" (
 CREATE TABLE "post" (
     "id" SERIAL NOT NULL,
     "title" TEXT NOT NULL,
-    "brand" TEXT NOT NULL,
     "size" "item_size" NOT NULL,
     "price" INTEGER NOT NULL,
+    "details" JSONB,
     "images" TEXT[],
     "author_id" TEXT NOT NULL,
     "view_count" INTEGER NOT NULL DEFAULT 0,
