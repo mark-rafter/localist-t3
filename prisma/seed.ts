@@ -29,7 +29,6 @@ async function createPosts(userIds: string[]) {
     [...Array(amount).keys()].forEach(() => {
       posts.push({
         title: faker.commerce.productName(),
-        brand: faker.helpers.arrayElement(["nike", "adidas", "reebok"]),
         size: faker.helpers.arrayElement(Object.values(ItemSize)),
         price: faker.number.int({ min: 1, max: 9999 }),
         images: [

@@ -30,6 +30,10 @@ export const postSchema = z
   })
   .required();
 
+const optionalImagesKeys = postSchema
+  .pick({ image2: true, image3: true, image4: true, image5: true })
+  .keyof();
+
 export type PostSchema = z.infer<typeof postSchema>;
 
 export default function NewPostPage() {
@@ -99,36 +103,33 @@ export default function NewPostPage() {
               brand={watch("brand")}
               price={watch("price")}
             />
+            {/* Optional images upload */}
             <div className="flex justify-between pt-2">
               {uploadedImageCount > 0 &&
                 uploadedImageCount < 5 &&
-                (["image2", "image3", "image4", "image5"] as const).map(
-                  (label) => (
-                    <FormDropUpload
-                      key={label}
-                      label={label}
-                      register={register}
-                      error={errors[label]}
-                      height={32}
-                      className="rounded-lg"
-                    />
-                  )
-                )}
+                optionalImagesKeys.options.map((label) => (
+                  <FormDropUpload
+                    key={label}
+                    label={label}
+                    register={register}
+                    error={errors[label]}
+                    height={32}
+                    className="rounded-lg"
+                  />
+                ))}
             </div>
-            {(["image2", "image3", "image4", "image5"] as const).map(
-              (label) => {
-                return (
-                  errors[label]?.message && (
-                    <p
-                      key={label}
-                      id={`image2to5_error_message`}
-                      className="mt-2 text-xs text-red-400"
-                    >
-                      {label}: {errors[label]?.message}
-                    </p>
-                  )
-                );
-              }
+            {/* Optional images upload error messages */}
+            {optionalImagesKeys.options.map(
+              (label) =>
+                errors[label]?.message && (
+                  <p
+                    key={label}
+                    id={`image2to5_error_message`}
+                    className="mt-2 text-xs text-red-400"
+                  >
+                    {label}: {errors[label]?.message}
+                  </p>
+                )
             )}
           </div>
           <Button

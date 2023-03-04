@@ -56,6 +56,7 @@ export const FormDropUpload = <T extends FieldValues>({
         id={label}
         {...register(label)}
         type="file"
+        accept="image/*"
         className="hidden"
         aria-invalid={error ? "true" : "false"}
       />
