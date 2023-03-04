@@ -100,7 +100,6 @@ export default function NewPostPage() {
             <DraftFeedItem
               title={watch("title")}
               size={watch("size")}
-              brand={watch("brand")}
               price={watch("price")}
             />
             {/* Optional images upload */}
