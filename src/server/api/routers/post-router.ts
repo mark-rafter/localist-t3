@@ -4,11 +4,11 @@ import {
   publicProcedure,
   protectedProcedure,
 } from "@/server/api/trpc";
-import { postSchema } from "@/pages/newpost";
+import { newPostSchema } from "@/pages/newpost";
 
 export const postRouter = createTRPCRouter({
   create: protectedProcedure
-    .input(postSchema)
+    .input(newPostSchema)
     .mutation(async ({ ctx, input }) => {
       const createdPost = await ctx.prisma.post.create({
         data: {

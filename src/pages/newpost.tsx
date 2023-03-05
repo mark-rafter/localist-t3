@@ -10,31 +10,36 @@ import { FormDropUpload } from "@/components/form/form-drop-upload";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { api } from "@/utils/api";
+import PostSchema from "prisma/generated/zod/modelSchema/PostSchema";
 
 const sizes = z.enum(["xs", "small", "medium", "large", "xl"]);
 
 const clientFile = () =>
   typeof window === "undefined" ? z.undefined() : z.instanceof(File);
 
-export const postSchema = z
+export const newPostSchema = z
   .object({
-    title: z.string().min(3).max(16),
-    size: sizes,
-    brand: z.string().max(25).optional(),
+    title: PostSchema.shape.title
+      .min(3, { message: "Title too short" })
+      .max(16, { message: "Title too long" }),
+    size: PostSchema.shape.size,
+    brand: z.string().max(25, { message: "Title too long" }).optional(),
     image1: clientFile(),
     image2: clientFile().optional(),
     image3: clientFile().optional(),
     image4: clientFile().optional(),
     image5: clientFile().optional(),
-    price: z.number({ invalid_type_error: "Please enter a price" }).max(9999),
+    price: PostSchema.shape.price
+      .min(-9999)
+      .max(9999, { message: "Max price is 9999" }),
   })
   .required();
 
-const optionalImagesKeys = postSchema
+const optionalImagesKeys = newPostSchema
   .pick({ image2: true, image3: true, image4: true, image5: true })
   .keyof();
 
-export type PostSchema = z.infer<typeof postSchema>;
+export type NewPostSchema = z.infer<typeof newPostSchema>;
 
 export default function NewPostPage() {
   const {
@@ -42,8 +47,8 @@ export default function NewPostPage() {
     handleSubmit,
     formState: { errors },
     watch,
-  } = useForm<PostSchema>({
-    resolver: zodResolver(postSchema),
+  } = useForm<NewPostSchema>({
+    resolver: zodResolver(newPostSchema),
   });
 
   const router = useRouter();
