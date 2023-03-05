@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { ErrorMessage } from "@hookform/error-message";
 import { z } from "zod";
 import { Button } from "flowbite-react";
 import Head from "next/head";
@@ -12,11 +13,6 @@ import { useRouter } from "next/router";
 import { api } from "@/utils/api";
 import PostSchema from "prisma/generated/zod/modelSchema/PostSchema";
 
-const sizes = z.enum(["xs", "small", "medium", "large", "xl"]);
-
-const clientFile = () =>
-  typeof window === "undefined" ? z.undefined() : z.instanceof(File);
-
 export const newPostSchema = z
   .object({
     title: PostSchema.shape.title
@@ -24,20 +20,12 @@ export const newPostSchema = z
       .max(16, { message: "Title too long" }),
     size: PostSchema.shape.size,
     brand: z.string().max(25, { message: "Title too long" }).optional(),
-    image1: clientFile(),
-    image2: clientFile().optional(),
-    image3: clientFile().optional(),
-    image4: clientFile().optional(),
-    image5: clientFile().optional(),
+    images: PostSchema.shape.images,
     price: PostSchema.shape.price
       .min(-9999)
       .max(9999, { message: "Max price is 9999" }),
   })
   .required();
-
-const optionalImagesKeys = newPostSchema
-  .pick({ image2: true, image3: true, image4: true, image5: true })
-  .keyof();
 
 export type NewPostSchema = z.infer<typeof newPostSchema>;
 
@@ -53,10 +41,30 @@ export default function NewPostPage() {
 
   const router = useRouter();
   const { mutateAsync, isLoading, isSuccess } = api.post.create.useMutation();
+
+  const [image1, setImage1] = useState("");
+  const [image2, setImage2] = useState("");
+  const [image3, setImage3] = useState("");
+  const [image4, setImage4] = useState("");
+  const [image5, setImage5] = useState("");
+
   const [uploadedImageCount, setUploadedImageCount] = useState(4);
 
+  function getImages() {
+    const images = [image1];
+    images.push(image1);
+    if (image2) images.push(image2);
+    if (image3) images.push(image3);
+    if (image4) images.push(image4);
+    if (image5) images.push(image5);
+    return images;
+  }
+
   const onSubmit = handleSubmit(async (formData) => {
-    const result = await mutateAsync(formData);
+    const result = await mutateAsync({
+      ...formData,
+      images: getImages(),
+    });
     if (result) {
       await router.push(`/post/${result.id}`);
     } else {
@@ -82,7 +90,7 @@ export default function NewPostPage() {
           />
           <FormSelect label="size" register={register} error={errors.size}>
             <option>Choose a size</option>
-            {sizes.options.map((size) => (
+            {newPostSchema.shape.size.options.map((size) => (
               <option key={size} value={size}>
                 {size}
               </option>
@@ -96,11 +104,12 @@ export default function NewPostPage() {
           {/* File Upload */}
           <div className="mx-auto max-w-sm">
             <FormDropUpload
-              label="image1"
+              label="images.1"
               register={register}
-              error={errors.image1}
+              error={errors.images && errors.images[0]}
               height={64}
               className="w-full rounded-t-lg"
+              onFileChanged={setImage1}
             />
             <DraftFeedItem
               title={watch("title")}
@@ -111,30 +120,32 @@ export default function NewPostPage() {
             <div className="flex justify-between pt-2">
               {uploadedImageCount > 0 &&
                 uploadedImageCount < 5 &&
-                optionalImagesKeys.options.map((label) => (
+                [...Array(5).keys()].map((k) => (
                   <FormDropUpload
-                    key={label}
-                    label={label}
+                    key={k + 1}
+                    label={`images.${k + 1}`}
                     register={register}
-                    error={errors[label]}
+                    error={errors.images && errors.images[k + 1]}
                     height={32}
                     className="rounded-lg"
+                    // todo: will bug
+                    onFileChanged={setImage2}
                   />
                 ))}
             </div>
             {/* Optional images upload error messages */}
-            {optionalImagesKeys.options.map(
-              (label) =>
-                errors[label]?.message && (
-                  <p
-                    key={label}
-                    id={`image2to5_error_message`}
-                    className="mt-2 text-xs text-red-400"
-                  >
-                    {label}: {errors[label]?.message}
+            {[...Array(5).keys()].map((k) => (
+              <ErrorMessage
+                key={k + 1}
+                errors={errors}
+                name={`images.${k + 1}`}
+                render={({ message }) => (
+                  <p className="mt-2 text-xs text-red-400">
+                    Image {k + 1}: {message}
                   </p>
-                )
-            )}
+                )}
+              />
+            ))}
           </div>
           <Button
             outline={true}
