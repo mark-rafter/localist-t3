@@ -8,7 +8,6 @@ import { DraftFeedItem } from "@/components/feed/feed-item";
 import { FormInput, FormNumberInput } from "@/components/form/form-input";
 import { FormSelect } from "@/components/form/form-select";
 import { FormDropUpload } from "@/components/form/form-drop-upload";
-import { useState } from "react";
 import { useRouter } from "next/router";
 import { api } from "@/utils/api";
 import PostSchema from "prisma/generated/zod/modelSchema/PostSchema";
@@ -33,6 +32,7 @@ export default function NewPostPage() {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
     watch,
   } = useForm<NewPostSchema>({
@@ -42,29 +42,8 @@ export default function NewPostPage() {
   const router = useRouter();
   const { mutateAsync, isLoading, isSuccess } = api.post.create.useMutation();
 
-  const [image1, setImage1] = useState("");
-  const [image2, setImage2] = useState("");
-  const [image3, setImage3] = useState("");
-  const [image4, setImage4] = useState("");
-  const [image5, setImage5] = useState("");
-
-  const [uploadedImageCount, setUploadedImageCount] = useState(4);
-
-  function getImages() {
-    const images = [image1];
-    images.push(image1);
-    if (image2) images.push(image2);
-    if (image3) images.push(image3);
-    if (image4) images.push(image4);
-    if (image5) images.push(image5);
-    return images;
-  }
-
-  const onSubmit = handleSubmit(async (formData) => {
-    const result = await mutateAsync({
-      ...formData,
-      images: getImages(),
-    });
+  const submit = handleSubmit(async (formData) => {
+    const result = await mutateAsync(formData);
     if (result) {
       await router.push(`/post/${result.id}`);
     } else {
@@ -80,7 +59,7 @@ export default function NewPostPage() {
       </Head>
       <div className="container mx-auto max-w-sm pl-2">
         <h1 className="mb-2 text-center text-3xl">New Post</h1>
-        <form className="flex flex-col gap-4" onSubmit={onSubmit}>
+        <form className="flex flex-col gap-4" onSubmit={submit}>
           <FormInput label="title" register={register} error={errors.title} />
           <FormInput
             label="brand"
@@ -109,7 +88,9 @@ export default function NewPostPage() {
               error={errors.images && errors.images[0]}
               height={64}
               className="w-full rounded-t-lg"
-              onFileChanged={setImage1}
+              onFileChanged={(value) =>
+                setValue("images.0", value, { shouldValidate: true })
+              }
             />
             <DraftFeedItem
               title={watch("title")}
@@ -118,30 +99,31 @@ export default function NewPostPage() {
             />
             {/* Optional images upload */}
             <div className="flex justify-between pt-2">
-              {uploadedImageCount > 0 &&
-                uploadedImageCount < 5 &&
-                [...Array(5).keys()].map((k) => (
-                  <FormDropUpload
-                    key={k + 1}
-                    label={`images.${k + 1}`}
-                    register={register}
-                    error={errors.images && errors.images[k + 1]}
-                    height={32}
-                    className="rounded-lg"
-                    // todo: will bug
-                    onFileChanged={setImage2}
-                  />
-                ))}
+              {[2, 3, 4, 5, 6].map((k) => (
+                <FormDropUpload
+                  key={k}
+                  label={`images.${k}`}
+                  register={register}
+                  error={errors.images && errors.images[k]}
+                  height={32}
+                  className="rounded-lg"
+                  onFileChanged={(value) =>
+                    setValue(`images.${k}`, value, {
+                      shouldValidate: true,
+                    })
+                  }
+                />
+              ))}
             </div>
             {/* Optional images upload error messages */}
-            {[...Array(5).keys()].map((k) => (
+            {[2, 3, 4, 5, 6].map((k) => (
               <ErrorMessage
-                key={k + 1}
+                key={k}
                 errors={errors}
-                name={`images.${k + 1}`}
+                name={`images.${k}`}
                 render={({ message }) => (
                   <p className="mt-2 text-xs text-red-400">
-                    Image {k + 1}: {message}
+                    Image {k}: {message}
                   </p>
                 )}
               />

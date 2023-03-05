@@ -1,6 +1,4 @@
 import { compressAccurately } from "image-conversion";
-import type { Dispatch, SetStateAction } from "react";
-import { useRef, useState } from "react";
 import type {
   FieldError,
   FieldValues,
@@ -13,7 +11,7 @@ type FormDropUploadProps<T extends FieldValues> = {
   height: number | string;
   label: Path<T>;
   register: UseFormRegister<T>;
-  onFileChanged: Dispatch<SetStateAction<string>>;
+  onFileChanged: (value: string) => void;
   error?: FieldError;
   className?: string;
 };
@@ -26,25 +24,18 @@ export const FormDropUpload = <T extends FieldValues>({
   error,
   className,
 }: FormDropUploadProps<T>) => {
-  //const inputRef = useRef<HTMLInputElement>(null);
-  //const [uploadedFile, setUploadedFile] = useState<string | null>();
-
-  async function handleFileSelection(
-    event: React.ChangeEvent<HTMLInputElement>
-  ) {
+  async function handleFile(event: React.ChangeEvent<HTMLInputElement>) {
     const selectedFile = event.target?.files?.item(0);
     if (!selectedFile) {
-      console.error("No files uploaded");
+      console.error("No file selected");
       debugger;
       return;
     }
     const compressedFile = await compressAccurately(selectedFile, 100);
 
-    console.log("imageee", compressedFile);
+    console.log("compressedFile", compressedFile);
     const reader = new FileReader();
     reader.readAsDataURL(compressedFile);
-
-    // When the file contents are loaded, set the selected file state to the Data URI
     reader.onload = () => {
       if (typeof reader.result === "string") {
         onFileChanged(reader.result);
@@ -90,8 +81,7 @@ export const FormDropUpload = <T extends FieldValues>({
         accept="image/*"
         className="hidden"
         aria-invalid={error ? "true" : "false"}
-        //ref={inputRef}
-        onChange={handleFileSelection}
+        onChange={handleFile}
       />
     </label>
   );
