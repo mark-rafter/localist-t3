@@ -25,10 +25,10 @@ type ImageCarouselProps = Pick<
 >;
 
 const ImagesContainer = ({
-  images,
+  imageLength,
   children,
-}: React.PropsWithChildren<Pick<Required<ImageCarouselProps>, "images">>) =>
-  images.length == 1 ? (
+}: React.PropsWithChildren<{ imageLength: number }>) =>
+  imageLength == 1 ? (
     <>{children}</>
   ) : (
     <Carousel slideInterval={3000}>{children}</Carousel>
@@ -46,7 +46,7 @@ const ImageCarousel = ({
 
   return (
     <div>
-      <ImagesContainer images={images}>
+      <ImagesContainer imageLength={images.length}>
         {images.map((image, index) => (
           <LinkOrDisabled
             key={index}
