@@ -20,18 +20,14 @@ import { SidebarLink } from "@/components/sidebar/sidebar-link";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 
-const BrandButton = (
-  <Link href="/" className="mb-5 flex items-center pl-2.5">
+const BrandButton = () => (
+  <Link href="/" className="mb-4 flex items-center pl-2.5">
     <Image
-      src="https://flowbite.com/docs/images/logo.svg"
-      width={32}
-      height={32}
-      className="mr-3 h-6 sm:h-7"
+      src="/login-logo.png"
+      width={448 / 3}
+      height={112 / 3}
       alt="Localist Logo"
     />
-    <span className="self-center whitespace-nowrap text-xl font-semibold">
-      Localist
-    </span>
   </Link>
 );
 
@@ -56,7 +52,7 @@ export const Sidebar = () => {
         aria-hidden="true"
       >
         <div className="h-full overflow-y-auto bg-gray-800 px-3 py-4 antialiased">
-          {BrandButton}
+          <BrandButton />
           <ul className="space-y-2">
             <SidebarLink
               label="Feed"

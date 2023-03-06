@@ -132,11 +132,11 @@ export default function NewPostPage() {
           <Button
             outline={true}
             disabled={isLoading || isSuccess}
-            className="mx-auto mb-2"
+            className="mx-auto mb-2 w-64"
             gradientDuoTone="greenToBlue"
             type="submit"
           >
-            Create Post
+            <span className="text-lg font-semibold">Create Post</span>
           </Button>
         </form>
       </div>
