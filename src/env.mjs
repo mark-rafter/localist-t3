@@ -22,10 +22,12 @@ const server = z.object({
   // Add `.min(1) on ID and SECRET if you want to make sure they're not empty
   GITHUB_ID: z.string(),
   GITHUB_SECRET: z.string(),
-  VERCEL_ENV: z.enum(["development", "preview", "production"]),
+  SPOTIFY_ID: z.string(),
+  SPOTIFY_SECRET: z.string(),
+  SUPABASE_ANON_KEY: z.string(),
   SUPABASE_BUCKETNAME: z.string(),
   SUPABASE_URL: z.string().url(),
-  SUPABASE_ANON_KEY: z.string(),
+  VERCEL_ENV: z.enum(["development", "preview", "production"]),
 });
 
 /**
@@ -49,10 +51,12 @@ const processEnv = {
   NEXTAUTH_URL: process.env.NEXTAUTH_URL,
   GITHUB_ID: process.env.GITHUB_ID,
   GITHUB_SECRET: process.env.GITHUB_SECRET,
-  VERCEL_ENV: process.env.VERCEL_ENV,
+  SPOTIFY_ID: process.env.SPOTIFY_ID,
+  SPOTIFY_SECRET: process.env.SPOTIFY_SECRET,
   SUPABASE_BUCKETNAME: process.env.SUPABASE_BUCKETNAME,
   SUPABASE_URL: process.env.SUPABASE_URL,
   SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY,
+  VERCEL_ENV: process.env.VERCEL_ENV,
   // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
 };
 

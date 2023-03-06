@@ -6,6 +6,7 @@ import {
   type DefaultSession,
 } from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
+import SpotifyProvider from "next-auth/providers/spotify";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { env } from "../env.mjs";
@@ -64,47 +65,50 @@ export const getAuthOptions = (
       },
     },
     adapter: PrismaAdapter(prisma),
-    providers: [
-      // we cannot use OAuth in preview environments because of the randomly generated subdomain suffix
-      env.VERCEL_ENV === "preview"
-        ? CredentialsProvider({
-            name: "Credentials",
-            credentials: {
-              username: {
-                label: "Username",
-                type: "text",
-                placeholder: "jsmith",
-              },
-              password: { label: "Password", type: "password" },
-            },
-            async authorize() {
-              return (await Promise.resolve({
-                id: "1",
-                name: "J Smith",
-                email: "jsmith@example.com",
-                image: "https://i.pravatar.cc/150?u=jsmith@example.com",
-              })) as User;
-            },
-          })
-        : GitHubProvider({
-            clientId: env.GITHUB_ID,
-            clientSecret: env.GITHUB_SECRET,
-          }),
-      /**
-       * ...add more providers here
-       *
-       * Most other providers require a bit more work than the Discord provider.
-       * For example, the GitHub provider requires you to add the
-       * `refresh_token_expires_in` field to the Account model. Refer to the
-       * NextAuth.js docs for the provider you want to use. Example:
-       * @see https://next-auth.js.org/providers/github
-       **/
-    ],
+    providers: getProviders(),
     pages: {
       signIn: "/signin",
     },
   };
 };
+
+function getProviders() {
+  // we cannot use OAuth in preview environments because of the randomly generated subdomain suffix
+  if (env.VERCEL_ENV === "preview") {
+    return [
+      CredentialsProvider({
+        name: "Credentials",
+        credentials: {
+          username: {
+            label: "Username",
+            type: "text",
+            placeholder: "jsmith",
+          },
+          password: { label: "Password", type: "password" },
+        },
+        authorize() {
+          return {
+            id: "1",
+            name: "J Smith",
+            email: "jsmith@example.com",
+            image: "https://i.pravatar.cc/150?u=jsmith@example.com",
+          } as User;
+        },
+      }),
+    ];
+  }
+
+  return [
+    GitHubProvider({
+      clientId: env.GITHUB_ID,
+      clientSecret: env.GITHUB_SECRET,
+    }),
+    SpotifyProvider({
+      clientId: env.SPOTIFY_ID,
+      clientSecret: env.SPOTIFY_SECRET,
+    }),
+  ];
+}
 
 /**
  * Wrapper for `getServerSession` so that you don't need to import the

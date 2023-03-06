@@ -5,10 +5,21 @@ import type {
 } from "next";
 import { getProviders, signIn } from "next-auth/react";
 import Head from "next/head";
-import { FaGithub } from "react-icons/fa";
+import { FaGithub, FaSpotify } from "react-icons/fa";
 
-const providerIcons: Record<string, JSX.Element> = {
-  github: <FaGithub className="mr-2 h-5 w-5" />,
+type ProviderStyle = { icon: JSX.Element; class: string };
+
+const providerStyles: Record<string, ProviderStyle> = {
+  github: {
+    icon: <FaGithub className="mr-2 h-5 w-5" />,
+    class:
+      "bg-[#24292F] hover:bg-[#050708]/30 focus:ring-[#24292F]/50 focus:ring-gray-500",
+  },
+  spotify: {
+    icon: <FaSpotify className="mr-2 h-5 w-5" />,
+    class:
+      "bg-[#1d9a49] hover:bg-[#050708]/30 focus:ring-[#1d9a49]/50 focus:ring-gray-500",
+  },
 };
 
 export default function SignInPage({
@@ -25,18 +36,22 @@ export default function SignInPage({
           <h1 className="text-4xl font-extrabold tracking-tight sm:text-[5rem]">
             Localist
           </h1>
-          {Object.values(providers).map((provider) => (
-            <div key={provider.name}>
-              <button
-                type="button"
-                onClick={() => signIn(provider.id)}
-                className="mr-2 mb-2 inline-flex items-center rounded-lg bg-[#24292F] px-5 py-2.5 text-center text-sm font-medium hover:bg-[#050708]/30 focus:outline-none focus:ring-4 focus:ring-[#24292F]/50 focus:ring-gray-500"
-              >
-                {providerIcons[provider.id]}
-                Sign in with {provider.name}
-              </button>
-            </div>
-          ))}
+          <div>
+            {Object.values(providers).map((provider) => (
+              <div key={provider.name}>
+                <button
+                  type="button"
+                  onClick={() => signIn(provider.id)}
+                  className={`mr-2 mb-2 inline-flex items-center rounded-lg px-5 py-2.5 text-center text-sm font-medium focus:outline-none focus:ring-4 ${
+                    providerStyles[provider.id]?.class ?? ""
+                  }`}
+                >
+                  {providerStyles[provider.id]?.icon}
+                  Sign in with {provider.name}
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
       </main>
     </>

@@ -33,18 +33,10 @@ const config = {
   },
   images: {
     remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "avatars.githubusercontent.com",
-      },
-      {
-        protocol: "https",
-        hostname: "loremflickr.com",
-      },
-      {
-        protocol: "https",
-        hostname: new URL(env.SUPABASE_URL).hostname,
-      },
+      { protocol: "https", hostname: "avatars.githubusercontent.com" },
+      { protocol: "https", hostname: "loremflickr.com" },
+      { protocol: "https", hostname: "i.scdn.co" },
+      { protocol: "https", hostname: new URL(env.SUPABASE_URL).hostname },
     ],
   },
   async redirects() {
