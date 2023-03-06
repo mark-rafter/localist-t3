@@ -42,7 +42,8 @@ export default function NewPostPage() {
   const router = useRouter();
   const { mutateAsync, isLoading, isSuccess } = api.post.create.useMutation();
 
-  const submit = handleSubmit(async (formData) => {
+  const submitForm = handleSubmit(async (formData) => {
+    console.log("formData", formData);
     const result = await mutateAsync(formData);
     if (result) {
       await router.push(`/post/${result.id}`);
@@ -59,7 +60,7 @@ export default function NewPostPage() {
       </Head>
       <div className="container mx-auto max-w-sm pl-2">
         <h1 className="mb-2 text-center text-3xl">New Post</h1>
-        <form className="flex flex-col gap-4" onSubmit={submit}>
+        <form className="flex flex-col gap-4" onSubmit={submitForm}>
           <FormInput label="title" register={register} error={errors.title} />
           <FormInput
             label="brand"
@@ -83,7 +84,7 @@ export default function NewPostPage() {
           {/* File Upload */}
           <div className="mx-auto max-w-sm">
             <FormDropUpload
-              label="images.1"
+              label="images.0"
               register={register}
               error={errors.images && errors.images[0]}
               height={64}
@@ -98,7 +99,7 @@ export default function NewPostPage() {
               price={watch("price")}
             />
             {/* Optional images upload */}
-            <div className="flex justify-between pt-2">
+            {/* <div className="flex justify-between pt-2">
               {[2, 3, 4, 5, 6].map((k) => (
                 <FormDropUpload
                   key={k}
@@ -115,7 +116,6 @@ export default function NewPostPage() {
                 />
               ))}
             </div>
-            {/* Optional images upload error messages */}
             {[2, 3, 4, 5, 6].map((k) => (
               <ErrorMessage
                 key={k}
@@ -127,7 +127,7 @@ export default function NewPostPage() {
                   </p>
                 )}
               />
-            ))}
+            ))} */}
           </div>
           <Button
             outline={true}

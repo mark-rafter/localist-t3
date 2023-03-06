@@ -23,6 +23,9 @@ const server = z.object({
   GITHUB_ID: z.string(),
   GITHUB_SECRET: z.string(),
   VERCEL_ENV: z.enum(["development", "preview", "production"]),
+  SUPABASE_BUCKETNAME: z.string(),
+  SUPABASE_URL: z.string().url(),
+  SUPABASE_ANON_KEY: z.string(),
 });
 
 /**
@@ -47,6 +50,9 @@ const processEnv = {
   GITHUB_ID: process.env.GITHUB_ID,
   GITHUB_SECRET: process.env.GITHUB_SECRET,
   VERCEL_ENV: process.env.VERCEL_ENV,
+  SUPABASE_BUCKETNAME: process.env.SUPABASE_BUCKETNAME,
+  SUPABASE_URL: process.env.SUPABASE_URL,
+  SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY,
   // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
 };
 

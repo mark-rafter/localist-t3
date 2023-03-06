@@ -5,14 +5,21 @@ import {
   protectedProcedure,
 } from "@/server/api/trpc";
 import { newPostSchema } from "@/pages/newpost";
+import { uploadImage } from "@/helpers/upload-image";
 
 export const postRouter = createTRPCRouter({
   create: protectedProcedure
     .input(newPostSchema)
     .mutation(async ({ ctx, input }) => {
+      // todo: temp workaround, reshape newPostSchema to have "details" object containing brand
+      const { brand, ...newPost } = input;
+
+      const images = await Promise.all(input.images.map(uploadImage));
+
       const createdPost = await ctx.prisma.post.create({
         data: {
-          ...input,
+          ...newPost,
+          images: images,
           author: {
             connect: {
               id: ctx.session.user.id,
