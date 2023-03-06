@@ -3,12 +3,11 @@ import React from "react";
 import { HiOutlineClock, HiOutlineMapPin } from "react-icons/hi2";
 import { Carousel } from "flowbite-react";
 import { LinkOrDisabled } from "@/components/link-or-disabled";
-
-type ItemSize = "xs" | "small" | "medium" | "large" | "xl";
+import type { ItemSizeType } from "prisma/generated/zod/inputTypeSchemas/ItemSizeSchema";
 
 type DraftFeedItem = {
   title: string;
-  size: ItemSize;
+  size: ItemSizeType;
   price: number;
   images?: string[];
 };
@@ -18,6 +17,53 @@ export type FeedItemProps = DraftFeedItem & {
   distance: string;
   postAge: string;
   isPreview?: boolean;
+};
+
+type ImageCarouselProps = Pick<
+  FeedItemProps,
+  "id" | "images" | "title" | "isPreview"
+>;
+
+const ImagesContainer = ({
+  images,
+  children,
+}: React.PropsWithChildren<Pick<Required<ImageCarouselProps>, "images">>) =>
+  images.length == 1 ? (
+    <>{children}</>
+  ) : (
+    <Carousel slideInterval={3000}>{children}</Carousel>
+  );
+
+const ImageCarousel = ({
+  id,
+  title,
+  images,
+  isPreview,
+}: ImageCarouselProps) => {
+  const smPixels = 384;
+
+  if (!images) return <></>;
+
+  return (
+    <div>
+      <ImagesContainer images={images}>
+        {images.map((image, index) => (
+          <LinkOrDisabled
+            key={index}
+            target={`post/${id}`}
+            disabled={isPreview == true}
+          >
+            <Image
+              src={image}
+              alt={`${title} Image ${index + 1}`}
+              width={smPixels}
+              height={smPixels}
+            />
+          </LinkOrDisabled>
+        ))}
+      </ImagesContainer>
+    </div>
+  );
 };
 
 export const FeedItem = ({
@@ -30,30 +76,9 @@ export const FeedItem = ({
   postAge,
   isPreview = false,
 }: FeedItemProps) => {
-  const smPixels = 384;
   return (
     <article className="max-w-sm overflow-hidden rounded-lg bg-gray-800">
-      {images && (
-        <div>
-          <Carousel slideInterval={3000}>
-            {images.map((image, index) => (
-              <LinkOrDisabled
-                key={index}
-                target={`post/${id}`}
-                disabled={isPreview == true}
-              >
-                <Image
-                  src={image}
-                  alt="..."
-                  width={smPixels}
-                  height={smPixels}
-                />
-              </LinkOrDisabled>
-            ))}
-          </Carousel>
-        </div>
-      )}
-
+      <ImageCarousel {...{ id, title, images, isPreview }} />
       <div className="p-3 antialiased sm:p-4">
         {/* Top Row: size + post age */}
         <div className="flex items-baseline justify-between text-gray-300">
