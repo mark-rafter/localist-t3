@@ -9,7 +9,7 @@ const Badge = ({ text }: { text: string }) => (
   </span>
 );
 
-const LinkOrDisabled = ({
+function LinkOrDisabled({
   disabled,
   target,
   children,
@@ -17,7 +17,7 @@ const LinkOrDisabled = ({
   disabled: boolean;
   target: string;
   children?: React.ReactNode;
-}) => {
+}) {
   const baseClasses = "flex items-center rounded-lg p-2 text-base font-normal";
   if (disabled) {
     return <span className={`${baseClasses} text-gray-500`}>{children}</span>;
@@ -28,7 +28,7 @@ const LinkOrDisabled = ({
       {children}
     </Link>
   );
-};
+}
 
 type StartsWithSlash = `/${string}`;
 
@@ -42,7 +42,7 @@ type SidebarLinkProps = {
   showSpinner?: boolean;
 };
 
-export const SidebarLink = ({
+export function SidebarLink({
   icon: Icon,
   label,
   disabled,
@@ -50,7 +50,7 @@ export const SidebarLink = ({
   showSpinner,
   href,
   badge,
-}: SidebarLinkProps) => {
+}: SidebarLinkProps) {
   const { asPath } = useRouter();
   const target = href ?? "/" + label.replace(/\s/g, "").toLowerCase();
   const isActiveLink = asPath === target;
@@ -77,4 +77,4 @@ export const SidebarLink = ({
       </LinkOrDisabled>
     </li>
   );
-};
+}

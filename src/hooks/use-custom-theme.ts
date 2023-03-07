@@ -1,7 +1,7 @@
 import type { ThemeProps } from "flowbite-react";
 import { useTheme } from "flowbite-react";
 
-export const useCustomTheme = (): ThemeProps => {
+export function useCustomTheme(): ThemeProps {
   const defaultTheme = useTheme().theme;
   return {
     theme: {
@@ -12,4 +12,4 @@ export const useCustomTheme = (): ThemeProps => {
       },
     },
   };
-};
+}

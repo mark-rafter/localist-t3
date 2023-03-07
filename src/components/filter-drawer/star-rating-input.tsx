@@ -3,11 +3,11 @@ import { Rating } from "flowbite-react";
 
 type NumberBetween1And5 = 1 | 2 | 3 | 4 | 5;
 
-const StarRatingInput = ({
+export default function StarRatingInput({
   defaultValue,
 }: {
   defaultValue: NumberBetween1And5;
-}) => {
+}) {
   // todo: reset input
   // todo: bubble up onChange
   const [rating, setRating] = useState<number>(defaultValue);
@@ -26,6 +26,4 @@ const StarRatingInput = ({
       </p>
     </Rating>
   );
-};
-
-export default StarRatingInput;
+}

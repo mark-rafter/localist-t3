@@ -31,7 +31,7 @@ const BrandButton = () => (
   </Link>
 );
 
-export const Sidebar = () => {
+export function Sidebar() {
   const { status: sessionStatus } = useSession();
   return (
     <>
@@ -114,4 +114,4 @@ export const Sidebar = () => {
       </aside>
     </>
   );
-};
+}

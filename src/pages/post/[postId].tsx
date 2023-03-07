@@ -27,10 +27,10 @@ export default function PostPage({ postId, title }: PostPageProps) {
   );
 }
 
-const getAllPostIds = async () => {
+async function getAllPostIds() {
   const postIds = await prisma.post.findMany({ select: { id: true } });
   return postIds.map((p) => p.id);
-};
+}
 
 export async function getStaticPaths() {
   const postIds = await getAllPostIds();

@@ -34,12 +34,7 @@ const ImagesContainer = ({
     <Carousel slideInterval={3000}>{children}</Carousel>
   );
 
-const ImageCarousel = ({
-  id,
-  title,
-  images,
-  isPreview,
-}: ImageCarouselProps) => {
+function ImageCarousel({ id, title, images, isPreview }: ImageCarouselProps) {
   const smPixels = 384;
 
   if (!images) return <></>;
@@ -64,9 +59,9 @@ const ImageCarousel = ({
       </ImagesContainer>
     </div>
   );
-};
+}
 
-export const FeedItem = ({
+export function FeedItem({
   id,
   title,
   price,
@@ -75,7 +70,7 @@ export const FeedItem = ({
   distance,
   postAge,
   isPreview = false,
-}: FeedItemProps) => {
+}: FeedItemProps) {
   return (
     <article className="max-w-sm overflow-hidden rounded-lg bg-gray-800">
       <ImageCarousel {...{ id, title, images, isPreview }} />
@@ -105,8 +100,8 @@ export const FeedItem = ({
       </div>
     </article>
   );
-};
+}
 
-export const DraftFeedItem = (props: DraftFeedItem) => {
-  return <FeedItem id={0} distance="X miles" postAge="X days ago" {...props} />;
-};
+export const DraftFeedItem = (props: DraftFeedItem) => (
+  <FeedItem id={0} distance="X miles" postAge="X days ago" {...props} />
+);

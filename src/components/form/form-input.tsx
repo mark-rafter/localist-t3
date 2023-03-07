@@ -14,13 +14,13 @@ type FormInputProps<T extends FieldValues> = {
   optional?: boolean;
 };
 
-export const FormInput = <T extends FieldValues>({
+export function FormInput<T extends FieldValues>({
   label,
   register,
   error,
   type,
   optional = false,
-}: FormInputProps<T>) => {
+}: FormInputProps<T>) {
   const textColor = error
     ? "text-red-500"
     : "text-gray-400 peer-focus:text-blue-500";
@@ -50,10 +50,10 @@ export const FormInput = <T extends FieldValues>({
       </p>
     </div>
   );
-};
+}
 
-export const FormNumberInput = <T extends FieldValues>(
+export function FormNumberInput<T extends FieldValues>(
   props: FormInputProps<T>
-) => {
+) {
   return <FormInput type="number" {...props} />;
-};
+}

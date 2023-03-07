@@ -10,7 +10,7 @@ export type FeedProps = {
   cursor?: string;
 };
 
-export const Feed = ({ posts }: FeedProps) => {
+export function Feed({ posts }: FeedProps) {
   const { data } = useSession();
   // todo: set geo cookie in middleware and extract defaults
   const userCoords = {
@@ -41,4 +41,4 @@ export const Feed = ({ posts }: FeedProps) => {
       })}
     </div>
   );
-};
+}

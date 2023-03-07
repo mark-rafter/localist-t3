@@ -12,26 +12,28 @@ type FormSelectProps<T extends FieldValues> = {
   children: React.ReactNode;
 };
 
-export const FormSelect = <T extends FieldValues>({
+export function FormSelect<T extends FieldValues>({
   label,
   register,
   error,
   children,
-}: FormSelectProps<T>) => (
-  <>
-    <label htmlFor={label} className="sr-only">
-      {label} select
-    </label>
-    <select
-      id={label}
-      {...register(label)}
-      aria-describedby={`${label}_error_message`}
-      className="peer block w-full appearance-none border-0 border-b-2 border-gray-700 bg-primary-999 px-0 pt-2.5 text-sm text-gray-400 focus:border-gray-200 focus:outline-none focus:ring-0"
-    >
-      {children}
-    </select>
-    <p id={`${label}_error_message`} className="text-xs text-red-400">
-      {error && `Please select a ${label}`}
-    </p>
-  </>
-);
+}: FormSelectProps<T>) {
+  return (
+    <>
+      <label htmlFor={label} className="sr-only">
+        {label} select
+      </label>
+      <select
+        id={label}
+        {...register(label)}
+        aria-describedby={`${label}_error_message`}
+        className="peer block w-full appearance-none border-0 border-b-2 border-gray-700 bg-primary-999 px-0 pt-2.5 text-sm text-gray-400 focus:border-gray-200 focus:outline-none focus:ring-0"
+      >
+        {children}
+      </select>
+      <p id={`${label}_error_message`} className="text-xs text-red-400">
+        {error && `Please select a ${label}`}
+      </p>
+    </>
+  );
+}

@@ -9,16 +9,16 @@ import {
 } from "react-icons/hi2";
 import type { IconType } from "react-icons";
 
-const HomePageLink = ({
+function HomePageLink({
   href,
   gradientDuoTone,
   icon: Icon,
   children,
-}: {
+}: React.PropsWithChildren<{
   href: string;
   gradientDuoTone: string;
   icon: IconType;
-} & React.PropsWithChildren) => {
+}>) {
   return (
     <Link href={href} className="mr-3 mb-3 inline-flex">
       <Button size="lg" outline={true} gradientDuoTone={gradientDuoTone}>
@@ -29,7 +29,7 @@ const HomePageLink = ({
       </Button>
     </Link>
   );
-};
+}
 
 export default function HomePage() {
   return (

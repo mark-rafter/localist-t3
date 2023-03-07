@@ -16,14 +16,14 @@ type FormDropUploadProps<T extends FieldValues> = {
   className?: string;
 };
 
-export const FormDropUpload = <T extends FieldValues>({
+export function FormDropUpload<T extends FieldValues>({
   height,
   label,
   register,
   onFileChanged,
   error,
   className,
-}: FormDropUploadProps<T>) => {
+}: FormDropUploadProps<T>) {
   async function handleFile(event: React.ChangeEvent<HTMLInputElement>) {
     const selectedFile = event.target?.files?.item(0);
     if (!selectedFile) {
@@ -85,4 +85,4 @@ export const FormDropUpload = <T extends FieldValues>({
       />
     </label>
   );
-};
+}

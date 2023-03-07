@@ -8,12 +8,12 @@ type LinkOrDisabledProps = {
   prefetch?: boolean;
 };
 
-export const LinkOrDisabled = ({
+export function LinkOrDisabled({
   disabled,
   target,
   children,
   prefetch = false,
-}: LinkOrDisabledProps) => {
+}: LinkOrDisabledProps) {
   if (disabled) {
     return <>{children}</>;
   }
@@ -22,4 +22,4 @@ export const LinkOrDisabled = ({
       {children}
     </Link>
   );
-};
+}

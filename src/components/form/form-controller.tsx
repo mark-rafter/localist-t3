@@ -9,9 +9,9 @@ type FormControllerProps<T extends FieldValues> = {
   errors: FieldErrors<T>;
 } & React.PropsWithChildren;
 
-export const FormController = <T extends FieldValues>(
+export function FormController<T extends FieldValues>(
   props: FormControllerProps<T>
-) => {
+) {
   // todo: inject register and errors to each Form component
   return <>{props.children}</>;
-};
+}

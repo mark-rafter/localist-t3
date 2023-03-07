@@ -1,3 +1,2 @@
-export const safeParseFloat = (toParse: unknown, defaultValue: number) => {
-  return typeof toParse === "string" ? parseFloat(toParse) : defaultValue;
-};
+export const safeParseFloat = (toParse: unknown, defaultValue: number) =>
+  typeof toParse === "string" ? parseFloat(toParse) : defaultValue;

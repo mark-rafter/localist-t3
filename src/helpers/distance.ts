@@ -1,10 +1,10 @@
 type Unit = "mile" | "km";
 
-export const humanize = (
+export function humanize(
   from: Coordinates,
   to: Coordinates,
   unit: Unit = "mile"
-) => {
+) {
   const distance = calculate(from, to, unit);
   if (distance == 0) {
     return `less than 1 ${unit}`;
@@ -12,7 +12,7 @@ export const humanize = (
     return `1 ${unit}`;
   }
   return `${distance} ${unit}s`;
-};
+}
 
 /*
 MIT License
@@ -61,11 +61,11 @@ const calculateDistance = (from: Coordinates, to: Coordinates): number => {
   return EARTH_RADIUS * c;
 };
 
-export const calculate = (
+export function calculate(
   from: Coordinates,
   to: Coordinates,
   unit: Unit = "mile"
-): number => {
+): number {
   const distance = calculateDistance(from, to);
   switch (unit) {
     case "mile":
@@ -73,4 +73,4 @@ export const calculate = (
     case "km":
       return Math.round(distance * 0.001);
   }
-};
+}
