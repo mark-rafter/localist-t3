@@ -1,7 +1,7 @@
 import { Button } from "flowbite-react";
 import Head from "next/head";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   HiOutlineHome,
   HiOutlineMapPin,
@@ -10,28 +10,58 @@ import {
 import type { IconType } from "react-icons";
 
 function HomePageLink({
-  href,
   gradientDuoTone,
   icon: Icon,
+  disabled,
   children,
+  href,
+  onClick,
 }: React.PropsWithChildren<{
-  href: string;
   gradientDuoTone: string;
   icon: IconType;
+  disabled?: boolean;
+  href?: string;
+  onClick?: () => void;
 }>) {
+  const ButtonContainer = ({ children }: React.PropsWithChildren) =>
+    href ? <Link href={href}>{children}</Link> : <>{children}</>;
+
   return (
-    <Link href={href} className="mr-3 mb-3 inline-flex">
-      <Button size="lg" outline={true} gradientDuoTone={gradientDuoTone}>
-        <div className="flex">
+    <ButtonContainer>
+      <Button
+        className="mr-3 mb-3 inline-flex"
+        outline={true}
+        gradientDuoTone={gradientDuoTone}
+        onClick={onClick}
+        disabled={disabled}
+      >
+        <div className="flex text-lg sm:text-base">
           <Icon className="mr-2 h-6 w-6" />
           {children}
         </div>
       </Button>
-    </Link>
+    </ButtonContainer>
   );
 }
 
 export default function HomePage() {
+  const [geolocation, setGeolocation] = useState<Geolocation | undefined>(
+    undefined
+  );
+
+  useEffect(() => {
+    if ("geolocation" in navigator) {
+      setGeolocation(navigator.geolocation);
+    }
+  }, []);
+
+  const setLocation = () => {
+    geolocation?.getCurrentPosition((position) => {
+      console.log("latitude", position.coords.latitude);
+      console.log("longitude", position.coords.longitude);
+    });
+  };
+
   return (
     <>
       <Head>
@@ -60,7 +90,8 @@ export default function HomePage() {
           Post an item
         </HomePageLink>
         <HomePageLink
-          href="/settings"
+          disabled={!geolocation}
+          onClick={setLocation}
           gradientDuoTone="pinkToOrange"
           icon={HiOutlineMapPin}
         >

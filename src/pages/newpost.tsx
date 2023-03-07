@@ -136,7 +136,9 @@ export default function NewPostPage() {
             gradientDuoTone="greenToBlue"
             type="submit"
           >
-            <span className="text-lg font-semibold">Create Post</span>
+            <span className="text-lg font-semibold sm:text-base">
+              Create Post
+            </span>
           </Button>
         </form>
       </div>
