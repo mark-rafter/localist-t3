@@ -10,21 +10,33 @@ import type {
 import { api } from "@/utils/api";
 import { appRouter } from "@/server/api/root";
 import { getServerAuthSession } from "@/server/auth";
+import { Button } from "flowbite-react";
 
 export default function FeedPage({
   posts,
   cursor,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  // todo: infinite scroll
-  // const { data } = api.post.getMany.useQuery({ limit: 8, cursor: feed.cursor });
+  const { data, hasNextPage, fetchNextPage, isFetching } =
+    api.post.getMany.useInfiniteQuery(
+      { limit: 8 },
+      { getNextPageParam: (lastPage) => lastPage.cursor }
+    );
+
+  const fetchedPosts = data?.pages.flatMap((page) => page.posts) ?? posts;
 
   return (
     <>
       <Head>
         <title>Feed | Localist</title>
       </Head>
-      <Feed posts={posts} />
+      <Feed posts={fetchedPosts} />
       <FilterDrawer />
+      <Button
+        onClick={() => fetchNextPage()}
+        disabled={!hasNextPage || isFetching}
+      >
+        Load More
+      </Button>
     </>
   );
 }

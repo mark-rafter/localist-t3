@@ -34,7 +34,7 @@ export const postRouter = createTRPCRouter({
   getMany: publicProcedure
     .input(
       z.object({
-        cursor: z.string().nullish(),
+        cursor: z.number().nullish(),
         limit: z.number().min(1).max(8),
       })
     )
@@ -49,13 +49,22 @@ export const postRouter = createTRPCRouter({
             },
           },
         },
-        orderBy: [{ createdAt: "desc" }],
-        take: limit,
+        take: limit + 1,
+        cursor: cursor ? { id: cursor } : undefined,
+        orderBy: {
+          id: "desc",
+        },
       });
+
+      let nextCursor: typeof cursor | undefined = undefined;
+      if (posts.length > limit) {
+        const nextItem = posts.pop();
+        nextCursor = nextItem?.id;
+      }
 
       return {
         posts,
-        cursor: cursor,
+        cursor: nextCursor,
       };
     }),
 });
