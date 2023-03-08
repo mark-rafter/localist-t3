@@ -1,5 +1,5 @@
 import Head from "next/head";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Feed } from "@/components/feed";
 import FilterDrawer from "@/components/filter-drawer";
 import { prisma } from "@/server/db";
@@ -11,30 +11,7 @@ import { api } from "@/utils/api";
 import { appRouter } from "@/server/api/root";
 import { getServerAuthSession } from "@/server/auth";
 import { Button, Spinner } from "flowbite-react";
-import type { getServerSideProps } from "@/pages/signin";
-
-function useScrollPosition() {
-  const [scrollPosition, setScrollPosition] = useState(0);
-
-  function handleScroll() {
-    const height =
-      document.documentElement.scrollHeight -
-      document.documentElement.clientHeight;
-    const winScroll =
-      document.body.scrollTop || document.documentElement.scrollTop;
-    const scrolled = (winScroll / height) * 100;
-    setScrollPosition(scrolled);
-  }
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
-  return scrollPosition;
-}
+import InfiniteScroll from "react-infinite-scroll-component";
 
 export default function FeedPage({
   posts,
@@ -43,16 +20,11 @@ export default function FeedPage({
   const { data, hasNextPage, fetchNextPage, isFetching } =
     api.post.getMany.useInfiniteQuery(
       { limit: 8 },
-      { getNextPageParam: (lastPage) => lastPage.cursor }
+      {
+        getNextPageParam: (lastPage) => lastPage.cursor,
+        refetchOnWindowFocus: false,
+      }
     );
-
-  const scrollPosition = useScrollPosition();
-
-  useEffect(() => {
-    if (scrollPosition > 90 && hasNextPage && !isFetching) {
-      fetchNextPage().catch(console.error);
-    }
-  }, [scrollPosition, hasNextPage, isFetching, fetchNextPage]);
 
   const fetchedPosts = data?.pages.flatMap((page) => page.posts) ?? posts;
 
@@ -61,25 +33,34 @@ export default function FeedPage({
       <Head>
         <title>Feed | Localist</title>
       </Head>
-      <Feed posts={fetchedPosts} />
+      <InfiniteScroll
+        dataLength={fetchedPosts.length}
+        next={fetchNextPage}
+        hasMore={hasNextPage === true}
+        loader={
+          <div className="flex justify-center">
+            <Button
+              className="w-64"
+              color="gray"
+              onClick={() => fetchNextPage()}
+              disabled={!hasNextPage || isFetching}
+            >
+              {isFetching ? (
+                <>
+                  <Spinner size="sm" className="mr-3" light={true} />
+                  Loading...
+                </>
+              ) : (
+                <>Load more</>
+              )}
+            </Button>
+          </div>
+        }
+        endMessage={<p className="text-center">All posts fetched!</p>}
+      >
+        <Feed posts={fetchedPosts} />
+      </InfiniteScroll>
       <FilterDrawer />
-      <div className="flex justify-center">
-        <Button
-          className="w-64"
-          color="gray"
-          onClick={() => fetchNextPage()}
-          disabled={!hasNextPage || isFetching}
-        >
-          {isFetching ? (
-            <>
-              <Spinner size="sm" className="mr-3" light={true} />
-              Loading...
-            </>
-          ) : (
-            <>Load more</>
-          )}
-        </Button>
-      </div>
     </>
   );
 }
