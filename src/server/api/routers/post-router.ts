@@ -39,7 +39,7 @@ export const postRouter = createTRPCRouter({
       })
     )
     .query(async ({ ctx, input }) => {
-      const { cursor, limit } = input;
+      const { cursor: postIdCursor, limit } = input;
       const posts = await ctx.prisma.post.findMany({
         include: {
           author: {
@@ -50,13 +50,13 @@ export const postRouter = createTRPCRouter({
           },
         },
         take: limit + 1,
-        cursor: cursor ? { id: cursor } : undefined,
+        cursor: postIdCursor ? { id: postIdCursor } : undefined,
         orderBy: {
           id: "desc",
         },
       });
 
-      let nextCursor: typeof cursor | undefined = undefined;
+      let nextCursor: typeof postIdCursor | undefined = undefined;
       if (posts.length > limit) {
         const nextItem = posts.pop();
         nextCursor = nextItem?.id;
@@ -64,7 +64,7 @@ export const postRouter = createTRPCRouter({
 
       return {
         posts,
-        cursor: nextCursor,
+        postIdCursor: nextCursor,
       };
     }),
 });

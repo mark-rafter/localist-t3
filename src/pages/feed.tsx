@@ -13,20 +13,21 @@ import { getServerAuthSession } from "@/server/auth";
 import { Button, Spinner } from "flowbite-react";
 import InfiniteScroll from "react-infinite-scroll-component";
 
+const postsPerPage = 8;
+
 export default function FeedPage({
-  posts,
-  cursor,
+  posts: ssrPosts,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const { data, hasNextPage, fetchNextPage, isFetching } =
     api.post.getMany.useInfiniteQuery(
-      { limit: 8 },
+      { limit: postsPerPage },
       {
-        getNextPageParam: (lastPage) => lastPage.cursor,
+        getNextPageParam: (lastPage) => lastPage.postIdCursor,
         refetchOnWindowFocus: false,
       }
     );
 
-  const fetchedPosts = data?.pages.flatMap((page) => page.posts) ?? posts;
+  const fetchedPosts = data?.pages.flatMap((page) => page.posts) ?? ssrPosts;
 
   return (
     <>
@@ -66,8 +67,6 @@ export default function FeedPage({
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const postsPerPage = 8;
-
   const caller = appRouter.createCaller({
     session: await getServerAuthSession(context),
     prisma: prisma,
