@@ -1,5 +1,5 @@
 import Head from "next/head";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Feed } from "@/components/feed";
 import FilterDrawer from "@/components/filter-drawer";
 import { prisma } from "@/server/db";
@@ -10,7 +10,31 @@ import type {
 import { api } from "@/utils/api";
 import { appRouter } from "@/server/api/root";
 import { getServerAuthSession } from "@/server/auth";
-import { Button } from "flowbite-react";
+import { Button, Spinner } from "flowbite-react";
+import type { getServerSideProps } from "@/pages/signin";
+
+function useScrollPosition() {
+  const [scrollPosition, setScrollPosition] = useState(0);
+
+  function handleScroll() {
+    const height =
+      document.documentElement.scrollHeight -
+      document.documentElement.clientHeight;
+    const winScroll =
+      document.body.scrollTop || document.documentElement.scrollTop;
+    const scrolled = (winScroll / height) * 100;
+    setScrollPosition(scrolled);
+  }
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  return scrollPosition;
+}
 
 export default function FeedPage({
   posts,
@@ -22,6 +46,14 @@ export default function FeedPage({
       { getNextPageParam: (lastPage) => lastPage.cursor }
     );
 
+  const scrollPosition = useScrollPosition();
+
+  useEffect(() => {
+    if (scrollPosition > 90 && hasNextPage && !isFetching) {
+      fetchNextPage().catch(console.error);
+    }
+  }, [scrollPosition, hasNextPage, isFetching, fetchNextPage]);
+
   const fetchedPosts = data?.pages.flatMap((page) => page.posts) ?? posts;
 
   return (
@@ -31,12 +63,23 @@ export default function FeedPage({
       </Head>
       <Feed posts={fetchedPosts} />
       <FilterDrawer />
-      <Button
-        onClick={() => fetchNextPage()}
-        disabled={!hasNextPage || isFetching}
-      >
-        Load More
-      </Button>
+      <div className="flex justify-center">
+        <Button
+          className="w-64"
+          color="gray"
+          onClick={() => fetchNextPage()}
+          disabled={!hasNextPage || isFetching}
+        >
+          {isFetching ? (
+            <>
+              <Spinner size="sm" className="mr-3" light={true} />
+              Loading...
+            </>
+          ) : (
+            <>Load more</>
+          )}
+        </Button>
+      </div>
     </>
   );
 }
