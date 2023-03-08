@@ -1,5 +1,7 @@
+import type { Coordinates } from "@/helpers/distance";
 import { humanize } from "@/helpers/distance";
 import { relativeTimeFromDates } from "@/helpers/relative-time";
+import { usePersistedState } from "@/hooks/use-persisted-state";
 import type { RouterOutputs } from "@/utils/api";
 import { useSession } from "next-auth/react";
 import React from "react";
@@ -13,10 +15,10 @@ export type FeedProps = {
 export function Feed({ posts }: FeedProps) {
   const { data } = useSession();
   // todo: set geo cookie in middleware and extract defaults
-  const userCoords = {
+  const [userCoords] = usePersistedState<Coordinates>("user-coords", {
     lat: data?.user.lat ?? 51.5,
     long: data?.user.long ?? 0.0,
-  };
+  });
 
   return (
     <div

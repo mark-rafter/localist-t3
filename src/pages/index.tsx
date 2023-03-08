@@ -8,6 +8,8 @@ import {
   HiOutlinePencilSquare,
 } from "react-icons/hi2";
 import type { IconType } from "react-icons";
+import { usePersistedState } from "@/hooks/use-persisted-state";
+import type { Coordinates } from "@/helpers/distance";
 
 function HomePageLink({
   gradientDuoTone,
@@ -48,6 +50,10 @@ export default function HomePage() {
   const [geolocation, setGeolocation] = useState<Geolocation | undefined>(
     undefined
   );
+  const [, setUserCoords] = usePersistedState<Coordinates>("user-coords", {
+    lat: 51.5,
+    long: 0.0,
+  });
 
   useEffect(() => {
     if ("geolocation" in navigator) {
@@ -59,6 +65,10 @@ export default function HomePage() {
     geolocation?.getCurrentPosition((position) => {
       console.log("latitude", position.coords.latitude);
       console.log("longitude", position.coords.longitude);
+      setUserCoords({
+        lat: position.coords.latitude,
+        long: position.coords.longitude,
+      });
     });
   };
 
@@ -90,6 +100,7 @@ export default function HomePage() {
           Post an item
         </HomePageLink>
         <HomePageLink
+          // todo: if browser geolocation disabled, use custom map selector
           disabled={!geolocation}
           onClick={setLocation}
           gradientDuoTone="pinkToOrange"
