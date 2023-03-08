@@ -3,6 +3,7 @@ import Head from "next/head";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import {
+  HiArrowLeftOnRectangle,
   HiOutlineHome,
   HiOutlineMapPin,
   HiOutlinePencilSquare,
@@ -10,6 +11,7 @@ import {
 import type { IconType } from "react-icons";
 import { usePersistedState } from "@/hooks/use-persisted-state";
 import type { Coordinates } from "@/helpers/distance";
+import { useSession } from "next-auth/react";
 
 function HomePageLink({
   gradientDuoTone,
@@ -29,23 +31,26 @@ function HomePageLink({
     href ? <Link href={href}>{children}</Link> : <>{children}</>;
 
   return (
-    <ButtonContainer>
-      <Button
-        className="mr-3 mb-3 inline-flex"
-        outline={true}
-        gradientDuoTone={gradientDuoTone}
-        onClick={onClick}
-        disabled={disabled}
-      >
-        <div className="flex text-lg sm:text-base">
-          <Icon className="mr-2 h-6 w-6" />
-          {children}
-        </div>
-      </Button>
-    </ButtonContainer>
+    <li>
+      <ButtonContainer>
+        <Button
+          className="inline-flex w-64"
+          outline={true}
+          gradientDuoTone={gradientDuoTone}
+          onClick={onClick}
+          disabled={disabled}
+        >
+          <div className="flex justify-center text-lg sm:text-base">
+            <Icon className="mr-2 h-6 w-6" />
+            {children}
+          </div>
+        </Button>
+      </ButtonContainer>
+    </li>
   );
 }
 
+// todo: consider using FSM if state gets too messy
 export default function HomePage() {
   const [geolocation, setGeolocation] = useState<Geolocation | undefined>(
     undefined
@@ -54,6 +59,7 @@ export default function HomePage() {
     lat: 51.5,
     long: 0.0,
   });
+  const { status: sessionStatus } = useSession();
 
   useEffect(() => {
     if ("geolocation" in navigator) {
@@ -85,29 +91,43 @@ export default function HomePage() {
           Localist is a free listing board, get started by browsing the feed or
           posting your listing.
         </p>
-        <HomePageLink
-          href="/feed"
-          gradientDuoTone="purpleToBlue"
-          icon={HiOutlineHome}
-        >
-          Browse the feed
-        </HomePageLink>
-        <HomePageLink
-          href="/newpost"
-          gradientDuoTone="greenToBlue"
-          icon={HiOutlinePencilSquare}
-        >
-          Post an item
-        </HomePageLink>
-        <HomePageLink
-          // todo: if browser geolocation disabled, use custom map selector
-          disabled={!geolocation}
-          onClick={setLocation}
-          gradientDuoTone="pinkToOrange"
-          icon={HiOutlineMapPin}
-        >
-          Set your location
-        </HomePageLink>
+        {sessionStatus !== "authenticated" && (
+          <ul className="mt-4">
+            <HomePageLink
+              disabled={sessionStatus === "loading"}
+              gradientDuoTone="purpleToPink"
+              icon={HiArrowLeftOnRectangle}
+            >
+              Sign In
+            </HomePageLink>
+          </ul>
+        )}
+        <ul className="mt-4 space-y-4 border-t border-gray-700 pt-4">
+          <HomePageLink
+            href="/feed"
+            gradientDuoTone="purpleToBlue"
+            icon={HiOutlineHome}
+          >
+            Browse the feed
+          </HomePageLink>
+          <HomePageLink
+            disabled={sessionStatus !== "authenticated"}
+            href="/newpost"
+            gradientDuoTone="greenToBlue"
+            icon={HiOutlinePencilSquare}
+          >
+            Post an item
+          </HomePageLink>
+          <HomePageLink
+            // todo: if browser geolocation disabled, use custom map selector
+            disabled={!geolocation}
+            onClick={setLocation}
+            gradientDuoTone="pinkToOrange"
+            icon={HiOutlineMapPin}
+          >
+            Set your location
+          </HomePageLink>
+        </ul>
       </section>
     </>
   );
