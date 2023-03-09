@@ -6,6 +6,7 @@ import {
 } from "@/server/api/trpc";
 import { newPostSchema } from "@/pages/newpost";
 import { uploadImage } from "@/helpers/upload-image";
+import type { RouterOutputs } from "@/utils/api";
 
 export const postRouter = createTRPCRouter({
   create: protectedProcedure
@@ -31,7 +32,7 @@ export const postRouter = createTRPCRouter({
       return createdPost;
     }),
 
-  getMany: publicProcedure
+  getFeed: publicProcedure
     .input(
       z.object({
         cursor: z.number().nullish(),
@@ -56,11 +57,7 @@ export const postRouter = createTRPCRouter({
         },
       });
 
-      let nextCursor: typeof postIdCursor | undefined = undefined;
-      if (posts.length > limit) {
-        const nextItem = posts.pop();
-        nextCursor = nextItem?.id;
-      }
+      const nextCursor = getNextCursor(posts, limit);
 
       return {
         posts,
@@ -68,3 +65,14 @@ export const postRouter = createTRPCRouter({
       };
     }),
 });
+
+function getNextCursor(
+  posts: RouterOutputs["post"]["getFeed"]["posts"],
+  limit: number
+): number | undefined {
+  if (posts.length > limit) {
+    const nextPost = posts.pop();
+    return nextPost?.id;
+  }
+  return undefined;
+}

@@ -3,13 +3,9 @@ import React from "react";
 import { Feed } from "@/components/feed";
 import FilterDrawer from "@/components/filter-drawer";
 import { prisma } from "@/server/db";
-import type {
-  GetServerSidePropsContext,
-  InferGetServerSidePropsType,
-} from "next";
+import type { InferGetStaticPropsType } from "next";
 import { api } from "@/utils/api";
 import { appRouter } from "@/server/api/root";
-import { getServerAuthSession } from "@/server/auth";
 import { Button, Spinner } from "flowbite-react";
 import InfiniteScroll from "react-infinite-scroll-component";
 
@@ -17,9 +13,9 @@ const postsPerPage = 8;
 
 export default function FeedPage({
   posts: ssrPosts,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+}: InferGetStaticPropsType<typeof getStaticProps>) {
   const { data, hasNextPage, fetchNextPage, isFetching } =
-    api.post.getMany.useInfiniteQuery(
+    api.post.getFeed.useInfiniteQuery(
       { limit: postsPerPage },
       {
         getNextPageParam: (lastPage) => lastPage.postIdCursor,
@@ -65,13 +61,13 @@ export default function FeedPage({
     </>
   );
 }
-
-export async function getServerSideProps(context: GetServerSidePropsContext) {
+export async function getStaticProps() {
   const caller = appRouter.createCaller({
-    session: await getServerAuthSession(context),
+    session: null,
     prisma: prisma,
   });
-  const props = await caller.post.getMany({ limit: postsPerPage });
+
+  const props = await caller.post.getFeed({ limit: postsPerPage });
 
   return {
     props: props,

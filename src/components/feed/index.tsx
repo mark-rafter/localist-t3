@@ -8,7 +8,7 @@ import React from "react";
 import { FeedItem } from "./feed-item";
 
 export type FeedProps = {
-  posts: RouterOutputs["post"]["getMany"]["posts"];
+  posts: RouterOutputs["post"]["getFeed"]["posts"];
   cursor?: string;
 };
 
