@@ -13,6 +13,13 @@ import { usePersistedState } from "@/hooks/use-persisted-state";
 import type { Coordinates } from "@/helpers/distance";
 import { useSession } from "next-auth/react";
 
+function ButtonContainer({
+  href,
+  children,
+}: React.PropsWithChildren<{ href?: string }>) {
+  return href ? <Link href={href}>{children}</Link> : <>{children}</>;
+}
+
 function HomePageLink({
   gradientDuoTone,
   icon: Icon,
@@ -27,12 +34,9 @@ function HomePageLink({
   href?: string;
   onClick?: () => void;
 }>) {
-  const ButtonContainer = ({ children }: React.PropsWithChildren) =>
-    href ? <Link href={href}>{children}</Link> : <>{children}</>;
-
   return (
     <li>
-      <ButtonContainer>
+      <ButtonContainer href={href}>
         <Button
           className="inline-flex w-64"
           outline={true}
