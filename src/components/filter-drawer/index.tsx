@@ -1,4 +1,4 @@
-import React from "react";
+import { TextInput } from "flowbite-react";
 import type { PropsWithChildren } from "react";
 import {
   HiAdjustmentsHorizontal,
@@ -6,7 +6,6 @@ import {
   HiXMark,
 } from "react-icons/hi2";
 import StarRatingInput from "./star-rating-input";
-import { TextInput } from "flowbite-react";
 
 const FilterOption = ({
   title,

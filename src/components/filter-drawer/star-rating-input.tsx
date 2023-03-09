@@ -1,5 +1,5 @@
-import { useState } from "react";
 import { Rating } from "flowbite-react";
+import { useState } from "react";
 
 type NumberBetween1And5 = 1 | 2 | 3 | 4 | 5;
 

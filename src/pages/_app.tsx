@@ -1,12 +1,12 @@
-import { type AppType } from "next/app";
+import { Layout } from "@/components/layout";
+import { useCustomTheme } from "@/hooks/use-custom-theme";
+import "@/styles/globals.css";
+import { api } from "@/utils/api";
+import "flowbite";
+import { Flowbite } from "flowbite-react";
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
-import "@/styles/globals.css";
-import "flowbite";
-import { Layout } from "@/components/layout";
-import { Flowbite } from "flowbite-react";
-import { useCustomTheme } from "@/hooks/use-custom-theme";
-import { api } from "@/utils/api";
+import { type AppType } from "next/app";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,

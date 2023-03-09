@@ -1,24 +1,23 @@
+import { SidebarLink } from "@/components/sidebar/sidebar-link";
+import { useSession } from "next-auth/react";
+import Image from "next/image";
+import Link from "next/link";
 import {
   HiArrowLeftOnRectangle,
   HiArrowRightOnRectangle,
   HiBars3BottomLeft,
-  HiOutlineHome,
-  HiOutlinePencilSquare,
-  HiOutlineInboxArrowDown,
+  HiBookmark,
+  HiHome,
+  HiInboxArrowDown,
   HiOutlineBookmark,
   HiOutlineCog6Tooth,
+  HiOutlineHome,
+  HiOutlineInboxArrowDown,
+  HiOutlinePencilSquare,
   HiOutlineUser,
-  HiHome,
   HiPencilSquare,
-  HiInboxArrowDown,
-  HiBookmark,
   HiUser,
 } from "react-icons/hi2";
-import React from "react";
-import Link from "next/link";
-import { SidebarLink } from "@/components/sidebar/sidebar-link";
-import { useSession } from "next-auth/react";
-import Image from "next/image";
 
 const BrandButton = () => (
   <Link href="/" className="mb-4 flex items-center pl-2.5">

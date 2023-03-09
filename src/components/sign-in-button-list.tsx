@@ -1,6 +1,5 @@
 import type { ClientSafeProvider } from "next-auth/react";
-import { useSession } from "next-auth/react";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { FaGithub, FaSpotify } from "react-icons/fa";
 
 type ProviderStyle = { icon: JSX.Element; class: string };

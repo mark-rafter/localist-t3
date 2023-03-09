@@ -1,6 +1,6 @@
-import { v4 as uuidv4 } from "uuid";
-import { createClient } from "@supabase/supabase-js";
 import { env } from "@/env.mjs";
+import { createClient } from "@supabase/supabase-js";
+import { v4 as uuidv4 } from "uuid";
 
 const supabase = createClient(env.SUPABASE_URL, env.SUPABASE_ANON_KEY);
 

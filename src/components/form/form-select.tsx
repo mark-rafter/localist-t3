@@ -1,8 +1,8 @@
 import type {
+  FieldError,
+  FieldValues,
   Path,
   UseFormRegister,
-  FieldValues,
-  FieldError,
 } from "react-hook-form";
 
 type FormSelectProps<T extends FieldValues> = {

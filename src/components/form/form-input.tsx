@@ -1,9 +1,9 @@
 import type { HTMLInputTypeAttribute } from "react";
 import type {
+  FieldError,
+  FieldValues,
   Path,
   UseFormRegister,
-  FieldValues,
-  FieldError,
 } from "react-hook-form";
 
 type FormInputProps<T extends FieldValues> = {

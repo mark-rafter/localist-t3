@@ -1,18 +1,18 @@
+import SignInButtonList from "@/components/sign-in-button-list";
+import type { Coordinates } from "@/helpers/distance";
+import { usePersistedState } from "@/hooks/use-persisted-state";
 import { Button } from "flowbite-react";
+import type { InferGetStaticPropsType } from "next";
+import { getProviders, useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import type { IconType } from "react-icons";
 import {
   HiOutlineHome,
   HiOutlineMapPin,
   HiOutlinePencilSquare,
 } from "react-icons/hi2";
-import type { IconType } from "react-icons";
-import { usePersistedState } from "@/hooks/use-persisted-state";
-import type { Coordinates } from "@/helpers/distance";
-import { getProviders, useSession } from "next-auth/react";
-import type { InferGetStaticPropsType } from "next";
-import SignInButtonList from "@/components/sign-in-button-list";
 
 function ButtonContainer({
   href,
