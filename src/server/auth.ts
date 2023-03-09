@@ -67,7 +67,7 @@ export const getAuthOptions = (
     adapter: PrismaAdapter(prisma),
     providers: getProviders(),
     pages: {
-      signIn: "/signin",
+      signIn: "/",
     },
   };
 };

@@ -104,6 +104,7 @@ export function Sidebar() {
             ) : (
               <SidebarLink
                 label="Sign In"
+                href="/"
                 disabled={sessionStatus === "loading"}
                 showSpinner={sessionStatus === "loading"}
                 icon={HiArrowLeftOnRectangle}

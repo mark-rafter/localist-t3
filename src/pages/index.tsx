@@ -3,7 +3,6 @@ import Head from "next/head";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import {
-  HiArrowLeftOnRectangle,
   HiOutlineHome,
   HiOutlineMapPin,
   HiOutlinePencilSquare,
@@ -11,7 +10,13 @@ import {
 import type { IconType } from "react-icons";
 import { usePersistedState } from "@/hooks/use-persisted-state";
 import type { Coordinates } from "@/helpers/distance";
-import { useSession } from "next-auth/react";
+import { getProviders, useSession } from "next-auth/react";
+import type {
+  GetServerSidePropsContext,
+  InferGetServerSidePropsType,
+} from "next";
+import { getServerAuthSession } from "@/server/auth";
+import SignInButtonList from "@/components/sign-in-button-list";
 
 function ButtonContainer({
   href,
@@ -55,7 +60,9 @@ function HomePageLink({
 }
 
 // todo: consider using FSM if state gets too messy
-export default function HomePage() {
+export default function HomePage({
+  providers,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [geolocation, setGeolocation] = useState<Geolocation | undefined>(
     undefined
   );
@@ -96,17 +103,9 @@ export default function HomePage() {
           posting your listing.
         </p>
         {sessionStatus !== "authenticated" && (
-          <ul className="mt-4">
-            <HomePageLink
-              disabled={sessionStatus === "loading"}
-              gradientDuoTone="purpleToPink"
-              icon={HiArrowLeftOnRectangle}
-            >
-              Sign In
-            </HomePageLink>
-          </ul>
+          <SignInButtonList providers={Object.values(providers)} />
         )}
-        <ul className="mt-4 space-y-4 border-t border-gray-700 pt-4">
+        <ul className="mt-2 space-y-4 border-t border-gray-700 pt-4">
           <HomePageLink
             href="/feed"
             gradientDuoTone="purpleToBlue"
@@ -135,4 +134,21 @@ export default function HomePage() {
       </section>
     </>
   );
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await getServerAuthSession(context);
+
+  // If the user is already logged in, redirect.
+  // Note: Make sure not to redirect to the same page
+  // To avoid an infinite loop!
+  if (session) {
+    return { redirect: { destination: "/" } };
+  }
+
+  const providers = await getProviders();
+
+  return {
+    props: { providers: providers ?? [] },
+  };
 }
