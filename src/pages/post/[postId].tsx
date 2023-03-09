@@ -1,40 +1,81 @@
 import { ssrNotFound } from "@/helpers/response";
 import { prisma } from "@/server/db";
-import type { GetStaticPropsContext } from "next";
+import type { GetStaticPropsContext, InferGetStaticPropsType } from "next";
+import Head from "next/head";
+import Image from "next/image";
 import { useRouter } from "next/router";
 
-type PostPageParams = {
-  postId: string;
-};
+export default function PostPage({
+  id,
+  title,
+  size,
+  price,
+  details,
+  images,
+  author,
+  viewCount,
+  createdAt,
+  updatedAt,
+}: InferGetStaticPropsType<typeof getStaticProps>) {
+  const { isFallback } = useRouter();
 
-type PostPageProps = {
-  postId: number;
-  title: string;
-};
-
-export default function PostPage({ postId, title }: PostPageProps) {
-  const router = useRouter();
-
-  if (router.isFallback) {
-    <p>TODO: render skeleton</p>;
+  if (isFallback) {
+    return (
+      <>
+        <Head>
+          <title>Loading post... | Localist</title>
+        </Head>
+        <p>TODO: render skeleton</p>
+      </>
+    );
   }
+
+  const smPixels = 384;
 
   return (
     <>
-      <div>{postId}</div>
+      <Head>
+        <title>{`${title} £${price} | Localist`}</title>
+      </Head>
+      <div className="flex">
+        {images.map((image, index) => (
+          <Image
+            key={index}
+            src={image}
+            alt={`${title} Image ${index + 1}`}
+            width={smPixels}
+            height={smPixels}
+          />
+        ))}
+      </div>
+      <div>{id}</div>
       <div>{title}</div>
+      <div>{size}</div>
+      <div>£{price}</div>
+      <div>{details?.toString()}</div>
+      <div>author: {author.name}</div>
+      <div>
+        location: [{author.lat}, {author.long}]
+      </div>
+      <div>views: {viewCount}</div>
+      <div>created: {createdAt.toDateString()}</div>
+      <div>updated: {updatedAt.toDateString()}</div>
     </>
   );
 }
 
-async function getAllPostIds() {
-  const postIds = await prisma.post.findMany({ select: { id: true } });
-  return postIds.map((p) => p.id);
+async function getRecentPostIds() {
+  const posts = await prisma.post.findMany({
+    take: 8,
+    select: { id: true },
+    orderBy: { id: "desc" },
+  });
+  return posts.map((p) => p.id.toString());
 }
 
 export async function getStaticPaths() {
-  const postIds = await getAllPostIds();
-  const paths = postIds.map((id) => ({ params: { postId: id.toString() } }));
+  const postIds = await getRecentPostIds();
+  const paths = postIds.map((id) => ({ params: { postId: id } }));
   return {
     paths: paths,
     fallback: true,
@@ -42,8 +83,9 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps(
-  context: GetStaticPropsContext<PostPageParams>
+  context: GetStaticPropsContext<{ postId: string }>
 ) {
+  // todo?: make postId a number and remove this check?
   const postId = Number(context.params?.postId);
 
   if (isNaN(postId)) {
@@ -54,6 +96,9 @@ export async function getStaticProps(
     where: {
       id: postId,
     },
+    include: {
+      author: true,
+    },
   });
 
   if (!post) {
@@ -61,6 +106,6 @@ export async function getStaticProps(
   }
 
   return {
-    props: { postId, title: post?.title }, // will be passed to the page component as props
+    props: post,
   };
 }
