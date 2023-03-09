@@ -1,4 +1,5 @@
 import type { ClientSafeProvider } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { signIn } from "next-auth/react";
 import { FaGithub, FaSpotify } from "react-icons/fa";
 
@@ -26,12 +27,15 @@ export default function SignInButtonList({
 }: {
   providers: ClientSafeProvider[];
 }) {
+  const { status: sessionStatus } = useSession();
+
   return (
     <ul className="mt-5 flex flex-col items-center">
       {providers.map((provider) => (
         <li key={provider.name}>
           <button
             type="button"
+            disabled={sessionStatus === "loading"}
             onClick={() => signIn(provider.id)}
             className={`mb-3 flex w-64 justify-center rounded-lg px-5 py-3 focus:outline-none focus:ring-4 focus:ring-gray-500 ${
               providerStyles.get(provider.id)?.class ?? ""
