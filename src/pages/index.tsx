@@ -11,11 +11,7 @@ import type { IconType } from "react-icons";
 import { usePersistedState } from "@/hooks/use-persisted-state";
 import type { Coordinates } from "@/helpers/distance";
 import { getProviders, useSession } from "next-auth/react";
-import type {
-  GetServerSidePropsContext,
-  InferGetServerSidePropsType,
-} from "next";
-import { getServerAuthSession } from "@/server/auth";
+import type { InferGetStaticPropsType } from "next";
 import SignInButtonList from "@/components/sign-in-button-list";
 
 function ButtonContainer({
@@ -62,7 +58,7 @@ function HomePageLink({
 // todo: consider using FSM if state gets too messy
 export default function HomePage({
   providers,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+}: InferGetStaticPropsType<typeof getStaticProps>) {
   const [geolocation, setGeolocation] = useState<Geolocation | undefined>(
     undefined
   );
@@ -136,16 +132,7 @@ export default function HomePage({
   );
 }
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const session = await getServerAuthSession(context);
-
-  // If the user is already logged in, redirect.
-  // Note: Make sure not to redirect to the same page
-  // To avoid an infinite loop!
-  if (session) {
-    return { redirect: { destination: "/" } };
-  }
-
+export async function getStaticProps() {
   const providers = await getProviders();
 
   return {
