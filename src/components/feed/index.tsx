@@ -1,10 +1,7 @@
-import type { Coordinates } from "@/helpers/distance";
 import { humanize } from "@/helpers/distance";
 import { relativeTimeFromDates } from "@/helpers/relative-time";
-import { usePersistedState } from "@/hooks/use-persisted-state";
+import useUserCoords from "@/hooks/use-user-coords";
 import type { RouterOutputs } from "@/utils/api";
-import { useSession } from "next-auth/react";
-import React from "react";
 import { FeedItem } from "./feed-item";
 
 export type FeedProps = {
@@ -13,12 +10,8 @@ export type FeedProps = {
 };
 
 export function Feed({ posts }: FeedProps) {
-  const { data } = useSession();
+  const { getUserCoords } = useUserCoords();
   // todo: set geo cookie in middleware and extract defaults
-  const [userCoords] = usePersistedState<Coordinates>("user-coords", {
-    lat: data?.user.lat ?? 51.5,
-    long: data?.user.long ?? 0.0,
-  });
 
   return (
     <div
@@ -30,7 +23,7 @@ export function Feed({ posts }: FeedProps) {
           lat: post.author.lat,
           long: post.author.long,
         };
-        const distance = humanize(userCoords, postCoords);
+        const distance = humanize(getUserCoords(), postCoords);
         const postAge = relativeTimeFromDates(post.createdAt);
         return (
           <FeedItem

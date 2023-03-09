@@ -1,6 +1,5 @@
 import SignInButtonList from "@/components/sign-in-button-list";
-import type { Coordinates } from "@/helpers/distance";
-import { usePersistedState } from "@/hooks/use-persisted-state";
+import useUserCoords from "@/hooks/use-user-coords";
 import { Button } from "flowbite-react";
 import type { InferGetStaticPropsType } from "next";
 import { getProviders, useSession } from "next-auth/react";
@@ -62,10 +61,7 @@ export default function HomePage({
   const [geolocation, setGeolocation] = useState<Geolocation | undefined>(
     undefined
   );
-  const [, setUserCoords] = usePersistedState<Coordinates>("user-coords", {
-    lat: 51.5,
-    long: 0.0,
-  });
+  const { setUserCoords } = useUserCoords();
   const { status: sessionStatus } = useSession();
 
   useEffect(() => {
@@ -76,8 +72,6 @@ export default function HomePage({
 
   const setLocation = () => {
     geolocation?.getCurrentPosition((position) => {
-      console.log("latitude", position.coords.latitude);
-      console.log("longitude", position.coords.longitude);
       setUserCoords({
         lat: position.coords.latitude,
         long: position.coords.longitude,

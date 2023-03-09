@@ -7,6 +7,7 @@ import { Flowbite } from "flowbite-react";
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { type AppType } from "next/app";
+import { CookiesProvider } from "react-cookie";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -15,13 +16,15 @@ const MyApp: AppType<{ session: Session | null }> = ({
   const customTheme = useCustomTheme();
 
   return (
-    <SessionProvider session={session}>
-      <Flowbite theme={customTheme}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </Flowbite>
-    </SessionProvider>
+    <CookiesProvider>
+      <SessionProvider session={session}>
+        <Flowbite theme={customTheme}>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </Flowbite>
+      </SessionProvider>
+    </CookiesProvider>
   );
 };
 
