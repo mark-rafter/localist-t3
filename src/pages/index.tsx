@@ -3,8 +3,7 @@ import type { Coordinates } from "@/helpers/distance";
 import { usePersistedState } from "@/hooks/use-persisted-state";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { Button } from "flowbite-react";
-import type { InferGetStaticPropsType } from "next";
-import { getProviders, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
@@ -57,9 +56,7 @@ function HomePageLink({
 }
 
 // todo: consider using FSM if state gets too messy
-export default function HomePage({
-  providers,
-}: InferGetStaticPropsType<typeof getStaticProps>) {
+export default function HomePage() {
   const [geolocation, setGeolocation] = useState<Geolocation | undefined>(
     undefined
   );
@@ -101,9 +98,7 @@ export default function HomePage({
           posting your listing.
         </p>
         <div ref={parent}>
-          {sessionStatus !== "authenticated" && (
-            <SignInButtonList providers={Object.values(providers)} />
-          )}
+          {sessionStatus !== "authenticated" && <SignInButtonList />}
           <ul className="mt-2 space-y-4 border-t border-gray-700 pt-4">
             <HomePageLink
               href="/feed"
@@ -134,12 +129,4 @@ export default function HomePage({
       </section>
     </>
   );
-}
-
-export async function getStaticProps() {
-  const providers = await getProviders();
-
-  return {
-    props: { providers: providers ?? [] },
-  };
 }

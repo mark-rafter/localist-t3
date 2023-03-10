@@ -1,17 +1,18 @@
+import { safeParseFloat } from "@/helpers/parse";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import type { GetServerSidePropsContext } from "next";
 import type { User } from "next-auth";
 import {
   getServerSession,
-  type NextAuthOptions,
   type DefaultSession,
+  type NextAuthOptions,
 } from "next-auth";
+import type { BuiltInProviderType } from "next-auth/providers";
+import CredentialsProvider from "next-auth/providers/credentials";
 import GitHubProvider from "next-auth/providers/github";
 import SpotifyProvider from "next-auth/providers/spotify";
-import CredentialsProvider from "next-auth/providers/credentials";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { env } from "../env.mjs";
 import { prisma } from "./db";
-import { safeParseFloat } from "@/helpers/parse";
 
 /**
  * Module augmentation for `next-auth` types.
@@ -98,6 +99,9 @@ function getProviders() {
     ];
   }
 
+  /**
+   * Ensure you update {@link EnabledProviderType} accordingly
+   */
   return [
     GitHubProvider({
       clientId: env.GITHUB_ID,
@@ -109,6 +113,11 @@ function getProviders() {
     }),
   ];
 }
+
+export type EnabledProviderType = Extract<
+  BuiltInProviderType,
+  "github" | "spotify"
+>;
 
 /**
  * Wrapper for `getServerSession` so that you don't need to import the
