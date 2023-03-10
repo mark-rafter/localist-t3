@@ -1,9 +1,9 @@
+import { LinkOrDisabled } from "@/components/link-or-disabled";
+import { Carousel } from "flowbite-react";
 import Image from "next/image";
+import type { ItemSizeType } from "prisma/generated/zod/inputTypeSchemas/ItemSizeSchema";
 import React from "react";
 import { HiOutlineClock, HiOutlineMapPin } from "react-icons/hi2";
-import { Carousel } from "flowbite-react";
-import { LinkOrDisabled } from "@/components/link-or-disabled";
-import type { ItemSizeType } from "prisma/generated/zod/inputTypeSchemas/ItemSizeSchema";
 
 type DraftFeedItem = {
   title: string;
@@ -12,7 +12,7 @@ type DraftFeedItem = {
   images?: string[];
 };
 
-export type FeedItemProps = DraftFeedItem & {
+type FeedItemProps = DraftFeedItem & {
   id: number;
   distance: string;
   postAge: string;
@@ -24,15 +24,16 @@ type ImageCarouselProps = Pick<
   "id" | "images" | "title" | "isPreview"
 >;
 
-const ImagesContainer = ({
+function ImagesContainer({
   imageLength,
   children,
-}: React.PropsWithChildren<{ imageLength: number }>) =>
-  imageLength == 1 ? (
+}: React.PropsWithChildren<{ imageLength: number }>) {
+  return imageLength == 1 ? (
     <>{children}</>
   ) : (
     <Carousel slideInterval={3000}>{children}</Carousel>
   );
+}
 
 function ImageCarousel({ id, title, images, isPreview }: ImageCarouselProps) {
   const smPixels = 384;
@@ -102,6 +103,6 @@ export function FeedItem({
   );
 }
 
-export const DraftFeedItem = (props: DraftFeedItem) => (
-  <FeedItem id={0} distance="X miles" postAge="X days ago" {...props} />
-);
+export function DraftFeedItem(props: DraftFeedItem) {
+  return <FeedItem id={0} distance="X miles" postAge="X days ago" {...props} />;
+}

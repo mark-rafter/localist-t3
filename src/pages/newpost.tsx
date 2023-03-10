@@ -1,4 +1,4 @@
-import { DraftFeedItem } from "@/components/feed/feed-item";
+import { DraftFeedItem } from "@/components/feed";
 import {
   FormDropUpload,
   FormInput,

@@ -1,5 +1,4 @@
-import { Feed } from "@/components/feed";
-import { LoadMore } from "@/components/feed/load-more";
+import { Feed, LoadMore } from "@/components/feed";
 import FilterDrawer from "@/components/filter-drawer";
 import { appRouter } from "@/server/api/root";
 import { prisma } from "@/server/db";
