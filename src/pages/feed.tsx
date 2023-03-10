@@ -13,10 +13,11 @@ const postsPerPage = 8;
 export default function FeedPage({
   posts: ssrPosts,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-  const { data, hasNextPage, fetchNextPage, isFetching } =
+  const { data, hasNextPage, fetchNextPage, isFetching, isFetched } =
     api.post.getFeed.useInfiniteQuery(
       { limit: postsPerPage },
       {
+        // todo: enabled = false? enable via useEffect
         getNextPageParam: (lastPage) => lastPage.postIdCursor,
         refetchOnWindowFocus: false,
       }
@@ -29,33 +30,37 @@ export default function FeedPage({
       <Head>
         <title>Feed | Localist</title>
       </Head>
-      <InfiniteScroll
-        dataLength={fetchedPosts.length}
-        next={fetchNextPage}
-        hasMore={hasNextPage === true}
-        loader={
-          <div className="flex justify-center">
-            <Button
-              className="w-64"
-              color="gray"
-              onClick={() => fetchNextPage()}
-              disabled={!hasNextPage || isFetching}
-            >
-              {isFetching ? (
-                <>
-                  <Spinner size="sm" className="mr-3" light={true} />
-                  Loading...
-                </>
-              ) : (
-                <>Load more</>
-              )}
-            </Button>
-          </div>
-        }
-        endMessage={<p className="text-center">All posts fetched!</p>}
-      >
-        <Feed posts={fetchedPosts} />
-      </InfiniteScroll>
+      {isFetched ? (
+        <InfiniteScroll
+          dataLength={fetchedPosts.length}
+          next={fetchNextPage}
+          hasMore={hasNextPage === true}
+          loader={
+            <div className="flex justify-center">
+              <Button
+                className="w-64"
+                color="gray"
+                onClick={() => fetchNextPage()}
+                disabled={!hasNextPage || isFetching}
+              >
+                {isFetching ? (
+                  <>
+                    <Spinner size="sm" className="mr-3" light={true} />
+                    Loading...
+                  </>
+                ) : (
+                  <>Load more</>
+                )}
+              </Button>
+            </div>
+          }
+          endMessage={<p className="text-center">All posts fetched!</p>}
+        >
+          <Feed posts={fetchedPosts} />
+        </InfiniteScroll>
+      ) : (
+        <Feed posts={ssrPosts} />
+      )}
       <FilterDrawer />
     </>
   );
