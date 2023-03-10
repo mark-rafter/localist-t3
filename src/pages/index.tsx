@@ -1,6 +1,7 @@
 import SignInButtonList from "@/components/sign-in-button-list";
 import type { Coordinates } from "@/helpers/distance";
 import { usePersistedState } from "@/hooks/use-persisted-state";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { Button } from "flowbite-react";
 import type { InferGetStaticPropsType } from "next";
 import { getProviders, useSession } from "next-auth/react";
@@ -67,6 +68,7 @@ export default function HomePage({
     long: 0.0,
   });
   const { status: sessionStatus } = useSession();
+  const [parent] = useAutoAnimate();
 
   useEffect(() => {
     if ("geolocation" in navigator) {
@@ -98,35 +100,37 @@ export default function HomePage({
           Localist is a free listing board, get started by browsing the feed or
           posting your listing.
         </p>
-        {sessionStatus !== "authenticated" && (
-          <SignInButtonList providers={Object.values(providers)} />
-        )}
-        <ul className="mt-2 space-y-4 border-t border-gray-700 pt-4">
-          <HomePageLink
-            href="/feed"
-            gradientDuoTone="purpleToBlue"
-            icon={HiOutlineHome}
-          >
-            Browse the feed
-          </HomePageLink>
-          <HomePageLink
-            disabled={sessionStatus !== "authenticated"}
-            href="/newpost"
-            gradientDuoTone="greenToBlue"
-            icon={HiOutlinePencilSquare}
-          >
-            Post an item
-          </HomePageLink>
-          <HomePageLink
-            // todo: if browser geolocation disabled, use custom map selector
-            disabled={!geolocation}
-            onClick={setLocation}
-            gradientDuoTone="pinkToOrange"
-            icon={HiOutlineMapPin}
-          >
-            Set your location
-          </HomePageLink>
-        </ul>
+        <div ref={parent}>
+          {sessionStatus !== "authenticated" && (
+            <SignInButtonList providers={Object.values(providers)} />
+          )}
+          <ul className="mt-2 space-y-4 border-t border-gray-700 pt-4">
+            <HomePageLink
+              href="/feed"
+              gradientDuoTone="purpleToBlue"
+              icon={HiOutlineHome}
+            >
+              Browse the feed
+            </HomePageLink>
+            <HomePageLink
+              disabled={sessionStatus !== "authenticated"}
+              href="/newpost"
+              gradientDuoTone="greenToBlue"
+              icon={HiOutlinePencilSquare}
+            >
+              Post an item
+            </HomePageLink>
+            <HomePageLink
+              // todo: if browser geolocation disabled, use custom map selector
+              disabled={!geolocation}
+              onClick={setLocation}
+              gradientDuoTone="pinkToOrange"
+              icon={HiOutlineMapPin}
+            >
+              Set your location
+            </HomePageLink>
+          </ul>
+        </div>
       </section>
     </>
   );
