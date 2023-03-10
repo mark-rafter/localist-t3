@@ -79,6 +79,7 @@ export default function NewPostPage() {
             ))}
           </FormSelect>
           <FormNumberInput
+            defaultValue={0}
             label="price"
             register={register}
             error={errors.price}
