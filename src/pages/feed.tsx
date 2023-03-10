@@ -6,6 +6,7 @@ import { api } from "@/utils/api";
 import { Button, Spinner } from "flowbite-react";
 import type { InferGetStaticPropsType } from "next";
 import Head from "next/head";
+import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 const postsPerPage = 8;
@@ -13,15 +14,21 @@ const postsPerPage = 8;
 export default function FeedPage({
   posts: ssrPosts,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
+  const [enableFetching, setEnableFetching] = useState(false);
+
   const { data, hasNextPage, fetchNextPage, isFetching, isFetched } =
     api.post.getFeed.useInfiniteQuery(
       { limit: postsPerPage },
       {
-        // todo: enabled = false? enable via useEffect
+        enabled: enableFetching,
         getNextPageParam: (lastPage) => lastPage.postIdCursor,
         refetchOnWindowFocus: false,
       }
     );
+
+  useEffect(() => {
+    setEnableFetching(true);
+  }, []);
 
   const fetchedPosts = data?.pages.flatMap((page) => page.posts) ?? ssrPosts;
 
