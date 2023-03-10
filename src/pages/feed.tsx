@@ -1,9 +1,9 @@
 import { Feed } from "@/components/feed";
+import { LoadMore } from "@/components/feed/load-more";
 import FilterDrawer from "@/components/filter-drawer";
 import { appRouter } from "@/server/api/root";
 import { prisma } from "@/server/db";
 import { api } from "@/utils/api";
-import { Button, Spinner } from "flowbite-react";
 import type { InferGetStaticPropsType } from "next";
 import Head from "next/head";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -36,23 +36,11 @@ export default function FeedPage({
           next={fetchNextPage}
           hasMore={hasNextPage === true}
           loader={
-            <div className="flex justify-center">
-              <Button
-                className="w-64"
-                color="gray"
-                onClick={() => fetchNextPage()}
-                disabled={!hasNextPage || isFetching}
-              >
-                {isFetching ? (
-                  <>
-                    <Spinner size="sm" className="mr-3" light={true} />
-                    Loading...
-                  </>
-                ) : (
-                  <>Load more</>
-                )}
-              </Button>
-            </div>
+            <LoadMore
+              disabled={!hasNextPage || isFetching}
+              loading={isFetching}
+              onClick={fetchNextPage}
+            />
           }
           endMessage={<p className="text-center">All posts fetched!</p>}
         >
