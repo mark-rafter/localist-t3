@@ -1,3 +1,4 @@
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 import type { HTMLInputTypeAttribute } from "react";
 import type {
   FieldError,
@@ -21,11 +22,13 @@ export function FormInput<T extends FieldValues>({
   type,
   optional = false,
 }: FormInputProps<T>) {
+  const [parent] = useAutoAnimate();
+
   const textColor = error
     ? "text-red-500"
     : "text-gray-400 peer-focus:text-blue-500";
   return (
-    <div className="group relative z-0 w-full">
+    <div ref={parent} className="group relative z-0 w-full">
       <input
         type={type}
         {...register(label, {
@@ -45,9 +48,11 @@ export function FormInput<T extends FieldValues>({
       >
         {label}
       </label>
-      <p id={`${label}_error_message`} className="mt-2 text-xs text-red-400">
-        {error?.message}
-      </p>
+      {error && (
+        <p id={`${label}_error_message`} className="mt-2 text-xs text-red-400">
+          {error.message}
+        </p>
+      )}
     </div>
   );
 }

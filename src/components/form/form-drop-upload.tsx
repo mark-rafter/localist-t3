@@ -1,3 +1,4 @@
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { compressAccurately } from "image-conversion";
 import type {
   FieldError,
@@ -24,6 +25,8 @@ export function FormDropUpload<T extends FieldValues>({
   error,
   className,
 }: FormDropUploadProps<T>) {
+  const [parent] = useAutoAnimate();
+
   async function handleFile(event: React.ChangeEvent<HTMLInputElement>) {
     const selectedFile = event.target?.files?.item(0);
     if (!selectedFile) {
@@ -51,6 +54,7 @@ export function FormDropUpload<T extends FieldValues>({
       } bg-gray-700 hover:border-gray-500 hover:bg-gray-600 ${className ?? ""}`}
     >
       <div
+        ref={parent}
         className={`flex flex-col items-center justify-center ${
           height > 32 ? "pt-5 pb-6" : ""
         }`}
@@ -65,12 +69,14 @@ export function FormDropUpload<T extends FieldValues>({
             <p className="text-xs text-gray-400">
               PNG or JPG (max. 4000x4000px)
             </p>
-            <p
-              id={`${label}_error_message`}
-              className="mt-2 text-xs text-red-400"
-            >
-              {error?.message}
-            </p>
+            {error && (
+              <p
+                id={`${label}_error_message`}
+                className="mt-2 text-xs text-red-400"
+              >
+                {error.message}
+              </p>
+            )}
           </>
         )}
       </div>

@@ -68,7 +68,7 @@ export default function HomePage({
     long: 0.0,
   });
   const { status: sessionStatus } = useSession();
-  const [parent] = useAutoAnimate();
+  const [parent] = useAutoAnimate({ duration: 100 });
 
   useEffect(() => {
     if ("geolocation" in navigator) {

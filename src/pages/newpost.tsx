@@ -20,7 +20,7 @@ export const newPostSchema = z
       .min(3, { message: "Title too short" })
       .max(16, { message: "Title too long" }),
     size: PostSchema.shape.size,
-    brand: z.string().max(25, { message: "Title too long" }).optional(),
+    brand: z.string().max(25, { message: "Brand too long" }).optional(),
     images: PostSchema.shape.images,
     price: PostSchema.shape.price
       .min(-9999)

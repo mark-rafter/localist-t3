@@ -1,3 +1,4 @@
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 import type {
   FieldError,
   FieldValues,
@@ -18,8 +19,9 @@ export function FormSelect<T extends FieldValues>({
   error,
   children,
 }: FormSelectProps<T>) {
+  const [parent] = useAutoAnimate();
   return (
-    <>
+    <div ref={parent}>
       <label htmlFor={label} className="sr-only">
         {label} select
       </label>
@@ -31,9 +33,11 @@ export function FormSelect<T extends FieldValues>({
       >
         {children}
       </select>
-      <p id={`${label}_error_message`} className="text-xs text-red-400">
-        {error && `Please select a ${label}`}
-      </p>
-    </>
+      {error && (
+        <p id={`${label}_error_message`} className="mt-2 text-xs text-red-400">
+          {`Please select a ${label}`}
+        </p>
+      )}
+    </div>
   );
 }
