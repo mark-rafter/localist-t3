@@ -1,5 +1,5 @@
-import { Feed } from "./feed";
+import { Feed, type FeedProps } from "./feed";
 import { DraftFeedItem, FeedItem } from "./feed-item";
 import { LoadMore } from "./load-more";
 
-export { DraftFeedItem, Feed, FeedItem, LoadMore };
+export { DraftFeedItem, Feed, FeedItem, type FeedProps, LoadMore };
