@@ -1,6 +1,5 @@
 import SignInButtonList from "@/components/sign-in-button-list";
 import type { Coordinates } from "@/helpers/distance";
-import { usePersistedState } from "@/hooks/use-persisted-state";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { Button } from "flowbite-react";
 import { useSession } from "next-auth/react";
@@ -60,7 +59,7 @@ export default function HomePage() {
   const [geolocation, setGeolocation] = useState<Geolocation | undefined>(
     undefined
   );
-  const [, setUserCoords] = usePersistedState<Coordinates>("user-coords", {
+  const [, setUserCoords] = useState<Coordinates>({
     lat: 51.5,
     long: 0.0,
   });

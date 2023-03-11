@@ -1,6 +1,6 @@
+import { generateFakePost, generateFakeUser } from "@/helpers/fakes";
 import { faker } from "@faker-js/faker";
-import type { Prisma, User } from "@prisma/client";
-import { ItemSize } from "@prisma/client";
+import type { Prisma } from "@prisma/client";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
@@ -28,22 +28,7 @@ async function createPosts(userIds: string[]) {
 
     [...Array(amount).keys()].forEach(() => {
       posts.push({
-        title: faker.commerce.productName(),
-        size: faker.helpers.arrayElement(Object.values(ItemSize)),
-        price: faker.number.int({ min: 1, max: 9999 }),
-        images: [
-          faker.image.urlLoremFlickr({
-            category: "cats",
-            width: 500,
-            height: 500,
-          }),
-          faker.image.urlLoremFlickr({
-            category: "cats",
-            width: 500,
-            height: 500,
-          }),
-        ],
-        createdAt: faker.date.recent(),
+        ...generateFakePost(),
         author: {
           connect: {
             id: userId,
@@ -59,20 +44,7 @@ async function createPosts(userIds: string[]) {
 }
 
 async function createUsers() {
-  const userData = Array(USERS_TO_CREATE)
-    .fill(null)
-    .map(() => {
-      const [latitude, longitude] = faker.location.nearbyGPSCoordinate([
-        51.5, 0,
-      ]);
-      return {
-        name: faker.internet.userName().toLowerCase(),
-        email: faker.internet.email().toLocaleLowerCase(),
-        image: faker.image.avatar(),
-        lat: latitude,
-        long: longitude,
-      } as User;
-    });
+  const userData = Array(USERS_TO_CREATE).fill(null).map(generateFakeUser);
 
   const createUsers = userData.map((user) =>
     prisma.user.create({ data: user })
