@@ -15,7 +15,7 @@ const rtf = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
  */
 export function relativeTimeFromDates(
   relative?: Date,
-  pivot: Date = new Date()
+  pivot: Date = new Date(Date.now())
 ): string {
   if (!relative) return "";
   const elapsed = relative.getTime() - pivot.getTime();
