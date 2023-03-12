@@ -1,19 +1,22 @@
 import { Feed } from "@/components/feed";
 import type { FeedProps } from "@/components/feed/feed";
+import { generateFakePost } from "@/helpers/fakes";
+import { faker } from "@faker-js/faker";
 import { render } from "@testing-library/react";
 import { SessionProvider } from "next-auth/react";
 
+afterEach(() => {
+  faker.seed();
+});
+
 it("renders Feed unchanged", () => {
-  Date.now = jest.fn(() => new Date(2023, 1, 10).getTime());
+  faker.seed(111);
+  Date.now = jest.fn(() => faker.date.soon().getTime());
 
   const posts: FeedProps["posts"] = [
     {
       id: 1,
-      title: "One Red shoe",
-      size: "small",
-      price: 123,
-      images: ["/1_1.png", "/1_2.png"],
-      createdAt: new Date(2023, 0, 1),
+      ...generateFakePost(1234),
       author: {
         lat: 51,
         long: 0,
@@ -21,21 +24,19 @@ it("renders Feed unchanged", () => {
     },
     {
       id: 2,
-      title: "Two Blue shoes",
-      size: "xl",
-      price: 456,
-      images: ["/2_1.png", "/2_2.png"],
-      createdAt: new Date(2023, 1, 2),
+      ...generateFakePost(5678),
       author: {
         lat: 50,
         long: 1,
       },
     },
   ];
+
   const { container } = render(
     <SessionProvider session={null}>
       <Feed posts={posts} />
     </SessionProvider>
   );
+
   expect(container).toMatchSnapshot();
 });

@@ -2,7 +2,10 @@ import { faker } from "@faker-js/faker";
 import type { User } from "@prisma/client";
 import { ItemSize } from "@prisma/client";
 
-export function generateFakePost() {
+export function generateFakePost(seed?: number) {
+  if (seed) {
+    faker.seed(seed);
+  }
   return {
     title: faker.commerce.productName(),
     size: faker.helpers.arrayElement(Object.values(ItemSize)),
