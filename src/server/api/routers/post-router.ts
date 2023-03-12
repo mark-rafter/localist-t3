@@ -1,12 +1,12 @@
-import { z } from "zod";
+import { uploadImage } from "@/helpers/upload-image";
+import { newPostSchema } from "@/pages/newpost";
 import {
   createTRPCRouter,
-  publicProcedure,
   protectedProcedure,
+  publicProcedure,
 } from "@/server/api/trpc";
-import { newPostSchema } from "@/pages/newpost";
-import { uploadImage } from "@/helpers/upload-image";
 import type { RouterOutputs } from "@/utils/api";
+import { z } from "zod";
 
 export const postRouter = createTRPCRouter({
   create: protectedProcedure
@@ -42,7 +42,13 @@ export const postRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const { cursor: postIdCursor, limit } = input;
       const posts = await ctx.prisma.post.findMany({
-        include: {
+        select: {
+          id: true,
+          title: true,
+          size: true,
+          price: true,
+          images: true,
+          createdAt: true,
           author: {
             select: {
               lat: true,
