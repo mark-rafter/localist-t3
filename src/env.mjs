@@ -27,6 +27,8 @@ const server = z.object({
   SUPABASE_ANON_KEY: z.string(),
   SUPABASE_BUCKETNAME: z.string(),
   SUPABASE_URL: z.string().url(),
+  TWITCH_ID: z.string(),
+  TWITCH_SECRET: z.string(),
   VERCEL_ENV: z.enum(["development", "preview", "production"]),
 });
 
@@ -56,6 +58,8 @@ const processEnv = {
   SUPABASE_BUCKETNAME: process.env.SUPABASE_BUCKETNAME,
   SUPABASE_URL: process.env.SUPABASE_URL,
   SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY,
+  TWITCH_ID: process.env.TWITCH_ID,
+  TWITCH_SECRET: process.env.TWITCH_SECRET,
   VERCEL_ENV: process.env.VERCEL_ENV,
   // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
 };

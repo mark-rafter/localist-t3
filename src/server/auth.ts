@@ -11,6 +11,7 @@ import type { BuiltInProviderType } from "next-auth/providers";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GitHubProvider from "next-auth/providers/github";
 import SpotifyProvider from "next-auth/providers/spotify";
+import TwitchProvider from "next-auth/providers/twitch";
 import { env } from "../env.mjs";
 import { prisma } from "./db";
 
@@ -111,12 +112,16 @@ function getProviders() {
       clientId: env.SPOTIFY_ID,
       clientSecret: env.SPOTIFY_SECRET,
     }),
+    TwitchProvider({
+      clientId: env.TWITCH_ID,
+      clientSecret: env.TWITCH_SECRET,
+    }),
   ];
 }
 
 export type EnabledProviderType = Extract<
   BuiltInProviderType,
-  "github" | "spotify"
+  "github" | "spotify" | "twitch"
 >;
 
 /**
