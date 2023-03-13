@@ -37,11 +37,20 @@ export const postRouter = createTRPCRouter({
       z.object({
         cursor: z.number().nullish(),
         limit: z.number().min(1).max(8),
+        searchTerm: z.string().max(32).optional(),
       })
     )
     .query(async ({ ctx, input }) => {
       const { cursor: postIdCursor, limit } = input;
+
+      const searchFilter = input.searchTerm?.length
+        ? {
+            title: { search: input.searchTerm },
+          }
+        : {};
+
       const posts = await ctx.prisma.post.findMany({
+        where: searchFilter,
         select: {
           id: true,
           title: true,

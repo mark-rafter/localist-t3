@@ -11,6 +11,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 const postsPerPage = 8;
 
 function SearchForm() {
+  // todo: react hook form
   return (
     <div className="relative mx-auto w-96">
       <TextInput
@@ -35,7 +36,7 @@ export default function FeedPage({
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const { data, hasNextPage, fetchNextPage, isFetching } =
     api.post.getFeed.useInfiniteQuery(
-      { limit: postsPerPage },
+      { limit: postsPerPage, searchTerm: "" },
       {
         enabled: typeof window !== "undefined",
         getNextPageParam: (lastPage) => lastPage.postIdCursor,
