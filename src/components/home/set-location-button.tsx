@@ -8,32 +8,36 @@ export function SetLocationButton({
 }: {
   isAuthenticated: boolean;
 }) {
-  const [geolocation, setGeolocation] = useState<Geolocation | undefined>(
-    undefined
-  );
+  const [hasGeolocation, setGeolocation] = useState(false);
   const { mutate, isLoading } = api.user.updateCoords.useMutation();
 
   useEffect(() => {
     if ("geolocation" in navigator) {
-      setGeolocation(navigator.geolocation);
+      setGeolocation(true);
     }
   }, []);
 
   const setLocation = () => {
-    geolocation?.getCurrentPosition(({ coords }) => {
-      console.log("coords", coords);
-      const result = mutate({
-        lat: coords.latitude,
-        long: coords.longitude,
-      });
-      console.log("mutate result", result);
-    });
+    console.log(navigator.geolocation);
+
+    navigator.geolocation?.getCurrentPosition(
+      ({ coords }) => {
+        console.log("coords", coords);
+        const result = mutate({
+          lat: coords.latitude,
+          long: coords.longitude,
+        });
+        console.log("mutate result", result);
+      },
+      console.error,
+      { timeout: 3000, enableHighAccuracy: false }
+    );
   };
 
   return (
     <HomePageLink
       // todo: if browser geolocation disabled, use custom map selector
-      disabled={!geolocation || !isAuthenticated || isLoading}
+      disabled={!hasGeolocation || !isAuthenticated || isLoading}
       onClick={setLocation}
       gradientDuoTone="pinkToOrange"
       icon={HiOutlineMapPin}
