@@ -1,12 +1,9 @@
-import { Feed, LoadMore } from "@/components/feed";
+import { ClientFeed, Feed, LoadMore } from "@/components/feed";
 import FilterDrawer from "@/components/filter-drawer";
-import { safeParseFloat } from "@/helpers/parse";
 import { appRouter } from "@/server/api/root";
 import { prisma } from "@/server/db";
 import { api } from "@/utils/api";
-import { getCookie } from "cookies-next";
 import type { InferGetStaticPropsType } from "next";
-import { useSession } from "next-auth/react";
 import Head from "next/head";
 import InfiniteScroll from "react-infinite-scroll-component";
 
@@ -24,18 +21,6 @@ export default function FeedPage({
         refetchOnWindowFocus: false,
       }
     );
-
-  // todo: refactor into useUserCoords()
-  const { data: sessionData } = useSession();
-
-  const userCoords = {
-    lat:
-      sessionData?.user.lat ??
-      safeParseFloat(getCookie("x-vercel-ip-latitude"), 51.5),
-    long:
-      sessionData?.user.long ??
-      safeParseFloat(getCookie("x-vercel-ip-longitude"), 51.5),
-  };
 
   const fetchedPosts = data?.pages.flatMap((page) => page.posts);
 
@@ -58,7 +43,7 @@ export default function FeedPage({
           }
           endMessage={<p className="text-center">All posts fetched!</p>}
         >
-          <Feed posts={fetchedPosts} userCoords={userCoords} />
+          <ClientFeed posts={fetchedPosts} />
         </InfiniteScroll>
       ) : (
         <Feed posts={ssrPosts} />

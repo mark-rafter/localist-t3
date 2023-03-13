@@ -1,7 +1,10 @@
 import type { Coordinates } from "@/helpers/distance";
 import { humanize } from "@/helpers/distance";
+import { safeParseFloat } from "@/helpers/parse";
 import { relativeTimeFromDates } from "@/helpers/relative-time";
 import type { RouterOutputs } from "@/utils/api";
+import { getCookie } from "cookies-next";
+import { useSession } from "next-auth/react";
 import { FeedItem } from "./feed-item";
 
 export type FeedProps = {
@@ -33,4 +36,19 @@ export function Feed({ posts, userCoords }: FeedProps) {
       })}
     </div>
   );
+}
+
+export function ClientFeed({ posts }: FeedProps) {
+  // todo: refactor into useUserCoords()
+  const { data } = useSession();
+
+  const userCoords = {
+    lat:
+      data?.user.lat ?? safeParseFloat(getCookie("x-vercel-ip-latitude"), 51.5),
+    long:
+      data?.user.long ??
+      safeParseFloat(getCookie("x-vercel-ip-longitude"), 51.5),
+  };
+
+  return <Feed posts={posts} userCoords={userCoords} />;
 }

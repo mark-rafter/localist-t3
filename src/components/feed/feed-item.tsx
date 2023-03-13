@@ -94,8 +94,15 @@ export function FeedItem({
         <div className="flex items-center justify-between">
           <span className="text-xl font-bold">£{price}</span>
           <span className="flex items-center text-sm font-normal text-gray-400">
-            <span className="mr-1 flex-1 whitespace-nowrap">{distance}</span>
-            <HiOutlineMapPin className="h-4 w-4" />
+            {distance.length > 0 ? (
+              <span className="flex-1 whitespace-nowrap">{distance}</span>
+            ) : (
+              <div
+                role="status"
+                className="h-2.5 shadow animate-pulse bg-gray-300 rounded-full dark:bg-gray-700 w-24"
+              />
+            )}
+            <HiOutlineMapPin className="ml-1 h-4 w-4" />
           </span>
         </div>
       </div>
