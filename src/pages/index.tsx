@@ -1,87 +1,16 @@
-import SignInButtonList from "@/components/sign-in-button-list";
-import type { Coordinates } from "@/helpers/distance";
+import {
+HomePageLink,
+SetLocationButton,
+SignInButtonList
+} from "@/components/home";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-import { Button } from "flowbite-react";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
-import Link from "next/link";
-import React, { useEffect, useState } from "react";
-import type { IconType } from "react-icons";
-import {
-  HiOutlineHome,
-  HiOutlineMapPin,
-  HiOutlinePencilSquare,
-} from "react-icons/hi2";
+import { HiOutlineHome,HiOutlinePencilSquare } from "react-icons/hi2";
 
-function ButtonContainer({
-  href,
-  children,
-}: React.PropsWithChildren<{ href?: string }>) {
-  return href ? <Link href={href}>{children}</Link> : <>{children}</>;
-}
-
-function HomePageLink({
-  gradientDuoTone,
-  icon: Icon,
-  disabled,
-  children,
-  href,
-  onClick,
-}: React.PropsWithChildren<{
-  gradientDuoTone: string;
-  icon: IconType;
-  disabled?: boolean;
-  href?: string;
-  onClick?: () => void;
-}>) {
-  return (
-    <li>
-      <ButtonContainer href={href}>
-        <Button
-          className="inline-flex w-64"
-          outline={true}
-          gradientDuoTone={gradientDuoTone}
-          onClick={onClick}
-          disabled={disabled}
-        >
-          <div className="flex justify-center text-lg sm:text-base">
-            <Icon className="mr-2 h-6 w-6" />
-            {children}
-          </div>
-        </Button>
-      </ButtonContainer>
-    </li>
-  );
-}
-
-// todo: consider using FSM if state gets too messy
 export default function HomePage() {
-  const [geolocation, setGeolocation] = useState<Geolocation | undefined>(
-    undefined
-  );
-  const [, setUserCoords] = useState<Coordinates>({
-    lat: 51.5,
-    long: 0.0,
-  });
   const { status: sessionStatus } = useSession();
   const [parent] = useAutoAnimate({ duration: 100 });
-
-  useEffect(() => {
-    if ("geolocation" in navigator) {
-      setGeolocation(navigator.geolocation);
-    }
-  }, []);
-
-  const setLocation = () => {
-    geolocation?.getCurrentPosition((position) => {
-      console.log("latitude", position.coords.latitude);
-      console.log("longitude", position.coords.longitude);
-      setUserCoords({
-        lat: position.coords.latitude,
-        long: position.coords.longitude,
-      });
-    });
-  };
 
   return (
     <>
@@ -97,7 +26,9 @@ export default function HomePage() {
           posting your listing.
         </p>
         <div ref={parent}>
-          {sessionStatus !== "authenticated" && <SignInButtonList />}
+          {sessionStatus !== "authenticated" && (
+            <SignInButtonList disabled={sessionStatus === "loading"} />
+          )}
           <ul className="mt-2 space-y-4 border-t border-gray-700 pt-4">
             <HomePageLink
               href="/feed"
@@ -114,15 +45,9 @@ export default function HomePage() {
             >
               Post an item
             </HomePageLink>
-            <HomePageLink
-              // todo: if browser geolocation disabled, use custom map selector
-              disabled={!geolocation}
-              onClick={setLocation}
-              gradientDuoTone="pinkToOrange"
-              icon={HiOutlineMapPin}
-            >
-              Set your location
-            </HomePageLink>
+            <SetLocationButton
+              isAuthenticated={sessionStatus === "authenticated"}
+            />
           </ul>
         </div>
       </section>

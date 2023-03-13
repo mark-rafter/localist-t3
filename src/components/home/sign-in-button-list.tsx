@@ -1,5 +1,5 @@
 import type { EnabledProviderType } from "@/server/auth";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { FaGithub, FaSpotify } from "react-icons/fa";
 
 type ProviderStyle = {
@@ -21,8 +21,7 @@ const signInProviders: Record<EnabledProviderType, ProviderStyle> = {
   },
 };
 
-export default function SignInButtonList() {
-  const { status: sessionStatus } = useSession();
+export default function SignInButtonList({ disabled }: { disabled: boolean }) {
   // todo: return credentials login form if preview environment (expose public env var "IS_PREVIEW_ENV")
 
   return (
@@ -31,7 +30,7 @@ export default function SignInButtonList() {
         <li key={id}>
           <button
             type="button"
-            disabled={sessionStatus === "loading"}
+            disabled={disabled}
             onClick={() => signIn(id)}
             className={`mb-3 flex w-64 justify-center rounded-lg px-5 py-3 focus:outline-none focus:ring-4 focus:ring-gray-500 ${providerStyle.class}`}
           >
