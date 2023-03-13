@@ -1,5 +1,4 @@
-import { Feed } from "@/components/feed";
-import type { FeedProps } from "@/components/feed/feed";
+import { Feed, type FeedProps } from "@/components/feed";
 import { generateFakePost } from "@/helpers/fakes";
 import { faker } from "@faker-js/faker";
 import { render } from "@testing-library/react";
