@@ -192,13 +192,13 @@ exports[`renders FeedItem unchanged 1`] = `
           class="flex items-center text-sm font-normal text-gray-400"
         >
           <span
-            class="mr-1 flex-1 whitespace-nowrap"
+            class="flex-1 whitespace-nowrap"
           >
             X miles away
           </span>
           <svg
             aria-hidden="true"
-            class="h-4 w-4"
+            class="ml-1 h-4 w-4"
             fill="none"
             height="1em"
             stroke="currentColor"

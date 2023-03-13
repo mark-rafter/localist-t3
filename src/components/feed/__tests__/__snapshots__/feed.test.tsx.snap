@@ -194,14 +194,13 @@ exports[`renders Feed unchanged 1`] = `
           <span
             class="flex items-center text-sm font-normal text-gray-400"
           >
-            <span
-              class="mr-1 flex-1 whitespace-nowrap"
-            >
-              35 miles
-            </span>
+            <div
+              class="h-2.5 shadow animate-pulse bg-gray-300 rounded-full dark:bg-gray-700 w-24"
+              role="status"
+            />
             <svg
               aria-hidden="true"
-              class="h-4 w-4"
+              class="ml-1 h-4 w-4"
               fill="none"
               height="1em"
               stroke="currentColor"
@@ -414,14 +413,13 @@ exports[`renders Feed unchanged 1`] = `
           <span
             class="flex items-center text-sm font-normal text-gray-400"
           >
-            <span
-              class="mr-1 flex-1 whitespace-nowrap"
-            >
-              112 miles
-            </span>
+            <div
+              class="h-2.5 shadow animate-pulse bg-gray-300 rounded-full dark:bg-gray-700 w-24"
+              role="status"
+            />
             <svg
               aria-hidden="true"
-              class="h-4 w-4"
+              class="ml-1 h-4 w-4"
               fill="none"
               height="1em"
               stroke="currentColor"
