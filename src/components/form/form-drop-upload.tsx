@@ -1,5 +1,6 @@
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { compressAccurately } from "image-conversion";
+import { useState } from "react";
 import type {
   FieldError,
   FieldValues,
@@ -26,6 +27,9 @@ export function FormDropUpload<T extends FieldValues>({
   className,
 }: FormDropUploadProps<T>) {
   const [parent] = useAutoAnimate();
+  const [uploadedFile, setUploadedFile] = useState<string | undefined>(
+    undefined
+  );
 
   async function handleFile(event: React.ChangeEvent<HTMLInputElement>) {
     const selectedFile = event.target?.files?.item(0);
@@ -41,9 +45,21 @@ export function FormDropUpload<T extends FieldValues>({
     reader.readAsDataURL(compressedFile);
     reader.onload = () => {
       if (typeof reader.result === "string") {
+        setUploadedFile(reader.result);
         onFileChanged(reader.result);
       }
     };
+  }
+
+  if (uploadedFile) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        className="fade-in z-10"
+        src={uploadedFile}
+        alt="Uploaded file preview"
+      />
+    );
   }
 
   return (
