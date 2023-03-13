@@ -18,19 +18,15 @@ export function SetLocationButton({
   }, []);
 
   const setLocation = () => {
-    console.log(navigator.geolocation);
-
     navigator.geolocation?.getCurrentPosition(
       ({ coords }) => {
-        console.log("coords", coords);
-        const result = mutate({
+        mutate({
           lat: coords.latitude,
           long: coords.longitude,
         });
-        console.log("mutate result", result);
       },
       console.error,
-      { timeout: 3000, enableHighAccuracy: false }
+      { timeout: 5000, enableHighAccuracy: false }
     );
   };
 
