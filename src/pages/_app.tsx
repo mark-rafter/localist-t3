@@ -1,4 +1,4 @@
-import { Layout } from "@/components/layout";
+import { Layout } from "@/components";
 import { useCustomTheme } from "@/hooks/use-custom-theme";
 import "@/styles/globals.css";
 import { api } from "@/utils/api";

@@ -1,4 +1,4 @@
-import { LinkOrDisabled } from "@/components/link-or-disabled";
+import { LinkOrDisabled, SkeletonOrChildren } from "@/components";
 import { Carousel } from "flowbite-react";
 import Image from "next/image";
 import type { ItemSizeType } from "prisma/generated/zod/inputTypeSchemas/ItemSizeSchema";
@@ -94,14 +94,9 @@ export function FeedItem({
         <div className="flex items-center justify-between">
           <span className="text-xl font-bold">£{price}</span>
           <span className="flex items-center text-sm font-normal text-gray-400">
-            {distance.length > 0 ? (
+            <SkeletonOrChildren showSkeleton={distance.length < 1}>
               <span className="flex-1 whitespace-nowrap">{distance}</span>
-            ) : (
-              <div
-                role="status"
-                className="h-2.5 shadow animate-pulse bg-gray-300 rounded-full dark:bg-gray-700 w-24"
-              />
-            )}
+            </SkeletonOrChildren>
             <HiOutlineMapPin className="ml-1 h-4 w-4" />
           </span>
         </div>
