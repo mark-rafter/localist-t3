@@ -11,7 +11,7 @@ export function SetLocationButton({
   const [geolocation, setGeolocation] = useState<Geolocation | undefined>(
     undefined
   );
-  const { mutate } = api.user.updateCoords.useMutation();
+  const { mutate, isLoading } = api.user.updateCoords.useMutation();
 
   useEffect(() => {
     if ("geolocation" in navigator) {
@@ -21,17 +21,19 @@ export function SetLocationButton({
 
   const setLocation = () => {
     geolocation?.getCurrentPosition(({ coords }) => {
-      mutate({
+      console.log("coords", coords);
+      const result = mutate({
         lat: coords.latitude,
         long: coords.longitude,
       });
+      console.log("mutate result", result);
     });
   };
 
   return (
     <HomePageLink
       // todo: if browser geolocation disabled, use custom map selector
-      disabled={!geolocation || !isAuthenticated}
+      disabled={!geolocation || !isAuthenticated || isLoading}
       onClick={setLocation}
       gradientDuoTone="pinkToOrange"
       icon={HiOutlineMapPin}
