@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { type Prisma } from '@prisma/client';
+import type { Prisma } from '@prisma/client';
 
 export const JsonValue: z.ZodType<Prisma.JsonValue> = z.union([
   z.string(),
