@@ -1,8 +1,6 @@
 import { LinkOrDisabled, SkeletonOrChildren } from "@/components";
-import { Carousel } from "flowbite-react";
-import Image from "next/image";
+import { FeedImageCarousel } from "@/components/feed/feed-image-carousel";
 import type { ItemSizeType } from "prisma/generated/zod/inputTypeSchemas/ItemSizeSchema";
-import React from "react";
 import { HiOutlineClock, HiOutlineMapPin } from "react-icons/hi2";
 
 type DraftFeedItem = {
@@ -12,54 +10,15 @@ type DraftFeedItem = {
   images?: string[];
 };
 
-type FeedItemProps = DraftFeedItem & {
+export type FeedItemProps = DraftFeedItem & {
   id: number;
   distance: string;
   postAge: string;
   isPreview?: boolean;
 };
 
-type ImageCarouselProps = Pick<
-  FeedItemProps,
-  "id" | "images" | "title" | "isPreview"
->;
-
-function ImagesContainer({
-  imageLength,
-  children,
-}: React.PropsWithChildren<{ imageLength: number }>) {
-  return imageLength == 1 ? (
-    <>{children}</>
-  ) : (
-    <Carousel slideInterval={3000}>{children}</Carousel>
-  );
-}
-
-function ImageCarousel({ id, title, images, isPreview }: ImageCarouselProps) {
-  const smPixels = 384;
-
-  if (!images) return <></>;
-
-  return (
-    <div>
-      <ImagesContainer imageLength={images.length}>
-        {images.map((image, index) => (
-          <LinkOrDisabled
-            key={index}
-            target={`post/${id}`}
-            disabled={isPreview == true}
-          >
-            <Image
-              src={image}
-              alt={`${title} Image ${index + 1}`}
-              width={smPixels}
-              height={smPixels}
-            />
-          </LinkOrDisabled>
-        ))}
-      </ImagesContainer>
-    </div>
-  );
+export function DraftFeedItem(props: DraftFeedItem) {
+  return <FeedItem id={0} distance="X miles" postAge="X days ago" {...props} />;
 }
 
 export function FeedItem({
@@ -74,7 +33,7 @@ export function FeedItem({
 }: FeedItemProps) {
   return (
     <article className="max-w-sm overflow-hidden rounded-lg bg-gray-800">
-      <ImageCarousel {...{ id, title, images, isPreview }} />
+      <FeedImageCarousel {...{ id, title, images, isPreview }} />
       <div className="p-3 antialiased sm:p-4">
         {/* Top Row: size + post age */}
         <div className="flex items-baseline justify-between text-gray-300">
@@ -103,8 +62,4 @@ export function FeedItem({
       </div>
     </article>
   );
-}
-
-export function DraftFeedItem(props: DraftFeedItem) {
-  return <FeedItem id={0} distance="X miles" postAge="X days ago" {...props} />;
 }
