@@ -1,21 +1,50 @@
 import { ClientFeed, LoadMore } from "@/components/feed";
 import { api } from "@/utils/api";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { TextInput } from "flowbite-react";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { useForm } from "react-hook-form";
 import { HiMagnifyingGlass } from "react-icons/hi2";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { z } from "zod";
 
 const postsPerPage = 8;
 
+const searchSchema = z.object({
+  q: z.string().max(25, { message: "Query too long" }).default(""),
+});
+
+export type SearchSchema = z.infer<typeof searchSchema>;
+
 export function SearchForm() {
-  // todo: react hook form or form GET
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SearchSchema>({
+    resolver: zodResolver(searchSchema),
+  });
+  const router = useRouter();
+
+  const submitForm = handleSubmit(
+    async (formData) =>
+      await router.push(
+        {
+          pathname: "/search",
+          query: { ...formData },
+        },
+        undefined,
+        { shallow: true }
+      )
+  );
+
   return (
     <div className="relative mx-auto w-96">
-      <form action="/search" method="get">
+      <form onSubmit={submitForm}>
         <TextInput
           id="search"
-          name="q"
+          {...register("q")}
           maxLength={32}
           icon={HiMagnifyingGlass}
           placeholder="e.g. womens nike trainers size 10"
