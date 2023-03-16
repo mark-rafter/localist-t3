@@ -85,9 +85,5 @@ function getNextCursor(
   posts: RouterOutputs["post"]["getFeed"]["posts"],
   limit: number
 ): number | undefined {
-  if (posts.length > limit) {
-    const nextPost = posts.pop();
-    return nextPost?.id;
-  }
-  return undefined;
+  return posts.length > limit ? posts.pop()?.id : undefined;
 }
