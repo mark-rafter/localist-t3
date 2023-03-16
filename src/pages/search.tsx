@@ -30,17 +30,17 @@ export function SearchForm() {
   const router = useRouter();
   const [parent] = useAutoAnimate();
 
-  const submitForm = handleSubmit(
-    async (formData) =>
-      await router.push(
-        {
-          pathname: "/search",
-          query: { ...formData },
-        },
-        undefined,
-        { shallow: true }
-      )
-  );
+  const submitForm = handleSubmit(async (formData) => {
+    // todo: toast
+    return await router.push(
+      {
+        pathname: "/search",
+        query: { ...formData },
+      },
+      undefined,
+      { shallow: true }
+    );
+  });
 
   return (
     <form className="mx-auto w-80 sm:w-96" ref={parent} onSubmit={submitForm}>

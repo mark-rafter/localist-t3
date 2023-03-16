@@ -33,6 +33,7 @@ const signInProviders: Record<EnabledProviderType, ProviderStyle> = {
 
 export default function SignInButtonList({ disabled }: { disabled: boolean }) {
   // todo: return credentials login form if preview environment (expose public env var "IS_PREVIEW_ENV")
+  // todo: promise toast tracking signin status
 
   return (
     <ul className="mt-5 flex flex-col items-center">
