@@ -1,10 +1,10 @@
 import { ClientFeed, LoadMore } from "@/components/feed";
+import { useSearchRouter } from "@/hooks/use-search-router";
 import { api } from "@/utils/api";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Select, TextInput } from "flowbite-react";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { HiMagnifyingGlass } from "react-icons/hi2";
@@ -40,19 +40,12 @@ export function SearchForm() {
   } = useForm<SearchSchema>({
     resolver: zodResolver(searchSchema),
   });
-  const router = useRouter();
+  const { updateQuery, searchTerm } = useSearchRouter();
   const [parent] = useAutoAnimate();
 
   const submitForm = async (formData: SearchSchema) => {
     // todo: toast
-    return await router.push(
-      {
-        pathname: "/search",
-        query: { ...formData },
-      },
-      undefined,
-      { shallow: true }
-    );
+    return updateQuery(formData);
   };
 
   useEffect(() => {
@@ -74,7 +67,7 @@ export function SearchForm() {
           {...register("q")}
           maxLength={searchMaxLength}
           icon={HiMagnifyingGlass}
-          defaultValue={router.query.q}
+          defaultValue={searchTerm}
         />
       </div>
       <OrderBy />
@@ -86,16 +79,9 @@ export function SearchForm() {
     </form>
   );
 }
-function useSearchTerm() {
-  const { query } = useRouter();
-  const { q: searchTerm } = query;
-  if (!searchTerm) return "";
-  if (typeof searchTerm === "string") return searchTerm;
-  return searchTerm[0] || "";
-}
 
 export default function SearchPage() {
-  const searchTerm = useSearchTerm();
+  const { searchTerm } = useSearchRouter();
 
   const { data, hasNextPage, fetchNextPage, isFetching } =
     api.post.getFeed.useInfiniteQuery(
