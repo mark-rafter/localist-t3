@@ -2,9 +2,10 @@ import { ClientFeed, LoadMore } from "@/components/feed";
 import { api } from "@/utils/api";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { TextInput } from "flowbite-react";
+import { Select, TextInput } from "flowbite-react";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { HiMagnifyingGlass } from "react-icons/hi2";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -19,9 +20,21 @@ const searchSchema = z.object({
 
 export type SearchSchema = z.infer<typeof searchSchema>;
 
+function OrderBy() {
+  return (
+    <div>
+      <Select id="orderBy" required={true}>
+        <option>Newest</option>
+        <option>Most Popular</option>
+      </Select>
+    </div>
+  );
+}
+
 export function SearchForm() {
   const {
     register,
+    watch,
     handleSubmit,
     formState: { errors },
   } = useForm<SearchSchema>({
@@ -30,7 +43,7 @@ export function SearchForm() {
   const router = useRouter();
   const [parent] = useAutoAnimate();
 
-  const submitForm = handleSubmit(async (formData) => {
+  const submitForm = async (formData: SearchSchema) => {
     // todo: toast
     return await router.push(
       {
@@ -40,23 +53,31 @@ export function SearchForm() {
       undefined,
       { shallow: true }
     );
-  });
+  };
+
+  useEffect(() => {
+    console.log(watch("q"));
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+    const subscription = watch(() => handleSubmit(submitForm)());
+    return () => subscription.unsubscribe();
+  }, [handleSubmit, watch]);
 
   return (
-    <form className="mx-auto w-80 sm:w-96" ref={parent} onSubmit={submitForm}>
-      <TextInput
-        id="search"
-        {...register("q")}
-        maxLength={searchMaxLength}
-        icon={HiMagnifyingGlass}
-        placeholder="e.g. womens nike trainers size 10"
-      />
-      <button
-        type="submit"
-        className="absolute top-0 right-0 p-2 text-md font-medium text-white bg-blue-700 rounded-r-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-      >
-        Go
-      </button>
+    <form
+      className="mx-auto flex"
+      ref={parent}
+      onSubmit={handleSubmit(submitForm)}
+    >
+      <div>
+        <TextInput
+          id="search"
+          {...register("q")}
+          maxLength={searchMaxLength}
+          icon={HiMagnifyingGlass}
+          defaultValue={router.query.q}
+        />
+      </div>
+      <OrderBy />
       {errors.q && (
         <p id="q_error_message" className="mt-2 text-xs text-red-400">
           {errors.q.message}
@@ -106,7 +127,11 @@ export default function SearchPage() {
               onClick={fetchNextPage}
             />
           }
-          endMessage={<p className="text-center">All posts fetched!</p>}
+          endMessage={
+            <p className="text-center">
+              All posts fetched for &ldquo;{searchTerm}&rdquo;
+            </p>
+          }
         >
           <ClientFeed posts={fetchedPosts} />
         </InfiniteScroll>
