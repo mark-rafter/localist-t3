@@ -38,10 +38,7 @@ export function SearchForm() {
   const { updateQuery, searchTerm } = useSearchRouter();
   const [parent] = useAutoAnimate();
 
-  const submitForm = handleSubmit(async (formData: SearchSchema) => {
-    // todo: toast
-    return updateQuery(formData);
-  });
+  const submitForm = handleSubmit(updateQuery);
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
@@ -58,6 +55,7 @@ export function SearchForm() {
           maxLength={searchMaxLength}
           icon={HiMagnifyingGlass}
           defaultValue={searchTerm}
+          placeholder="e.g. womans size 10 adidas trainers"
         />
       </div>
       <OrderBy />

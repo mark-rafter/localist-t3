@@ -1,5 +1,5 @@
 import { ClientFeed, Feed, LoadMore } from "@/components/feed";
-import { SearchForm } from "@/pages/search";
+import { SearchForm } from "@/components/search/search-form";
 import { appRouter } from "@/server/api/root";
 import { prisma } from "@/server/db";
 import { api } from "@/utils/api";
