@@ -6,11 +6,11 @@ import {
   HiArrowLeftOnRectangle,
   HiArrowRightOnRectangle,
   HiBars3BottomLeft,
-  HiBookmark,
+  HiHeart,
   HiHome,
   HiInboxArrowDown,
-  HiOutlineBookmark,
   HiOutlineCog6Tooth,
+  HiOutlineHeart,
   HiOutlineHome,
   HiOutlineInboxArrowDown,
   HiOutlinePencilSquare,
@@ -72,10 +72,10 @@ export function Sidebar() {
               badge="3"
             />
             <SidebarLink
-              label="Bookmarks"
+              label="Likes"
               disabled={sessionStatus !== "authenticated"}
-              icon={HiOutlineBookmark}
-              filledIcon={HiBookmark}
+              icon={HiOutlineHeart}
+              filledIcon={HiHeart}
             />
             <SidebarLink label="Settings" icon={HiOutlineCog6Tooth} />
             <SidebarLink
