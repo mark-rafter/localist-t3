@@ -40,11 +40,12 @@ export function SearchForm() {
 
   const submitForm = handleSubmit(updateQuery);
 
-  useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    const subscription = watch(() => submitForm());
-    return () => subscription.unsubscribe();
-  }, [handleSubmit, watch]);
+  // todo: enable once debounce is solved
+  // useEffect(() => {
+  //   // eslint-disable-next-line @typescript-eslint/no-misused-promises
+  //   const subscription = watch(() => submitForm());
+  //   return () => subscription.unsubscribe();
+  // }, [handleSubmit, watch]);
 
   return (
     <form className="mx-auto flex" ref={parent} onSubmit={submitForm}>
