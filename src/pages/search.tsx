@@ -5,14 +5,12 @@ import { api } from "@/utils/api";
 import Head from "next/head";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-const postsPerPage = 8;
-
 export default function SearchPage() {
   const { searchTerm } = useSearchRouter();
 
   const { data, hasNextPage, fetchNextPage, isFetching } =
     api.post.getFeed.useInfiniteQuery(
-      { limit: postsPerPage, searchTerm: searchTerm },
+      { searchTerm: searchTerm },
       {
         enabled: typeof window !== "undefined",
         getNextPageParam: (lastPage) => lastPage.postIdCursor,

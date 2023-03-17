@@ -36,12 +36,13 @@ export const postRouter = createTRPCRouter({
     .input(
       z.object({
         cursor: z.number().nullish(),
-        limit: z.number().min(1).max(8),
         searchTerm: z.string().max(32).optional(),
+        sort: z.enum(["", "new", "likes"]).optional(),
       })
     )
     .query(async ({ ctx, input }) => {
-      const { cursor: postIdCursor, limit } = input;
+      const postsPerPage = 8;
+      const { cursor: postIdCursor } = input;
 
       const searchFilter = input.searchTerm?.length
         ? {
@@ -65,14 +66,14 @@ export const postRouter = createTRPCRouter({
             },
           },
         },
-        take: limit + 1,
+        take: postsPerPage + 1,
         cursor: postIdCursor ? { id: postIdCursor } : undefined,
         orderBy: {
           id: "desc",
         },
       });
 
-      const nextCursor = getNextCursor(posts, limit);
+      const nextCursor = getNextCursor(posts, postsPerPage);
 
       return {
         posts,

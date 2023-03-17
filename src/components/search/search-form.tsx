@@ -9,8 +9,9 @@ import { z } from "zod";
 
 const searchMaxLength = 32;
 
-const searchSchema = z.object({
+export const searchSchema = z.object({
   q: z.string().max(searchMaxLength, { message: "Query too long" }).default(""),
+  sort: z.enum(["", "new", "likes"]).default(""),
 });
 
 export type SearchSchema = z.infer<typeof searchSchema>;
@@ -18,9 +19,9 @@ export type SearchSchema = z.infer<typeof searchSchema>;
 function OrderBy() {
   return (
     <div>
-      <Select id="orderBy" required={true}>
-        <option>Newest</option>
-        <option>Most Popular</option>
+      <Select id="sort" required={true}>
+        <option value="new">Newest</option>
+        <option value="likes">Most Liked</option>
       </Select>
     </div>
   );
