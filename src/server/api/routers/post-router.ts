@@ -6,6 +6,7 @@ import {
   publicProcedure,
 } from "@/server/api/trpc";
 import type { RouterOutputs } from "@/utils/api";
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 export const postRouter = createTRPCRouter({
@@ -30,6 +31,24 @@ export const postRouter = createTRPCRouter({
       });
 
       return createdPost;
+    }),
+
+  delete: protectedProcedure
+    .input(z.number().int().positive())
+    .mutation(async ({ ctx, input }) => {
+      const post = await ctx.prisma.post.findUniqueOrThrow({
+        where: { id: input },
+      });
+
+      if (post?.authorId !== ctx.session.user.id) {
+        throw new TRPCError({ code: "UNAUTHORIZED" });
+      }
+
+      return await ctx.prisma.post.delete({
+        where: {
+          id: input,
+        },
+      });
     }),
 
   getFeed: publicProcedure
