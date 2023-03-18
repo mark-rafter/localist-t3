@@ -7,14 +7,12 @@ import type { InferGetStaticPropsType } from "next";
 import Head from "next/head";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-const postsPerPage = 8;
-
 export default function FeedPage({
   posts: ssrPosts,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const { data, hasNextPage, fetchNextPage, isFetching } =
     api.post.getFeed.useInfiniteQuery(
-      { limit: postsPerPage, searchTerm: "" },
+      { searchTerm: "" },
       {
         enabled: typeof window !== "undefined",
         getNextPageParam: (lastPage) => lastPage.postIdCursor,
@@ -59,7 +57,7 @@ export async function getStaticProps() {
     prisma: prisma,
   });
 
-  const props = await caller.post.getFeed({ limit: postsPerPage });
+  const props = await caller.post.getFeed({});
 
   return {
     props: props,
