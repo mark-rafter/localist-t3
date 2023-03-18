@@ -12,6 +12,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import PostSchema from "prisma/generated/zod/modelSchema/PostSchema";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { z } from "zod";
 
 export const newPostSchema = z
@@ -45,15 +46,13 @@ export default function NewPostPage() {
   const { mutateAsync, isLoading, isSuccess } = api.post.create.useMutation();
 
   const submitForm = handleSubmit(async (formData) => {
-    // todo: toast
-    console.log("formData", formData);
-    const result = await mutateAsync(formData);
+    const result = await toast.promise(mutateAsync(formData), {
+      loading: "Submitting...",
+      success: "Post submitted! Redirecting...",
+      error: "Failed to submit!",
+    });
     if (result) {
-      // todo: toast
       await router.push(`/post/${result.id}`);
-    } else {
-      // todo: toast
-      console.error("result was empty");
     }
   });
 
