@@ -15,11 +15,15 @@ export function useSearchRouter() {
     );
   }
 
-  return { updateQuery, searchTerm: inferSearchTerm(router.query.q) };
+  return {
+    updateQuery,
+    searchTerm: parseQueryParam(router.query.q),
+    sortTerm: parseQueryParam(router.query.sort),
+  };
 }
 
-function inferSearchTerm(searchTerm: string | string[] | undefined) {
-  if (!searchTerm) return "";
-  if (typeof searchTerm === "string") return searchTerm;
-  return searchTerm[0] || "";
+function parseQueryParam(param: string | string[] | undefined) {
+  if (!param) return "";
+  if (typeof param === "string") return param;
+  return param[0] || "";
 }
