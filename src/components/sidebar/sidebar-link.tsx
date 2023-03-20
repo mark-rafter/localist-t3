@@ -1,7 +1,7 @@
+import type { NavLink } from "@/components/nav/nav-link";
 import { Spinner } from "flowbite-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import type { ComponentProps, FC } from "react";
 
 const Badge = ({ text }: { text: string }) => (
   <span className="ml-3 inline-flex h-3 w-3 items-center justify-center rounded-full bg-blue-900 p-3 text-sm font-medium text-blue-300">
@@ -30,18 +30,6 @@ function LinkOrDisabled({
   );
 }
 
-type StartsWithSlash = `/${string}`;
-
-type SidebarLinkProps = {
-  icon: FC<ComponentProps<"svg">>;
-  label: string;
-  filledIcon?: FC<ComponentProps<"svg">>;
-  href?: StartsWithSlash;
-  badge?: string;
-  disabled?: boolean;
-  showSpinner?: boolean;
-};
-
 export function SidebarLink({
   icon: Icon,
   label,
@@ -50,7 +38,7 @@ export function SidebarLink({
   showSpinner,
   href,
   badge,
-}: SidebarLinkProps) {
+}: NavLink) {
   const { asPath } = useRouter();
   const target = href ?? "/" + label.replace(/\s/g, "").toLowerCase();
   const isActiveLink = asPath === target;

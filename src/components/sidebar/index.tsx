@@ -14,8 +14,10 @@ import {
   HiOutlineHome,
   HiOutlineInboxArrowDown,
   HiOutlinePencilSquare,
+  HiOutlineSquare3Stack3D,
   HiOutlineUser,
   HiPencilSquare,
+  HiSquare3Stack3D,
   HiUser,
 } from "react-icons/hi2";
 
@@ -93,6 +95,11 @@ export function Sidebar() {
                   label="Profile"
                   icon={HiOutlineUser}
                   filledIcon={HiUser}
+                />
+                <SidebarLink
+                  label="My Posts"
+                  icon={HiOutlineSquare3Stack3D}
+                  filledIcon={HiSquare3Stack3D}
                 />
                 <SidebarLink
                   label="Sign Out"

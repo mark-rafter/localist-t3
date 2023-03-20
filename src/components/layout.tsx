@@ -1,3 +1,4 @@
+import { BottomNav } from "@/components/bottom-nav";
 import Head from "next/head";
 import { Toaster } from "react-hot-toast";
 import { Sidebar } from "./sidebar";
@@ -20,6 +21,7 @@ export function Layout({ children }: React.PropsWithChildren) {
         }}
       />
       <Sidebar />
+      <BottomNav />
       <main className="p-2 sm:ml-56">{children}</main>
     </>
   );
