@@ -3,13 +3,13 @@ import Link from "next/link";
 import React from "react";
 
 type LinkOrDisabledClasses = {
-  base: string;
+  base?: string;
   disabledOnly?: string;
   enabledOnly?: string;
 };
 
 type LinkOrDisabledProps = {
-  classes: LinkOrDisabledClasses;
+  classes?: LinkOrDisabledClasses;
   disabled: boolean;
   target: string;
   children: React.ReactNode;
@@ -17,7 +17,7 @@ type LinkOrDisabledProps = {
 };
 
 export function LinkOrDisabled({
-  classes = { base: "" },
+  classes = {},
   disabled,
   target,
   children,
@@ -26,7 +26,11 @@ export function LinkOrDisabled({
   const { base, disabledOnly, enabledOnly } = classes;
   if (disabled) {
     if (disabledOnly) {
-      return <span className={classNames(base, disabledOnly)}>{children}</span>;
+      return (
+        <span className={base ? classNames(base, disabledOnly) : undefined}>
+          {children}
+        </span>
+      );
     }
     return <>{children}</>;
   }
@@ -34,7 +38,7 @@ export function LinkOrDisabled({
     <Link
       href={target}
       prefetch={prefetch}
-      className={classNames(base, enabledOnly)}
+      className={base ? classNames(base, enabledOnly) : undefined}
     >
       {children}
     </Link>
