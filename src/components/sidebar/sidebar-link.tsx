@@ -1,6 +1,6 @@
+import { LinkOrDisabled } from "@/components/link-or-disabled";
 import type { NavLink } from "@/components/nav/nav-link";
 import { Spinner } from "flowbite-react";
-import Link from "next/link";
 import { useRouter } from "next/router";
 
 const Badge = ({ text }: { text: string }) => (
@@ -8,27 +8,6 @@ const Badge = ({ text }: { text: string }) => (
     {text}
   </span>
 );
-
-function LinkOrDisabled({
-  disabled,
-  target,
-  children,
-}: {
-  disabled: boolean;
-  target: string;
-  children?: React.ReactNode;
-}) {
-  const baseClasses = "flex items-center rounded-lg p-2 text-base font-normal";
-  if (disabled) {
-    return <span className={`${baseClasses} text-gray-500`}>{children}</span>;
-  }
-
-  return (
-    <Link href={target} className={`${baseClasses} hover:bg-gray-700`}>
-      {children}
-    </Link>
-  );
-}
 
 export function SidebarLink({
   icon: Icon,
@@ -45,7 +24,15 @@ export function SidebarLink({
 
   return (
     <li>
-      <LinkOrDisabled disabled={disabled === true} target={target}>
+      <LinkOrDisabled
+        disabled={disabled === true}
+        target={target}
+        classes={{
+          base: "flex items-center rounded-lg p-2 text-base font-normal",
+          disabledOnly: "text-gray-500",
+          enabledOnly: "hover:bg-gray-700",
+        }}
+      >
         {isActiveLink && FilledIcon ? (
           <FilledIcon className="h-5 w-5" />
         ) : (
