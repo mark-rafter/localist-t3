@@ -21,7 +21,7 @@ export function LinkOrDisabled({
   disabled,
   target,
   children,
-  prefetch = false,
+  prefetch = true,
 }: LinkOrDisabledProps) {
   const { base, disabledOnly, enabledOnly } = classes;
   if (disabled) {
