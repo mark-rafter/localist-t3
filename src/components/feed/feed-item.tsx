@@ -44,7 +44,11 @@ export function FeedItem({
           </span>
         </div>
         {/* Middle Row: title */}
-        <LinkOrDisabled target={`post/${id}`} disabled={isPreview == true}>
+        <LinkOrDisabled
+          target={`post/${id}`}
+          disabled={isPreview == true}
+          prefetch={false}
+        >
           <h2 className="w-64 truncate pt-1 text-xl font-bold tracking-tight">
             {title}
           </h2>

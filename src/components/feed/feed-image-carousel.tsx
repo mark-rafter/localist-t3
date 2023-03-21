@@ -38,6 +38,7 @@ export function FeedImageCarousel({
             key={index}
             target={`post/${id}`}
             disabled={isPreview == true}
+            prefetch={false}
           >
             <Image
               src={image}
