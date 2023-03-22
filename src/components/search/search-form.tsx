@@ -17,6 +17,8 @@ const searchMaxLength = 32;
 
 const sortSchema = z.enum(["", "new", "likes"]).default("");
 
+type SortSchema = z.infer<typeof sortSchema>;
+
 export const searchSchema = z.object({
   q: z.string().max(searchMaxLength, { message: "Query too long" }).default(""),
   sort: sortSchema,
@@ -40,6 +42,11 @@ export function SearchForm() {
   const result = sortSchema.safeParse(sortTerm);
   const watchSort = watch("sort", result.success ? result.data : "");
 
+  const sortForm = async (sort: SortSchema) => {
+    setValue("sort", sort);
+    await submitForm();
+  };
+
   const submitForm = handleSubmit(updateQuery);
 
   // todo: enable once debounce is solved
@@ -62,8 +69,8 @@ export function SearchForm() {
           placeholder="e.g. womans size 10 adidas trainers"
         />
         <button
-          type="submit"
-          onClick={() => setValue("sort", "likes")}
+          type="button"
+          onClick={() => sortForm("likes")}
           className="absolute top-0 right-10 border border-slate-600 p-2.5 hover:bg-slate-500 focus:z-20 focus:outline-none focus:ring-4 focus:ring-blue-300"
         >
           {watchSort === "likes" ? (
@@ -74,8 +81,8 @@ export function SearchForm() {
           <span className="sr-only">Popular</span>
         </button>
         <button
-          type="submit"
-          onClick={() => setValue("sort", "new")}
+          type="button"
+          onClick={() => sortForm("new")}
           className="absolute top-0 right-0 rounded-r-lg border border-slate-600 p-2.5 hover:bg-slate-500 focus:z-20 focus:outline-none focus:ring-4 focus:ring-blue-300"
         >
           {watchSort === "" || watchSort === "new" ? (
