@@ -99,6 +99,33 @@ export const postRouter = createTRPCRouter({
         postIdCursor: nextCursor,
       };
     }),
+
+  getMyFeed: protectedProcedure.query(async ({ ctx }) => {
+    const posts = await ctx.prisma.post.findMany({
+      where: {
+        authorId: ctx.session.user.id,
+      },
+      select: {
+        id: true,
+        title: true,
+        size: true,
+        price: true,
+        images: true,
+        createdAt: true,
+        author: {
+          select: {
+            lat: true,
+            long: true,
+          },
+        },
+      },
+      orderBy: {
+        id: "desc",
+      },
+    });
+
+    return posts;
+  }),
 });
 
 function getNextCursor(
