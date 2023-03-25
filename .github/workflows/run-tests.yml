@@ -5,6 +5,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+    - name: Create dummy .env file
+        run: mv .env.example .env
     - uses: pnpm/action-setup@v2
       with:
         version: 7.30.3
