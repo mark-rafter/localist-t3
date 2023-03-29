@@ -10,7 +10,7 @@ import type {
 import { HiOutlineCloudArrowUp } from "react-icons/hi2";
 
 type FormDropUploadProps<T extends FieldValues> = {
-  height: number | string;
+  height: number;
   label: Path<T>;
   register: UseFormRegister<T>;
   onFileChanged: (value: string) => void;
@@ -72,7 +72,7 @@ export function FormDropUpload<T extends FieldValues>({
       <div
         ref={parent}
         className={`flex flex-col items-center justify-center ${
-          height > 32 ? "pt-5 pb-6" : ""
+          height > 32 ? "pb-6 pt-5" : ""
         }`}
       >
         <HiOutlineCloudArrowUp className={`h-10 w-10 text-gray-400`} />
