@@ -10,6 +10,9 @@ export function useCustomTheme(): ThemeProps {
           base: `${defaultTheme.carousel.scrollContainer.base} rounded-none`,
         },
       },
+      button: {
+        base: `${defaultTheme.button.base} bg-gray-900`,
+      },
     },
   };
 }
