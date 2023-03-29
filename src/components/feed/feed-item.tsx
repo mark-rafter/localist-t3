@@ -18,7 +18,15 @@ export type FeedItemProps = DraftFeedItem & {
 };
 
 export function DraftFeedItem(props: DraftFeedItem) {
-  return <FeedItem id={0} distance="X miles" postAge="X days ago" {...props} />;
+  return (
+    <FeedItem
+      id={0}
+      distance="X miles"
+      postAge="X days ago"
+      isPreview={true}
+      {...props}
+    />
+  );
 }
 
 export function FeedItem({
