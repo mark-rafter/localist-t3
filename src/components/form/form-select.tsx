@@ -29,7 +29,7 @@ export function FormSelect<T extends FieldValues>({
         id={label}
         {...register(label)}
         aria-describedby={`${label}_error_message`}
-        className="peer block w-full appearance-none border-0 border-b-2 border-gray-700 bg-primary-999 px-0 pt-2.5 text-sm text-gray-400 focus:border-gray-200 focus:outline-none focus:ring-0"
+        className="peer block w-full appearance-none border-0 border-b-2 border-gray-700 bg-gray-800 px-0 pt-2.5 text-sm text-gray-400 focus:border-blue-500 focus:outline-none focus:ring-0"
       >
         {children}
       </select>
