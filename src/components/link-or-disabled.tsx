@@ -13,7 +13,7 @@ type LinkOrDisabledProps = {
   disabled: boolean;
   target: string;
   children: React.ReactNode;
-  prefetch?: boolean;
+  prefetch?: false | undefined;
 };
 
 export function LinkOrDisabled({
@@ -21,7 +21,7 @@ export function LinkOrDisabled({
   disabled,
   target,
   children,
-  prefetch = true,
+  prefetch = undefined,
 }: LinkOrDisabledProps) {
   const { base, disabledOnly, enabledOnly } = classes;
   if (disabled) {
