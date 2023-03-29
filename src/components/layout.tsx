@@ -22,7 +22,7 @@ export function Layout({ children }: React.PropsWithChildren) {
       />
       <Sidebar />
       <BottomNav />
-      <main className="p-2 sm:ml-56">{children}</main>
+      <main className="mb-20 p-2 sm:mb-0 sm:ml-56">{children}</main>
     </>
   );
 }
