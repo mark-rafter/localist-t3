@@ -57,7 +57,7 @@ export function BottomNav() {
     return <></>;
   }
   return (
-    <div className="fixed bottom-4 left-1/2 z-50 h-16 w-full max-w-lg -translate-x-1/2 rounded-full border border-gray-600 bg-zinc-900 sm:hidden">
+    <div className="fixed bottom-4 left-1/2 z-50 h-16 w-full max-w-lg -translate-x-1/2 rounded-full border border-gray-600 bg-gray-800 sm:hidden">
       <div className="mx-auto grid h-full max-w-lg grid-cols-5">
         <BottomNavLink
           pos="start"

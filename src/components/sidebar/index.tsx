@@ -52,7 +52,7 @@ export function Sidebar() {
         aria-label="Sidebar"
         aria-hidden="true"
       >
-        <div className="h-full overflow-y-auto bg-gray-800 px-3 py-4 antialiased">
+        <div className="m-2 overflow-y-auto rounded-lg border border-gray-700 bg-gray-800 px-3 py-4 antialiased">
           <BrandButton />
           <ul className="space-y-2">
             <SidebarLink
