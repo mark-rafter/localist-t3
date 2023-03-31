@@ -11,6 +11,7 @@ import {
   HiOutlineInboxArrowDown,
   HiOutlinePencilSquare,
   HiOutlineUser,
+  HiPencilSquare,
   HiUser,
 } from "react-icons/hi2";
 
@@ -70,15 +71,11 @@ export function BottomNav() {
           filledIcon={HiInboxArrowDown}
           label="Messages"
         />
-        <div className="flex items-center justify-center">
-          <button
-            type="button"
-            className="group inline-flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 font-medium hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-800"
-          >
-            <HiOutlinePencilSquare className="h-6 w-6" />
-            <span className="sr-only">New Post</span>
-          </button>
-        </div>
+        <BottomNavLink
+          icon={HiOutlinePencilSquare}
+          filledIcon={HiPencilSquare}
+          label="New Post"
+        />
         <BottomNavLink
           icon={HiOutlineHeart}
           filledIcon={HiHeart}
