@@ -17,7 +17,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
 
   return (
     <>
-      <NextNProgress />
+      <NextNProgress options={{ showSpinner: false }} />
       <SessionProvider session={session}>
         <Flowbite theme={customTheme}>
           <Layout>
