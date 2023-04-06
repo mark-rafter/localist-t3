@@ -42,6 +42,7 @@ export function FeedImageCarousel({
           >
             <Image
               src={image}
+              className="h-96 w-96"
               alt={`${title} Image ${index + 1}`}
               width={smPixels}
               height={smPixels}
