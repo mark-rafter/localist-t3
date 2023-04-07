@@ -24,7 +24,7 @@ export const newPostSchema = z
     brand: z.string().max(25, { message: "Brand too long" }).optional(),
     images: PostSchema.shape.images,
     price: PostSchema.shape.price
-      .min(-9999)
+      .min(-999)
       .max(9999, { message: "Max price is 9999" }),
   })
   .required();

@@ -78,9 +78,8 @@ export function FormDropUpload<T extends FieldValues>({
         <HiOutlineCloudArrowUp className={`h-10 w-10 text-gray-400`} />
         {height > 32 && (
           <>
-            <p className="my-2 text-sm text-gray-400">
-              <span className="font-semibold">Click to upload</span> or drag and
-              drop
+            <p className="my-2 text-sm font-semibold text-gray-400">
+              Click to upload
             </p>
             <p className="text-xs text-gray-400">
               PNG or JPG (max. 4000x4000px)
