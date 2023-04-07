@@ -23,6 +23,7 @@ specifiers:
   '@types/uuid': ^9.0.1
   '@typescript-eslint/eslint-plugin': ^5.57.0
   '@typescript-eslint/parser': ^5.57.0
+  '@vercel/analytics': ^0.1.11
   autoprefixer: ^10.4.14
   classnames: ^2.3.2
   cookies-next: ^2.1.1
@@ -70,6 +71,7 @@ dependencies:
   '@trpc/react-query': 10.18.0_rcvfzig2xktluz4p7kugxqlbwi
   '@trpc/server': 10.18.0
   '@types/uuid': 9.0.1
+  '@vercel/analytics': 0.1.11_react@18.2.0
   classnames: 2.3.2
   cookies-next: 2.1.1
   flowbite: 1.6.4
@@ -1800,6 +1802,14 @@ packages:
       '@typescript-eslint/types': 5.57.0
       eslint-visitor-keys: 3.4.0
     dev: true
+
+  /@vercel/analytics/0.1.11_react@18.2.0:
+    resolution: {integrity: sha512-mj5CPR02y0BRs1tN3oZcBNAX9a8NxsIUl9vElDPcqxnMfP0RbRc9fI9Ud7+QDg/1Izvt5uMumsr+6YsmVHcyuw==}
+    peerDependencies:
+      react: ^16.8||^17||^18
+    dependencies:
+      react: 18.2.0
+    dev: false
 
   /abab/2.0.6:
     resolution: {integrity: sha512-j2afSsaIENvHZN2B8GOpF566vZ5WVk5opAiMTvWgaQT8DkbOqsTfvNAvHoRGU2zzP8cPoqys+xHTRDWW8L+/BA==}
