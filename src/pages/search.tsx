@@ -1,4 +1,4 @@
-import { ClientFeed, LoadMore } from "@/components/feed";
+import { ClientFeed, LoadMore, SkeletonFeed } from "@/components/feed";
 import { SearchForm } from "@/components/search/search-form";
 import { useSearchRouter } from "@/hooks/use-search-router";
 import { api } from "@/utils/api";
@@ -47,7 +47,7 @@ export default function SearchPage() {
           <ClientFeed posts={fetchedPosts} />
         </InfiniteScroll>
       ) : (
-        <>todo: skeleton</>
+        <SkeletonFeed />
       )}
       {/* <FilterDrawer /> */}
     </>

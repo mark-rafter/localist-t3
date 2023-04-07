@@ -1,7 +1,11 @@
 import { LinkOrDisabled, SkeletonOrChildren } from "@/components";
 import { FeedImageCarousel } from "@/components/feed/feed-image-carousel";
 import type { ItemSizeType } from "prisma/generated/zod/inputTypeSchemas/ItemSizeSchema";
-import { HiOutlineClock, HiOutlineMapPin } from "react-icons/hi2";
+import {
+  HiOutlineClock,
+  HiOutlineMapPin,
+  HiOutlinePhoto,
+} from "react-icons/hi2";
 
 type DraftFeedItem = {
   title: string;
@@ -26,6 +30,39 @@ export function DraftFeedItem(props: DraftFeedItem) {
       isPreview={true}
       {...props}
     />
+  );
+}
+
+export function SkeletonFeedItem() {
+  return (
+    <article
+      role="status"
+      className="max-w-sm animate-pulse overflow-hidden rounded-lg bg-gray-800 shadow"
+    >
+      <div className="flex h-96 w-96 items-center justify-center rounded bg-gray-700">
+        <HiOutlinePhoto className="h-12 w-12" />
+      </div>
+      <div className="p-3 antialiased sm:p-4">
+        {/* Top Row: size + post age */}
+        <div className="flex items-baseline justify-between text-gray-300">
+          <div className="mt-1 h-4 w-20 rounded-full bg-gray-700" />
+          <span className="inline-flex items-center px-1 text-xs">
+            <div className="mr-1 h-2.5 w-20 rounded-full bg-gray-700" />
+            <HiOutlineClock className="h-3 w-3" />
+          </span>
+        </div>
+        {/* Middle Row: title */}
+        <div className="mt-2 h-5 w-48 rounded-full bg-gray-700" />
+        {/* Bottom Row: price + distance */}
+        <div className="flex items-center justify-between">
+          <div className="mt-2 h-4 w-16 rounded-full bg-gray-700" />
+          <span className="flex items-center text-sm font-normal text-gray-400">
+            <div className="h-2.5 w-16 rounded-full bg-gray-700" />
+            <HiOutlineMapPin className="ml-1 h-4 w-4" />
+          </span>
+        </div>
+      </div>
+    </article>
   );
 }
 
