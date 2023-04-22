@@ -1,5 +1,6 @@
 import { ssrNotFound } from "@/helpers/response";
 import { prisma } from "@/server/db";
+import { api } from "@/utils/api";
 import type { GetStaticPropsContext, InferGetStaticPropsType } from "next";
 import Head from "next/head";
 import Image from "next/image";
@@ -30,6 +31,10 @@ export default function PostPage({
     );
   }
 
+  const { data: authorRating, isFetching } = api.user.getRating.useQuery(
+    author.id
+  );
+
   const smPixels = 384;
 
   return (
@@ -54,6 +59,7 @@ export default function PostPage({
       <div>£{price}</div>
       <div>{details?.toString()}</div>
       <div>author: {author.name}</div>
+      <div>rating: {isFetching ? "TODO: Skeleton" : authorRating}</div>
       <div>
         location: [{author.lat}, {author.long}]
       </div>
