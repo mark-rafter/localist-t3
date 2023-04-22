@@ -7,14 +7,16 @@ import { z } from "zod";
 
 export const userRouter = createTRPCRouter({
   getRating: publicProcedure.input(z.string()).query(async ({ ctx, input }) => {
-    const user = await ctx.prisma.user.findUnique({
-      where: { id: input },
-      // data: {
-      //   ratedBy
-      // }
+    const ratings = await ctx.prisma.userRating.aggregate({
+      where: {
+        ratingForId: input,
+      },
+      _avg: {
+        score: true,
+      },
     });
 
-    if (!user) return null;
+    return ratings._avg.score?.toFixed(2) ?? "No Rating";
   }),
 
   updateCoords: protectedProcedure

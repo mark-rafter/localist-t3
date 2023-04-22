@@ -11,9 +11,7 @@ const RATINGS_MIN = 4;
 const RATINGS_MAX = 12;
 
 async function run() {
-  const createdUserIds = await createUsers();
-  await createUserRatings(createdUserIds);
-  await createPosts(createdUserIds);
+  await seedFromBlank();
 
   await prisma.$disconnect();
 }
@@ -21,6 +19,12 @@ async function run() {
 // disabling as this is just a dev script
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 run();
+
+async function seedFromBlank() {
+  const createdUserIds = await createUsers();
+  await createUserRatings(createdUserIds);
+  await createPosts(createdUserIds);
+}
 
 async function createPosts(userIds: string[]) {
   const generateFakePostForUser = (userId: string) =>
