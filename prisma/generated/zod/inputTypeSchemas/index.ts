@@ -10,6 +10,8 @@ export { SessionScalarFieldEnumSchema } from './SessionScalarFieldEnumSchema';
 export { SortOrderSchema } from './SortOrderSchema';
 export { TransactionIsolationLevelSchema } from './TransactionIsolationLevelSchema';
 export { UserOrderByRelevanceFieldEnumSchema } from './UserOrderByRelevanceFieldEnumSchema';
+export { UserRatingOrderByRelevanceFieldEnumSchema } from './UserRatingOrderByRelevanceFieldEnumSchema';
+export { UserRatingScalarFieldEnumSchema } from './UserRatingScalarFieldEnumSchema';
 export { UserScalarFieldEnumSchema } from './UserScalarFieldEnumSchema';
 export { VerificationTokenOrderByRelevanceFieldEnumSchema } from './VerificationTokenOrderByRelevanceFieldEnumSchema';
 export { VerificationTokenScalarFieldEnumSchema } from './VerificationTokenScalarFieldEnumSchema';
