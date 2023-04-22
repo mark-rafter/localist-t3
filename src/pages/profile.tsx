@@ -3,6 +3,8 @@ import React from "react";
 import Head from "next/head";
 import Image from "next/image";
 import { api } from "@/utils/api";
+import { SkeletonOrChildren } from "@/components";
+import type { Session } from "next-auth";
 
 export default function ProfilePage() {
   const { data: sessionData } = useSession();
@@ -18,8 +20,9 @@ export default function ProfilePage() {
     );
   }
 
-  const { user } = sessionData;
-
+  return <LoadedPage user={sessionData.user} />;
+}
+function LoadedPage({ user }: { user: Session["user"] }) {
   const { data: userRating, isFetching } = api.user.getRating.useQuery(user.id);
 
   return (
@@ -30,7 +33,11 @@ export default function ProfilePage() {
       <div>{user.id}</div>
       <div>{user.name}</div>
       <div>{user.email}</div>
-      <div>Rating: {isFetching ? "TODO: Skeleton" : userRating}</div>
+      <div>
+        <SkeletonOrChildren showSkeleton={isFetching} className="h-6">
+          Rating: {userRating}
+        </SkeletonOrChildren>
+      </div>
       <div>{user.image}</div>
       {user.image && (
         <Image
