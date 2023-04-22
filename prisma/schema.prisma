@@ -53,18 +53,31 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String       @id @default(cuid())
   name          String?
-  email         String?   @unique
-  emailVerified DateTime? @map("email_verified")
+  email         String?      @unique
+  emailVerified DateTime?    @map("email_verified")
   image         String?
-  lat           Float     @default(51.5)
-  long          Float     @default(0.0)
+  lat           Float        @default(51.5)
+  long          Float        @default(0.0)
   accounts      Account[]
   sessions      Session[]
   posts         Post[]
+  ratedBy       UserRating[] @relation("ratedBy")
+  ratingsFor    UserRating[] @relation("ratingFor")
 
   @@map("user")
+}
+
+model UserRating {
+  id            String @id @default(cuid())
+  score         Int
+  ratedById     String @map("rated_by_id")
+  ratingForId   String @map("rating_for_id")
+  ratedByUser   User   @relation("ratedBy", fields: [ratedById], references: [id], onDelete: Cascade)
+  ratingForUser User   @relation("ratingFor", fields: [ratingForId], references: [id], onDelete: Cascade)
+
+  @@map("user_rating")
 }
 
 model VerificationToken {

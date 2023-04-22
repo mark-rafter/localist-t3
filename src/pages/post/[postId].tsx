@@ -1,22 +1,15 @@
+import { SkeletonOrChildren } from "@/components";
 import { ssrNotFound } from "@/helpers/response";
 import { prisma } from "@/server/db";
+import { api } from "@/utils/api";
 import type { GetStaticPropsContext, InferGetStaticPropsType } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
-export default function PostPage({
-  id,
-  title,
-  size,
-  price,
-  details,
-  images,
-  author,
-  viewCount,
-  createdAt,
-  updatedAt,
-}: InferGetStaticPropsType<typeof getStaticProps>) {
+export default function PostPage(
+  props: InferGetStaticPropsType<typeof getStaticProps>
+) {
   const { isFallback } = useRouter();
 
   if (isFallback) {
@@ -29,6 +22,25 @@ export default function PostPage({
       </>
     );
   }
+
+  return <LoadedPage {...props} />;
+}
+
+function LoadedPage({
+  id,
+  title,
+  size,
+  price,
+  details,
+  images,
+  author,
+  viewCount,
+  createdAt,
+  updatedAt,
+}: InferGetStaticPropsType<typeof getStaticProps>) {
+  const { data: authorRating, isFetching } = api.user.getRating.useQuery(
+    author.id
+  );
 
   const smPixels = 384;
 
@@ -54,6 +66,11 @@ export default function PostPage({
       <div>£{price}</div>
       <div>{details?.toString()}</div>
       <div>author: {author.name}</div>
+      <div>
+        <SkeletonOrChildren showSkeleton={isFetching} className="h-6 w-16">
+          rating: {authorRating}
+        </SkeletonOrChildren>
+      </div>
       <div>
         location: [{author.lat}, {author.long}]
       </div>
