@@ -1,7 +1,22 @@
-import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from "@/server/api/trpc";
 import { z } from "zod";
 
 export const userRouter = createTRPCRouter({
+  getRating: publicProcedure.input(z.string()).query(async ({ ctx, input }) => {
+    const user = await ctx.prisma.user.findUnique({
+      where: { id: input },
+      // data: {
+      //   ratedBy
+      // }
+    });
+
+    if (!user) return null;
+  }),
+
   updateCoords: protectedProcedure
     .input(
       z.object({
