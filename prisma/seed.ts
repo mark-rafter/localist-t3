@@ -23,24 +23,25 @@ async function run() {
 run();
 
 async function createPosts(userIds: string[]) {
-  const posts: Prisma.PostCreateInput[] = [];
-
-  userIds.forEach((userId) => {
-    const amount = faker.number.int({ min: POSTS_MIN, max: POSTS_MAX });
-
-    [...Array(amount).keys()].forEach(() => {
-      posts.push({
-        ...generateFakePost(),
-        author: {
-          connect: {
-            id: userId,
-          },
+  const generateFakePostForUser = (userId: string) =>
+    ({
+      ...generateFakePost(),
+      author: {
+        connect: {
+          id: userId,
         },
-      });
-    });
-  });
+      },
+    } as Prisma.PostCreateInput);
 
-  const createPosts = posts.map((post) => prisma.post.create({ data: post }));
+  const postData = userIds.flatMap((userId) =>
+    faker.helpers.multiple(() => generateFakePostForUser(userId), {
+      count: { min: POSTS_MIN, max: POSTS_MAX },
+    })
+  );
+
+  const createPosts = postData.map((post) =>
+    prisma.post.create({ data: post })
+  );
 
   await prisma.$transaction(createPosts);
 }
@@ -58,11 +59,13 @@ async function createUserRatings(userIds: string[]) {
         },
       } as Prisma.UserRatingCreateInput);
 
-    const amount = faker.number.int({ min: RATINGS_MIN, max: RATINGS_MAX });
     const otherUserIds = userIds.filter((id) => id === byUserId);
-    return Array(amount)
-      .fill(null)
-      .map(() => generateFakeRating(otherUserIds, byUserId));
+    return faker.helpers.multiple(
+      () => generateFakeRating(otherUserIds, byUserId),
+      {
+        count: { min: RATINGS_MIN, max: RATINGS_MAX },
+      }
+    );
   };
 
   const ratingData = userIds.flatMap((userId) =>
@@ -77,7 +80,9 @@ async function createUserRatings(userIds: string[]) {
 }
 
 async function createUsers() {
-  const userData = Array(USERS_TO_CREATE).fill(null).map(generateFakeUser);
+  const userData = faker.helpers.multiple(generateFakeUser, {
+    count: USERS_TO_CREATE,
+  });
 
   const createUsers = userData.map((user) =>
     prisma.user.create({ data: user })
