@@ -103,7 +103,7 @@ async function getRecentPostIds(amount = 8) {
     select: { id: true },
     orderBy: { id: "desc" },
   });
-  return posts.map((p) => p.id);
+  return posts.map((p) => p.id.toString());
 }
 
 export async function getStaticPaths() {
