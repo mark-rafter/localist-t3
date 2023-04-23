@@ -2,7 +2,9 @@ import { SkeletonOrChildren } from "@/components";
 import { ssrNotFound } from "@/helpers/response";
 import { prisma } from "@/server/db";
 import { api } from "@/utils/api";
+import { Button } from "flowbite-react";
 import type { GetStaticPropsContext, InferGetStaticPropsType } from "next";
+import { useSession } from "next-auth/react";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -42,6 +44,10 @@ function LoadedPage({
     author.id
   );
 
+  const { data: sessionData } = useSession();
+  const canMakeOffer =
+    sessionData !== null && author.id !== sessionData?.user.id;
+
   const smPixels = 384;
 
   return (
@@ -77,6 +83,16 @@ function LoadedPage({
       <div>views: {viewCount}</div>
       <div>created: {createdAt.toDateString()}</div>
       <div>updated: {updatedAt.toDateString()}</div>
+      {canMakeOffer && (
+        <Button
+          outline={true}
+          className="my-2 w-64"
+          gradientDuoTone="purpleToPink"
+          type="submit"
+        >
+          <span className="text-lg font-semibold sm:text-base">Make Offer</span>
+        </Button>
+      )}
     </>
   );
 }
