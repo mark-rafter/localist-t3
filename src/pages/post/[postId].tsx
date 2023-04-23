@@ -97,13 +97,13 @@ function LoadedPage({
   );
 }
 
-async function getRecentPostIds() {
+async function getRecentPostIds(amount = 8) {
   const posts = await prisma.post.findMany({
-    take: 8,
+    take: amount,
     select: { id: true },
     orderBy: { id: "desc" },
   });
-  return posts.map((p) => p.id.toString());
+  return posts.map((p) => p.id);
 }
 
 export async function getStaticPaths() {
