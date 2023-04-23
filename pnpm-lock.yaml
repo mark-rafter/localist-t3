@@ -56,7 +56,7 @@ specifiers:
   typescript: ^5.0.4
   uuid: ^9.0.0
   zod: ^3.21.4
-  zod-prisma-types: ^2.5.3
+  zod-prisma-types: ^2.5.6
 
 dependencies:
   '@formkit/auto-animate': 1.0.0-beta.6
@@ -91,7 +91,7 @@ dependencies:
   tsx: 3.12.6
   uuid: 9.0.0
   zod: 3.21.4
-  zod-prisma-types: 2.5.3
+  zod-prisma-types: 2.5.6
 
 devDependencies:
   '@faker-js/faker': 8.0.0-alpha.0
@@ -6029,8 +6029,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /zod-prisma-types/2.5.3:
-    resolution: {integrity: sha512-7Pgr4jOa20jbqBWSHJPVzZQc83ABQuNNvtjmJ8fyFDxZKtCG68UmiuKfEDO5DyE//92MdL4H9qm5XUeIBm9SSQ==}
+  /zod-prisma-types/2.5.6:
+    resolution: {integrity: sha512-Cck7hzz15t4+ADmoZWa475fPiDxxd1/hve+vfS85BsEVr3u8y3zphKi/5/yhkT/mKuJhiMkIfc4VJLrJt/cTpw==}
     hasBin: true
     dependencies:
       '@prisma/generator-helper': 4.12.0
