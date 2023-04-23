@@ -13,8 +13,9 @@ export const SessionSchema = z.object({
 
 export type Session = z.infer<typeof SessionSchema>
 
+/////////////////////////////////////////
 // SESSION OPTIONAL DEFAULTS SCHEMA
-//------------------------------------------------------
+/////////////////////////////////////////
 
 export const SessionOptionalDefaultsSchema = SessionSchema.merge(z.object({
   id: z.string().cuid().optional(),

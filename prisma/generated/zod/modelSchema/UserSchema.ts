@@ -16,8 +16,9 @@ export const UserSchema = z.object({
 
 export type User = z.infer<typeof UserSchema>
 
+/////////////////////////////////////////
 // USER OPTIONAL DEFAULTS SCHEMA
-//------------------------------------------------------
+/////////////////////////////////////////
 
 export const UserOptionalDefaultsSchema = UserSchema.merge(z.object({
   id: z.string().cuid().optional(),

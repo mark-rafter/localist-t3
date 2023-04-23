@@ -21,8 +21,9 @@ export const PostSchema = z.object({
 
 export type Post = z.infer<typeof PostSchema>
 
+/////////////////////////////////////////
 // POST OPTIONAL DEFAULTS SCHEMA
-//------------------------------------------------------
+/////////////////////////////////////////
 
 export const PostOptionalDefaultsSchema = PostSchema.merge(z.object({
   id: z.number().int().optional(),

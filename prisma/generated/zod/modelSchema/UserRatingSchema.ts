@@ -13,8 +13,9 @@ export const UserRatingSchema = z.object({
 
 export type UserRating = z.infer<typeof UserRatingSchema>
 
+/////////////////////////////////////////
 // USER RATING OPTIONAL DEFAULTS SCHEMA
-//------------------------------------------------------
+/////////////////////////////////////////
 
 export const UserRatingOptionalDefaultsSchema = UserRatingSchema.merge(z.object({
   id: z.string().cuid().optional(),

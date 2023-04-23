@@ -22,8 +22,9 @@ export const AccountSchema = z.object({
 
 export type Account = z.infer<typeof AccountSchema>
 
+/////////////////////////////////////////
 // ACCOUNT OPTIONAL DEFAULTS SCHEMA
-//------------------------------------------------------
+/////////////////////////////////////////
 
 export const AccountOptionalDefaultsSchema = AccountSchema.merge(z.object({
   id: z.string().cuid().optional(),
