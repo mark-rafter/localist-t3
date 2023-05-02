@@ -1,5 +1,7 @@
 import { SkeletonOrChildren } from "@/components";
+import { humanize } from "@/helpers/distance";
 import { ssrNotFound } from "@/helpers/response";
+import { useUserCoords } from "@/hooks/use-user-coords";
 import { prisma } from "@/server/db";
 import { api } from "@/utils/api";
 import { Button } from "flowbite-react";
@@ -43,10 +45,12 @@ function LoadedPage({
   const { data: authorRating, isFetching } = api.user.getRating.useQuery(
     author.id
   );
-
+  const userCoords = useUserCoords();
   const { data: sessionData } = useSession();
   const canMakeOffer =
     sessionData !== null && author.id !== sessionData?.user.id;
+
+  const postCoords = { lat: author.lat, long: author.long };
 
   const smPixels = 384;
 
@@ -77,9 +81,7 @@ function LoadedPage({
           rating: {authorRating}
         </SkeletonOrChildren>
       </div>
-      <div>
-        location: [{author.lat}, {author.long}]
-      </div>
+      <div>distance: {humanize(userCoords, postCoords)}</div>
       <div>views: {viewCount}</div>
       <div>created: {createdAt.toDateString()}</div>
       <div>updated: {updatedAt.toDateString()}</div>
@@ -118,7 +120,6 @@ export async function getStaticPaths() {
 export async function getStaticProps(
   context: GetStaticPropsContext<{ postId: string }>
 ) {
-  // todo?: make postId a number and remove this check?
   const postId = Number(context.params?.postId);
 
   if (isNaN(postId)) {
