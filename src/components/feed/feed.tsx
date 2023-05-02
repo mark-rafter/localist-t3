@@ -2,9 +2,8 @@ import type { Coordinates } from "@/helpers/distance";
 import { humanize } from "@/helpers/distance";
 import { relativeTimeFromDates } from "@/helpers/relative-time";
 import type { RouterOutputs } from "@/utils/api";
-import { useSession } from "next-auth/react";
 import { FeedItem, SkeletonFeedItem } from "./feed-item";
-import { getCookieOrDefault } from "@/helpers/cookie";
+import { useUserCoords } from "@/hooks/use-user-coords";
 
 export type FeedProps = {
   posts: RouterOutputs["post"]["getFeed"]["posts"];
@@ -51,13 +50,6 @@ export function Feed({ posts, userCoords }: FeedProps) {
 }
 
 export function ClientFeed({ posts }: FeedProps) {
-  // todo: refactor into useUserCoords()
-  const { data } = useSession();
-
-  const userCoords = {
-    lat: data?.user.lat ?? getCookieOrDefault("x-vercel-ip-latitude", 51.5),
-    long: data?.user.long ?? getCookieOrDefault("x-vercel-ip-longitude", 0.0),
-  };
-
+  const userCoords = useUserCoords();
   return <Feed posts={posts} userCoords={userCoords} />;
 }
