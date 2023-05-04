@@ -1,12 +1,13 @@
 import {
-HomePageLink,
-SetLocationButton,
-SignInButtonList
+  HomePageLink,
+  SetLocationButton,
+  SignInButtonList,
 } from "@/components/home";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
-import { HiOutlineHome,HiOutlinePencilSquare } from "react-icons/hi2";
+import { HiOutlineHome, HiOutlinePencilSquare } from "react-icons/hi2";
+import styles from "./index.module.css";
 
 export default function HomePage() {
   const { status: sessionStatus } = useSession();
@@ -19,7 +20,7 @@ export default function HomePage() {
       </Head>
       <section className="container mx-auto max-w-md px-4 py-8 text-center">
         <h1 className="mb-4 text-3xl font-extrabold leading-none tracking-tight md:text-6xl">
-          Welcome to Localist!
+          Welcome to <span className={styles.title}>Localist</span>!
         </h1>
         <p className="mb-2 font-light text-gray-300 md:text-lg">
           Localist is a free listing board, get started by browsing the feed or
