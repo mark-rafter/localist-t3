@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { z } from "zod";
 
-const optionalStringIfPreview = () => 
+const emptyStringIfPreview = () => 
   process.env.VERCEL_ENV === "preview" 
-    ? z.string().optional() 
+    ? z.string().default("")
     : z.string().min(1);
 
 /**
@@ -25,17 +25,17 @@ const server = z.object({
     process.env.VERCEL ? z.string().min(1) : z.string().url()
   ),
   // Add `.min(1) on ID and SECRET if you want to make sure they're not empty
-  DISCORD_ID: optionalStringIfPreview(),
-  DISCORD_SECRET: optionalStringIfPreview(),
-  GITHUB_ID: optionalStringIfPreview(),
-  GITHUB_SECRET: optionalStringIfPreview(),
-  SPOTIFY_ID: optionalStringIfPreview(),
-  SPOTIFY_SECRET: optionalStringIfPreview(),
+  DISCORD_ID: emptyStringIfPreview(),
+  DISCORD_SECRET: emptyStringIfPreview(),
+  GITHUB_ID: emptyStringIfPreview(),
+  GITHUB_SECRET: emptyStringIfPreview(),
+  SPOTIFY_ID: emptyStringIfPreview(),
+  SPOTIFY_SECRET: emptyStringIfPreview(),
   SUPABASE_ANON_KEY: z.string(),
   SUPABASE_BUCKETNAME: z.string(),
   SUPABASE_URL: z.string().url(),
-  TWITCH_ID: optionalStringIfPreview(),
-  TWITCH_SECRET: optionalStringIfPreview(),
+  TWITCH_ID: emptyStringIfPreview(),
+  TWITCH_SECRET: emptyStringIfPreview(),
   VERCEL_ENV: z.enum(["development", "preview", "production"]),
 });
 
