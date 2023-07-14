@@ -1,5 +1,18 @@
 # localist-t3
 
+## Pre-requisites
+
+1. Node 18+
+2. pnpm
+```sh
+corepack enable
+corepack prepare pnpm@latest --activate
+```
+3. Vercel CLI 
+```sh
+pnpm i -g vercel@latest
+```
+
 ## Setup
 
 1. Link to Vercel and pull environment variables:

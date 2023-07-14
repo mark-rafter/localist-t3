@@ -1,6 +1,11 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { z } from "zod";
 
+const emptyStringIfPreview = () => 
+  process.env.VERCEL_ENV === "preview" 
+    ? z.string().default("")
+    : z.string().min(1);
+
 /**
  * Specify your server-side environment variables schema here.
  * This way you can ensure the app isn't built with invalid env vars.
@@ -20,17 +25,17 @@ const server = z.object({
     process.env.VERCEL ? z.string().min(1) : z.string().url()
   ),
   // Add `.min(1) on ID and SECRET if you want to make sure they're not empty
-  DISCORD_ID: z.string(),
-  DISCORD_SECRET: z.string(),
-  GITHUB_ID: z.string(),
-  GITHUB_SECRET: z.string(),
-  SPOTIFY_ID: z.string(),
-  SPOTIFY_SECRET: z.string(),
+  DISCORD_ID: emptyStringIfPreview(),
+  DISCORD_SECRET: emptyStringIfPreview(),
+  GITHUB_ID: emptyStringIfPreview(),
+  GITHUB_SECRET: emptyStringIfPreview(),
+  SPOTIFY_ID: emptyStringIfPreview(),
+  SPOTIFY_SECRET: emptyStringIfPreview(),
   SUPABASE_ANON_KEY: z.string(),
   SUPABASE_BUCKETNAME: z.string(),
   SUPABASE_URL: z.string().url(),
-  TWITCH_ID: z.string(),
-  TWITCH_SECRET: z.string(),
+  TWITCH_ID: emptyStringIfPreview(),
+  TWITCH_SECRET: emptyStringIfPreview(),
   VERCEL_ENV: z.enum(["development", "preview", "production"]),
 });
 
