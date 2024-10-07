@@ -62,8 +62,8 @@ dependencies:
     specifier: ^2.5.1
     version: 2.5.1
   cookies-next:
-    specifier: ^2.1.1
-    version: 2.1.1
+    specifier: ^4.2.1
+    version: 4.2.1
   flowbite:
     specifier: ^1.6.5
     version: 1.6.5
@@ -1655,8 +1655,8 @@ packages:
       '@babel/types': 7.25.7
     dev: true
 
-  /@types/cookie@0.4.1:
-    resolution: {integrity: sha512-XW/Aa8APYr6jSVVA1y/DEIZX0/GMKLEVekNG727R8cs56ahETkRAy/3DR7+fJyh7oUgGwNQaRfXCun0+KbWY7Q==}
+  /@types/cookie@0.6.0:
+    resolution: {integrity: sha512-4Kh9a6B2bQciAhf7FSuMRRkUWecJgJu9nPnx3yzpsfXX/c50REIqpHY4C82bXP90qrLtXtkDxTZosYO3UpOwlA==}
     dev: false
 
   /@types/cross-spawn@6.0.2:
@@ -1734,10 +1734,6 @@ packages:
 
   /@types/ms@0.7.31:
     resolution: {integrity: sha512-iiUgKzV9AuaEkZqkOLDIvlQiL6ltuZd9tGcW3gwpnX8JbuiuhFlEGmmFXEXkN50Cvq7Os88IY2v0dkDqXYWVgA==}
-    dev: false
-
-  /@types/node@16.18.24:
-    resolution: {integrity: sha512-zvSN2Esek1aeLdKDYuntKAYjti9Z2oT4I8bfkLLhIxHlv3dwZ5vvATxOc31820iYm4hQRCwjUgDpwSMFjfTUnw==}
     dev: false
 
   /@types/node@18.16.0:
@@ -2531,11 +2527,10 @@ packages:
     engines: {node: '>= 0.6'}
     dev: false
 
-  /cookies-next@2.1.1:
-    resolution: {integrity: sha512-AZGZPdL1hU3jCjN2UMJTGhLOYzNUN9Gm+v8BdptYIHUdwz397Et1p+sZRfvAl8pKnnmMdX2Pk9xDRKCGBum6GA==}
+  /cookies-next@4.2.1:
+    resolution: {integrity: sha512-qsjtZ8TLlxCSX2JphMQNhkm3V3zIMQ05WrLkBKBwu50npBbBfiZWIdmSMzBGcdGKfMK19E0PIitTfRFAdMGHXg==}
     dependencies:
-      '@types/cookie': 0.4.1
-      '@types/node': 16.18.24
+      '@types/cookie': 0.6.0
       cookie: 0.7.2
     dev: false
 
