@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { NullableJsonValue } from "../inputTypeSchemas/NullableJsonValue"
+import { NullableJsonValue } from '../inputTypeSchemas/NullableJsonValue'
 import { ItemSizeSchema } from '../inputTypeSchemas/ItemSizeSchema'
 
 /////////////////////////////////////////

@@ -45,10 +45,10 @@
     "react-icons": "^4.8.0",
     "react-infinite-scroll-component": "^6.1.0",
     "superjson": "^2.2.1",
-    "tsx": "^3.12.6",
+    "tsx": "^4.19.1",
     "uuid": "^10.0.0",
     "zod": "^3.23.8",
-    "zod-prisma-types": "^2.5.6"
+    "zod-prisma-types": "^2.8.1"
   },
   "devDependencies": {
     "@faker-js/faker": "8.4.1",
@@ -83,5 +83,10 @@
   },
   "peerDependencies": {
     "csstype": "^3.1.1"
+  },
+  "pnpm": {
+    "overrides": {
+      "cookie@<0.7.0": ">=0.7.0"
+    }
   }
 }
