@@ -26,6 +26,7 @@ exports[`renders Feed unchanged 1`] = `
               >
                 <img
                   alt="Intelligent Cotton Soap Image 1"
+                  class="h-96 w-96"
                   data-nimg="1"
                   decoding="async"
                   height="384"
@@ -47,6 +48,7 @@ exports[`renders Feed unchanged 1`] = `
               >
                 <img
                   alt="Intelligent Cotton Soap Image 2"
+                  class="h-96 w-96"
                   data-nimg="1"
                   decoding="async"
                   height="384"
@@ -245,6 +247,7 @@ exports[`renders Feed unchanged 1`] = `
               >
                 <img
                   alt="Recycled Granite Car Image 1"
+                  class="h-96 w-96"
                   data-nimg="1"
                   decoding="async"
                   height="384"
@@ -266,6 +269,7 @@ exports[`renders Feed unchanged 1`] = `
               >
                 <img
                   alt="Recycled Granite Car Image 2"
+                  class="h-96 w-96"
                   data-nimg="1"
                   decoding="async"
                   height="384"
