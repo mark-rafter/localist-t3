@@ -14,8 +14,7 @@ export type FeedProps = {
 export function SkeletonFeed() {
   return (
     <div
-      className="mb-4 grid grid-cols-1 justify-items-center gap-4 rounded-lg p-4 
-      lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4"
+      className="mb-4 grid grid-cols-1 justify-items-center gap-4 rounded-lg p-4 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4"
     >
       {[...Array(8).keys()].map((k) => (
         <SkeletonFeedItem key={k} />
@@ -27,8 +26,7 @@ export function SkeletonFeed() {
 export function Feed({ posts, userCoords }: FeedProps) {
   return (
     <div
-      className="mb-4 grid grid-cols-1 justify-items-center gap-4 rounded-lg p-4 
-      lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4"
+      className="mb-4 grid grid-cols-1 justify-items-center gap-4 rounded-lg p-4 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4"
     >
       {posts.map((post) => {
         const postCoords = {
