@@ -52,7 +52,7 @@ export function Sidebar() {
           />
           <SidebarLink
             label="Messages"
-            disabled={sessionStatus !== "authenticated"}
+            disabled={true}
             icon={HiOutlineInboxArrowDown}
             filledIcon={HiInboxArrowDown}
             badge="3"
@@ -63,14 +63,7 @@ export function Sidebar() {
             icon={HiOutlineHeart}
             filledIcon={HiHeart}
           />
-          <SidebarLink label="Settings" icon={HiOutlineCog6Tooth} />
-          <SidebarLink
-            label="Test Link"
-            disabled={true}
-            showSpinner={true}
-            badge="69"
-            icon={HiUser}
-          />
+          {/* <SidebarLink label="Settings" icon={HiOutlineCog6Tooth} /> */}
         </ul>
         <ul className="mt-4 space-y-2 border-t border-gray-700 pt-4">
           {sessionStatus === "authenticated" ? (
