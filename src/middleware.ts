@@ -7,14 +7,16 @@ const headerToCookieMap = new Map([
   ["x-vercel-ip-longitude", 0.0],
 ]);
 
+function addReqHeadersToResCookies(request: NextRequest, result: NextResponse<unknown>) {
+  for (const [header, value] of headerToCookieMap) {
+    const headerValue = request.headers.get(header);
+    result.cookies.set(header, `${safeParseFloat(headerValue, value)}`);
+  }
+}
+
 export function middleware(req: NextRequest) {
   const res = NextResponse.next();
-
-  for (const [key, value] of headerToCookieMap) {
-    const headerValue = req.headers.get(key);
-    res.cookies.set(key, `${safeParseFloat(headerValue, value)}`);
-  }
-
+  addReqHeadersToResCookies(req, res);
   return res;
 }
 
