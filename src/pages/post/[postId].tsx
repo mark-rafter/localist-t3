@@ -18,7 +18,7 @@ export default function PostPage(
         <Head>
           <title>Loading post... | Localist</title>
         </Head>
-        <p>TODO: render skeleton</p>
+        <p>TODO: render post skeleton</p>
       </>
     );
   }
