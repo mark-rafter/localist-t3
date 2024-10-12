@@ -10,7 +10,13 @@ const headerToCookieMap = new Map([
 function addReqHeadersToResCookies(request: NextRequest, result: NextResponse<unknown>) {
   for (const [header, value] of headerToCookieMap) {
     const headerValue = request.headers.get(header);
-    result.cookies.set(header, `${safeParseFloat(headerValue, value)}`);
+    result.cookies.set( 
+      { 
+        name: header, 
+        value: `${safeParseFloat(headerValue, value)}`, 
+        sameSite: 'strict'
+      }
+    );
   }
 }
 
