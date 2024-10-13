@@ -1,6 +1,6 @@
 import type { EnabledProviderType } from "@/server/auth";
 import { signIn } from "next-auth/react";
-import { FaDiscord, FaGithub, FaSpotify, FaTwitch } from "react-icons/fa";
+import { FaDiscord, FaGithub, FaGoogle, FaSpotify, FaTwitch } from "react-icons/fa";
 
 type ProviderStyle = {
   name: Capitalize<EnabledProviderType>;
@@ -18,6 +18,11 @@ const signInProviders: Record<EnabledProviderType, ProviderStyle> = {
     name: "Github",
     icon: <FaGithub className="mr-2 h-5 w-5" />,
     class: "bg-[#24292F] hover:bg-[#050708]/30 focus:ring-[#24292F]/50",
+  },
+  google: {
+    name: "Google",
+    icon: <FaGoogle className="mr-2 h-5 w-5" />,
+    class: "bg-[#4285F4] hover:bg-[#4285F4]/30 focus:ring-[#4285F4]/50",
   },
   spotify: {
     name: "Spotify",

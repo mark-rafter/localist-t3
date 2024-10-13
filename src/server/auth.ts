@@ -11,6 +11,7 @@ import type { BuiltInProviderType } from "next-auth/providers";
 import CredentialsProvider from "next-auth/providers/credentials";
 import DiscordProvider from "next-auth/providers/discord";
 import GitHubProvider from "next-auth/providers/github";
+import GoogleProvider from "next-auth/providers/google";
 import SpotifyProvider from "next-auth/providers/spotify";
 import TwitchProvider from "next-auth/providers/twitch";
 import { env } from "../env.mjs";
@@ -113,6 +114,10 @@ function getProviders() {
       clientId: env.GITHUB_ID,
       clientSecret: env.GITHUB_SECRET,
     }),
+    GoogleProvider({
+      clientId: env.GOOGLE_ID,
+      clientSecret: env.GOOGLE_SECRET,
+    }),
     SpotifyProvider({
       clientId: env.SPOTIFY_ID,
       clientSecret: env.SPOTIFY_SECRET,
@@ -126,7 +131,7 @@ function getProviders() {
 
 export type EnabledProviderType = Extract<
   BuiltInProviderType,
-  "discord" | "github" | "spotify" | "twitch"
+  "discord" | "github" | "google" | "spotify" | "twitch"
 >;
 
 /**
