@@ -2,7 +2,7 @@
 
 ## Pre-requisites
 
-1. Node 18+
+1. Node 20+
 2. pnpm
 
 ```sh
