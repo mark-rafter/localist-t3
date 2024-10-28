@@ -1,5 +1,14 @@
 # localist-t3
 
+A listing board, featuring: 
+- social auth
+- image upload
+- infinite scroll
+- mobile responsiveness
+- geolocation
+- image carousels
+- static pre-rendering
+
 ## Pre-requisites
 
 1. Node 20+
