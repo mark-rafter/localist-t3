@@ -3,6 +3,7 @@
 A listing board, featuring: 
 - social auth
 - image upload
+- search
 - infinite scroll
 - mobile responsiveness
 - geolocation
