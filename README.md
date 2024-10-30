@@ -1,5 +1,16 @@
 # localist-t3
 
+A listing board, featuring: 
+- social auth
+- image upload
+- search
+- infinite scroll
+- mobile responsiveness
+- geolocation
+- image carousels
+- static pre-rendering
+- [90+ Lighthouse score](https://pagespeed.web.dev/analysis/https-localist-t3-vercel-app-feed/ay6y8ir1py?form_factor=desktop)
+
 ## Pre-requisites
 
 1. Node 20+
