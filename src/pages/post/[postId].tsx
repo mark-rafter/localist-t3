@@ -3,12 +3,22 @@ import { ssrNotFound } from "@/helpers/response";
 import { prisma } from "@/server/db";
 import { api } from "@/utils/api";
 import type { GetStaticPropsContext, InferGetStaticPropsType } from "next";
+import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { Coordinates } from "@/helpers/distance";
+
+const MapWithNoSSR = dynamic<Coordinates>(
+  () => import("../../components/post/post-map").then((c) => c.PostMap),
+  {
+    loading: () => <p>Loading map...</p>,
+    ssr: false,
+  },
+);
 
 export default function PostPage(
-  props: InferGetStaticPropsType<typeof getStaticProps>
+  props: InferGetStaticPropsType<typeof getStaticProps>,
 ) {
   const { isFallback } = useRouter();
 
@@ -39,7 +49,7 @@ function LoadedPage({
   updatedAt,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const { data: authorRating, isFetching } = api.user.getRating.useQuery(
-    author.id
+    author.id,
   );
 
   const smPixels = 384;
@@ -60,21 +70,18 @@ function LoadedPage({
           />
         ))}
       </div>
-      <div>{id}</div>
       <div>{title}</div>
       <div>{size}</div>
       <div>£{price}</div>
       <div>{details?.toString()}</div>
-      <div>author: {author.name}</div>
+      <div>seller: {author.name}</div>
       <div>
         <SkeletonOrChildren showSkeleton={isFetching} className="h-6 w-16">
           rating: {authorRating}
         </SkeletonOrChildren>
       </div>
-      <div>
-        location: [{author.lat}, {author.long}]
-      </div>
-      <div>views: {viewCount}</div>
+      <MapWithNoSSR {...author} />
+      {/* <div>views: {viewCount}</div> */}
       <div>created: {createdAt.toDateString()}</div>
       <div>updated: {updatedAt.toDateString()}</div>
     </>
@@ -100,7 +107,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps(
-  context: GetStaticPropsContext<{ postId: string }>
+  context: GetStaticPropsContext<{ postId: string }>,
 ) {
   // todo?: make postId a number and remove this check?
   const postId = Number(context.params?.postId);
