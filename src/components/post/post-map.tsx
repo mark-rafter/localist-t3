@@ -12,7 +12,7 @@ export function PostMap({ lat, long }: Coordinates) {
         attributionControl={false}
         zoom={10}
         scrollWheelZoom={false}
-        style={{ width: "300px", height: "200px" }}
+        className="h-56 w-80"
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         <Marker position={[lat, long]} />

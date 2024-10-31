@@ -8,11 +8,20 @@ import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { Coordinates } from "@/helpers/distance";
+import { HiMapPin } from "react-icons/hi2";
 
 const MapWithNoSSR = dynamic<Coordinates>(
   () => import("../../components/post/post-map").then((c) => c.PostMap),
   {
-    loading: () => <p>Loading map...</p>,
+    loading: () => (
+      <div
+        role="status"
+        className="flex h-56 w-80 animate-pulse items-center justify-center rounded-lg bg-gray-300"
+      >
+        <HiMapPin className="h-6 w-6" />
+        <span className="sr-only">Loading...</span>
+      </div>
+    ),
     ssr: false,
   },
 );
