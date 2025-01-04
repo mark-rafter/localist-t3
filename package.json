@@ -36,7 +36,7 @@
     "image-conversion": "^2.1.1",
     "leaflet": "^1.9.4",
     "leaflet-defaulticon-compatibility": "^0.1.2",
-    "next": "14.2.14",
+    "next": "14.2.21",
     "next-auth": "^4.24.8",
     "next-superjson-plugin": "^0.6.3",
     "nextjs-progressbar": "^0.0.16",
