@@ -22,14 +22,14 @@ exports[`renders FeedItem unchanged 1`] = `
               href="post/1"
             >
               <img
-                alt="Intelligent Cotton Soap Image 1"
+                alt="Recycled Rubber Bacon Image 1"
                 class="h-96 w-96"
                 data-nimg="1"
                 decoding="async"
                 height="384"
                 loading="lazy"
-                src="/_next/image?url=https%3A%2F%2Floremflickr.com%2F500%2F500%2Fcats%3Flock%3D5513413790793728&w=828&q=75"
-                srcset="/_next/image?url=https%3A%2F%2Floremflickr.com%2F500%2F500%2Fcats%3Flock%3D5513413790793728&w=384&q=75 1x, /_next/image?url=https%3A%2F%2Floremflickr.com%2F500%2F500%2Fcats%3Flock%3D5513413790793728&w=828&q=75 2x"
+                src="/_next/image?url=https%3A%2F%2Floremflickr.com%2F500%2F500%2Fcats%3Flock%3D7073881248497664&w=828&q=75"
+                srcset="/_next/image?url=https%3A%2F%2Floremflickr.com%2F500%2F500%2Fcats%3Flock%3D7073881248497664&w=384&q=75 1x, /_next/image?url=https%3A%2F%2Floremflickr.com%2F500%2F500%2Fcats%3Flock%3D7073881248497664&w=828&q=75 2x"
                 style="color: transparent;"
                 width="384"
               />
@@ -44,14 +44,14 @@ exports[`renders FeedItem unchanged 1`] = `
               href="post/1"
             >
               <img
-                alt="Intelligent Cotton Soap Image 2"
+                alt="Recycled Rubber Bacon Image 2"
                 class="h-96 w-96"
                 data-nimg="1"
                 decoding="async"
                 height="384"
                 loading="lazy"
-                src="/_next/image?url=https%3A%2F%2Floremflickr.com%2F500%2F500%2Fcats%3Flock%3D7073881248497664&w=828&q=75"
-                srcset="/_next/image?url=https%3A%2F%2Floremflickr.com%2F500%2F500%2Fcats%3Flock%3D7073881248497664&w=384&q=75 1x, /_next/image?url=https%3A%2F%2Floremflickr.com%2F500%2F500%2Fcats%3Flock%3D7073881248497664&w=828&q=75 2x"
+                src="/_next/image?url=https%3A%2F%2Floremflickr.com%2F500%2F500%2Fcats%3Flock%3D6947792486400000&w=828&q=75"
+                srcset="/_next/image?url=https%3A%2F%2Floremflickr.com%2F500%2F500%2Fcats%3Flock%3D6947792486400000&w=384&q=75 1x, /_next/image?url=https%3A%2F%2Floremflickr.com%2F500%2F500%2Fcats%3Flock%3D6947792486400000&w=828&q=75 2x"
                 style="color: transparent;"
                 width="384"
               />
@@ -143,7 +143,7 @@ exports[`renders FeedItem unchanged 1`] = `
         <h3
           class="text-sm uppercase tracking-wide"
         >
-          xl
+          medium
         </h3>
         <span
           class="inline-flex items-center px-1 text-xs"
@@ -178,7 +178,7 @@ exports[`renders FeedItem unchanged 1`] = `
         <h2
           class="w-64 truncate pt-1 text-xl font-bold tracking-tight"
         >
-          Intelligent Cotton Soap
+          Recycled Rubber Bacon
         </h2>
       </a>
       <div
@@ -188,7 +188,7 @@ exports[`renders FeedItem unchanged 1`] = `
           class="text-xl font-bold"
         >
           £
-          4377
+          6121
         </span>
         <span
           class="flex items-center text-sm font-normal text-gray-400"
