@@ -99,6 +99,7 @@ function LoadedPage({
 
 async function getRecentPostIds() {
   const posts = await prisma.post.findMany({
+    where: { approvedAt: { not: null } },
     take: 8,
     select: { id: true },
     orderBy: { id: "desc" },
@@ -136,6 +137,15 @@ export async function getStaticProps(
 
   if (!post) {
     return ssrNotFound;
+  }
+
+  if (!post.approvedAt) {
+    return {
+      redirect: {
+        destination: "/unapproved",
+        permanent: false,
+      },
+    };
   }
 
   return {
