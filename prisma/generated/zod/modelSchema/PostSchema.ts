@@ -16,6 +16,7 @@ export const PostSchema = z.object({
   authorId: z.string(),
   viewCount: z.number().int(),
   createdAt: z.coerce.date(),
+  approvedAt: z.coerce.date().nullable(),
   updatedAt: z.coerce.date(),
 })
 

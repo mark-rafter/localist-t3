@@ -6,6 +6,7 @@ export function generateFakePost(seed?: number) {
   if (seed) {
     faker.seed(seed);
   }
+  const createdAt = faker.date.recent({ days: 7 });
   return {
     title: faker.commerce.productName(),
     size: faker.helpers.arrayElement(Object.values(ItemSize)),
@@ -22,7 +23,8 @@ export function generateFakePost(seed?: number) {
         height: 500,
       }),
     ],
-    createdAt: faker.date.recent(),
+    createdAt,
+    approvedAt: faker.date.soon({ refDate: createdAt }),
   };
 }
 

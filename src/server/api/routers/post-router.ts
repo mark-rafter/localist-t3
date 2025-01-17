@@ -57,7 +57,7 @@ export const postRouter = createTRPCRouter({
         cursor: z.number().nullish(),
         searchTerm: z.string().max(32).optional(),
         sort: z.enum(["", "new", "likes"]).optional(),
-      })
+      }),
     )
     .query(async ({ ctx, input }) => {
       const postsPerPage = 8;
@@ -66,8 +66,9 @@ export const postRouter = createTRPCRouter({
       const searchFilter = input.searchTerm?.length
         ? {
             title: { search: input.searchTerm },
+            approvedAt: { not: null },
           }
-        : {};
+        : { approvedAt: { not: null } };
 
       const posts = await ctx.prisma.post.findMany({
         where: searchFilter,
@@ -130,7 +131,7 @@ export const postRouter = createTRPCRouter({
 
 function getNextCursor(
   posts: RouterOutputs["post"]["getFeed"]["posts"],
-  limit: number
+  limit: number,
 ): number | undefined {
   return posts.length > limit ? posts.pop()?.id : undefined;
 }

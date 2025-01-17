@@ -91,17 +91,18 @@ model VerificationToken {
 }
 
 model Post {
-  id        Int      @id @default(autoincrement())
-  title     String
-  size      ItemSize
-  price     Int
-  details   Json?
-  images    String[]
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  String   @map("author_id")
-  viewCount Int      @default(0) @map("view_count")
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  id         Int       @id @default(autoincrement())
+  title      String
+  size       ItemSize
+  price      Int
+  details    Json?
+  images     String[]
+  author     User      @relation(fields: [authorId], references: [id])
+  authorId   String    @map("author_id")
+  viewCount  Int       @default(0) @map("view_count")
+  createdAt  DateTime  @default(now()) @map("created_at")
+  approvedAt DateTime? @map("approved_at")
+  updatedAt  DateTime  @updatedAt @map("updated_at")
 
   @@map("post")
 }
