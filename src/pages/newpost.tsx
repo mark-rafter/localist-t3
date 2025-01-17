@@ -52,7 +52,7 @@ export default function NewPostPage() {
       error: "Failed to submit!",
     });
     if (result) {
-      await router.push(`/post/${result.id}`);
+      await router.push(`/myposts`);
     }
   });
 
