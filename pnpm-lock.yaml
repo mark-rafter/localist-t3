@@ -54,11 +54,11 @@ dependencies:
     specifier: ^4.2.1
     version: 4.2.1
   flowbite:
-    specifier: ^1.6.5
-    version: 1.6.5
+    specifier: ^1.8.1
+    version: 1.8.1
   flowbite-react:
     specifier: ^0.4.3
-    version: 0.4.3(flowbite@1.6.5)(react-dom@18.3.1)(react@18.3.1)(tailwindcss@3.4.13)
+    version: 0.4.3(flowbite@1.8.1)(react-dom@18.3.1)(react@18.3.1)(tailwindcss@3.4.13)
   image-conversion:
     specifier: ^2.1.1
     version: 2.1.1
@@ -1374,8 +1374,8 @@ packages:
     dev: true
     optional: true
 
-  /@popperjs/core@2.11.7:
-    resolution: {integrity: sha512-Cr4OjIkipTtcXKjAsm8agyleBuDHvxzeBoa1v543lbv1YaIwQjESsVcmjiWiPEbC1FIeHOG/Op9kdCmAmiS3Kw==}
+  /@popperjs/core@2.11.8:
+    resolution: {integrity: sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==}
     dev: false
 
   /@prisma/client@5.0.0(prisma@5.0.0):
@@ -3499,7 +3499,7 @@ packages:
     resolution: {integrity: sha512-X8cqMLLie7KsNUDSdzeN8FYK9rEt4Dt67OsG/DNGnYTSDBG4uFAJFBnUeiV+zCVAvwFy56IjM9sH51jVaEhNxw==}
     dev: true
 
-  /flowbite-react@0.4.3(flowbite@1.6.5)(react-dom@18.3.1)(react@18.3.1)(tailwindcss@3.4.13):
+  /flowbite-react@0.4.3(flowbite@1.8.1)(react-dom@18.3.1)(react@18.3.1)(tailwindcss@3.4.13):
     resolution: {integrity: sha512-WORJdG4G690m+IdBG4Tepevo60MwCJubAP2Ew0rllgeLFbj97frqfWfs4sraTFDNARbyCBT1pH3sEfpyTLrDrQ==}
     peerDependencies:
       flowbite: ^1
@@ -3509,7 +3509,7 @@ packages:
     dependencies:
       '@floating-ui/react': 0.20.1(react-dom@18.3.1)(react@18.3.1)
       classnames: 2.5.1
-      flowbite: 1.6.5
+      flowbite: 1.8.1
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
       react-icons: 4.8.0(react@18.3.1)
@@ -3517,10 +3517,10 @@ packages:
       tailwindcss: 3.4.13
     dev: false
 
-  /flowbite@1.6.5:
-    resolution: {integrity: sha512-eI4h3pIRI9d7grlYq14r0A01KUtw7189sPLLx/O2i7JyPEWpbleScfYuEc48XTeNjk1xxm/JHgZkD9kjyOWAlA==}
+  /flowbite@1.8.1:
+    resolution: {integrity: sha512-lXTcO8a6dRTPFpINyOLcATCN/pK1Of/jY4PryklPllAiqH64tSDUsOdQpar3TO59ZXWwugm2e92oaqwH6X90Xg==}
     dependencies:
-      '@popperjs/core': 2.11.7
+      '@popperjs/core': 2.11.8
       mini-svg-data-uri: 1.4.4
     dev: false
 
