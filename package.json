@@ -54,7 +54,7 @@
     "zod-prisma-types": "^2.8.1"
   },
   "devDependencies": {
-    "@faker-js/faker": "8.4.1",
+    "@faker-js/faker": "10.1.0",
     "@testing-library/jest-dom": "^6.5.0",
     "@testing-library/react": "^16.0.1",
     "@types/jest": "^29.5.13",
